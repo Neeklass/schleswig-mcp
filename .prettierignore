@@ -1,0 +1,6 @@
+node_modules/
+dist/
+coverage/
+.vitest/
+.scratchpad/
+package-lock.json

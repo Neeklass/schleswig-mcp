@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+.vitest/
+.scratchpad/
+*.log
+.env
+.env.local
+docs/
