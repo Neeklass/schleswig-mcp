@@ -81,6 +81,32 @@ describe('HTTP API and MCP', () => {
       });
       expect(result.isError).not.toBe(true);
       expect(result.structuredContent).toEqual(body);
+      expect(
+        (await fetch(`${base}/api/v1/schleswig/${route}?limit=101`)).status,
+      ).toBe(400);
+      expect(
+        (
+          await client.callTool({
+            name: String(tool),
+            arguments: { limit: 101 },
+          })
+        ).isError,
+      ).toBe(true);
+      const last = await fetch(
+        `${base}/api/v1/schleswig/${route}?offset=${Number(total) - 1}&limit=100`,
+      );
+      const lastBody: unknown = await last.json();
+      expect(lastBody).toMatchObject({
+        pagination: { returned: 1, nextOffset: null },
+      });
+      expect(
+        (
+          await client.callTool({
+            name: String(tool),
+            arguments: { offset: Number(total) - 1, limit: 100 },
+          })
+        ).structuredContent,
+      ).toEqual(lastBody);
       expect(getWaterLevel).not.toHaveBeenCalled();
     },
   );
@@ -184,6 +210,52 @@ describe('HTTP API and MCP', () => {
       body: JSON.stringify({ padding: 'x'.repeat(65_536) }),
     });
     expect(response.status).toBe(413);
+  });
+
+  it('keeps stateless GET/DELETE behavior and the Vercel MCP alias compatible', async () => {
+    const getWaterLevel = vi.fn<GetWaterLevel>();
+    const base = await start(getWaterLevel);
+    for (const path of ['/mcp', '/api/mcp']) {
+      for (const method of ['GET', 'DELETE']) {
+        expect(
+          (
+            await fetch(`${base}${path}`, {
+              method,
+              headers: { Accept: 'application/json, text/event-stream' },
+            })
+          ).status,
+        ).toBe(405);
+      }
+    }
+    const client = new Client({ name: 'vercel-alias-test', version: '1.0.0' });
+    clients.push(client);
+    await client.connect(
+      new StreamableHTTPClientTransport(new URL(`${base}/api/mcp`)),
+    );
+    expect((await client.listTools()).tools).toHaveLength(6);
+    expect(
+      (
+        await client.callTool({
+          name: 'list_schleswig_addresses',
+          arguments: { limit: 1 },
+        })
+      ).isError,
+    ).not.toBe(true);
+    expect(getWaterLevel).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    'null',
+    'https://localhost.attacker.invalid',
+    'https://user@localhost',
+    'https://localhost/path',
+  ])('rejects unsafe Origin %s on both transports', async (origin) => {
+    const base = await start(vi.fn<GetWaterLevel>());
+    for (const path of [API_PATH, '/mcp']) {
+      expect(
+        (await fetch(`${base}${path}`, { headers: { Origin: origin } })).status,
+      ).toBe(403);
+    }
   });
 
   it('accepts a configured public Host and same origin, and rejects a different origin', async () => {

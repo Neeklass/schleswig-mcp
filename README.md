@@ -48,8 +48,11 @@ npm start
 The local server binds to `127.0.0.1` and validates local Host/Origin headers.
 For deployment, `PUBLIC_ORIGIN` must be an exact HTTPS origin without a path,
 query or credentials. Vercel's `VERCEL_URL` is the fallback; configure
-`PUBLIC_ORIGIN` for a custom domain. Deployment mode accepts that hostname and
-Origin. Clients without Origin headers work. No cross-origin browser access or
+`PUBLIC_ORIGIN=https://schleswig-mcp-data-seven.vercel.app` in the **Production**
+environment to accept the stable production alias. Leave it unset in **Preview**
+so each preview accepts its own `VERCEL_URL` hostname. Applying the production
+override to Preview would reject preview requests. Deployment mode accepts the
+configured hostname and Origin. Clients without Origin headers work. No cross-origin browser access or
 authentication service is implemented.
 
 ## REST contract
@@ -110,6 +113,35 @@ Requests are limited to 64 KiB; list results are bounded to 100 records. Serving
 is stateless, without session storage or subscription streams. `/api/mcp` is a
 Vercel-compatible alias of the same endpoint.
 
+GET and DELETE on the stateless MCP endpoint return HTTP 405; a standalone SSE
+notification stream is not offered. POST discovery and tool execution work with
+the SDK's legacy and modern protocol negotiation. See the
+[Streamable HTTP transport requirements](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports).
+
+Tool schemas use JSON Schema 2020-12. Inspector 2.11.0 reported one portability
+error per dataset tool at
+`outputSchema.properties.metadata.properties.projectedCoordinates.properties.fields.items`.
+Zod's closed tuple emitted `items: false`, which is valid JSON Schema but rejected
+by some consumers according to [Inspector's portability rules](https://github.com/modelcontextprotocol/inspector/blob/2.11.0/core/json/schemaLint.ts).
+An explicit `z.never()` tuple rest now emits the equivalent `items: { "not": {} }`;
+the two ordered field names remain mandatory and extra items remain forbidden.
+There is no custom schema postprocessor or relaxed validation.
+
+The same Inspector checker reports **zero errors** after this change. Nine
+warnings remain for valid nullable `type` unions in bathing-water, charging and
+population output fields. These are compatibility advisories for narrower
+consumer dialects, not MCP conformance failures. Null values remain distinct
+from omitted properties. No nullable-field workaround is applied merely to
+suppress warnings; see [Inspector's rationale](https://github.com/modelcontextprotocol/inspector/pull/2395).
+
+On Windows with Node.js 24.12.0, Inspector 2.11.0's CLI produced the complete
+zero-error report but then aborted during shutdown with `UV_HANDLE_CLOSING`.
+This occurred both directly and as a child process; it does not establish a
+successful CLI exit. The symptom matches the upstream
+[Node.js Windows shutdown issue](https://github.com/nodejs/node/issues/56645).
+The SDK client tests and the same Inspector lint function finish successfully.
+No application workaround or dependency change was made for this tooling crash.
+
 ## Architecture
 
 - `api/index.ts`: REST routing, validation, security, errors, serialization and
@@ -151,10 +183,9 @@ exist. `language: "de"` describes source content, not English metadata prose.
 `processing.steps` records evidenced changes. See the
 [implementation audit](docs/implementation-report.md) for corrections.
 
-Gold files must accompany builds/deployments. They are currently uncommitted
-local files; this work does not decide whether to commit them. The owner must
-ensure a future Git-based deployment receives them. Missing Gold files are not
-automatically recreated from originals.
+All five Gold files are tracked and must accompany builds/deployments. Missing
+Gold files are not automatically recreated from originals. The schema-portability
+review changed no Gold metadata or records and no original files.
 
 ## Tests and build
 
@@ -163,13 +194,28 @@ REST/MCP check from an unrelated working directory. Tests use synthetic source
 fixtures and Gold files, never live services or ignored originals. CI runs the
 same command in `.github/workflows/ci.yml`.
 
+Regression tests inspect the actual advertised schemas, execute all six tools
+with a validating MCP client, compare REST/MCP results, traverse complete lists,
+check search and pagination boundaries, and verify deployment routing/security.
+The largest 100 records of each snapshot also bound the serialized response,
+including MCP's text and structured representations, below a conservative 1 MB
+test budget. This leaves headroom below Vercel's
+[4.5 MB response limit](https://vercel.com/docs/functions/limitations).
+
 `npm run build` cleans only generated `dist/`, compiles `api/`, `mcp/`, `src/`,
 and copies Gold to `dist/data/curated/`. Start with `node dist/src/index.js` or
 `npm start`. Module-relative paths are independent of the working directory.
 `npm run check:build` checks compiled execution. With the built server running,
 `npm run smoke` separately checks live PEGELONLINE through REST and MCP.
 
-## Planned Vercel deployment
+## Vercel deployment
+
+Production uses the existing default domain
+**https://schleswig-mcp-data-seven.vercel.app**. The remote MCP URL is
+**https://schleswig-mcp-data-seven.vercel.app/mcp**; no custom domain is needed.
+Read-only integration checks verified all six REST endpoints and MCP tools,
+same-origin acceptance, foreign-Origin rejection and private-file 404 responses.
+These checks inspected the existing deployment; local fixes were not deployed.
 
 `vercel.json` prepares two Node.js Functions, explicit REST/MCP routes and Gold
 JSON inclusion in both bundles. Other paths return 404. `.vercelignore` excludes
@@ -183,10 +229,14 @@ This supplies the non-empty static output directory Vercel requires; application
 source, `dist/` and original datasets are not static assets. Existing routes are
 unchanged, so the final 404 rule still applies to `/` and `/index.html`.
 
-Before production, verify actual bundles, rewrites, domain/origin settings, body
-parsing and platform limits in a preview deployment. Hosted deployment is
-**not verified** by local tests. Platform rate/usage protections remain deployment
-decisions. No database is needed. Configuration follows Vercel's
+After the next owner-authorized deployment, rerun Inspector's strict tools/list
+check and verify the fix on the remote endpoint. Preview environment-variable
+scope, generated bundles, cold starts, function logs and platform protections
+still require dashboard/preview verification. Local tests do not verify a new
+deployment. Both functions retain a 15-second limit; the only request-time
+external source, PEGELONLINE, has a five-second timeout. Platform rate/usage
+protections remain deployment decisions. No database is needed. Configuration
+follows Vercel's
 [Node.js runtime](https://vercel.com/docs/functions/runtimes/node-js),
 [versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) and
 [function settings](https://vercel.com/docs/project-configuration/vercel-json#functions).

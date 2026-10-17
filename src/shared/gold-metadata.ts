@@ -34,7 +34,12 @@ export const goldMetadataSchema = z
     coordinateReferenceSystem: z.literal('EPSG:4326').optional(),
     projectedCoordinates: z
       .strictObject({
-        fields: z.tuple([z.literal('utmEasting'), z.literal('utmNorthing')]),
+        // Keep the tuple closed using an object-form JSON Schema for consumers
+        // that reject the equivalent boolean `items: false` subschema.
+        fields: z.tuple(
+          [z.literal('utmEasting'), z.literal('utmNorthing')],
+          z.never(),
+        ),
         sourceDeclaredCrs: z.literal('EPSG:4647'),
         note: z.string().min(1),
       })

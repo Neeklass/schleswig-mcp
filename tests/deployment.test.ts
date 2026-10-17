@@ -19,6 +19,24 @@ describe('deployment configuration', () => {
     vi.stubEnv('VERCEL_URL', undefined);
     expect(deploymentOrigin()).toBeUndefined();
   });
+  it('keeps production and preview origin configuration separate', () => {
+    const production = 'https://schleswig-mcp-data-seven.vercel.app';
+    vi.stubEnv('PUBLIC_ORIGIN', production);
+    vi.stubEnv('VERCEL_URL', 'schleswig-mcp-data-seven-deployment.vercel.app');
+    expect(deploymentOrigin()).toBe(production);
+    // PUBLIC_ORIGIN must be scoped to Production in the dashboard. Previews
+    // use their generated deployment hostname when the override is absent.
+    vi.stubEnv('PUBLIC_ORIGIN', undefined);
+    vi.stubEnv('VERCEL_ENV', 'preview');
+    vi.stubEnv(
+      'VERCEL_PROJECT_PRODUCTION_URL',
+      'schleswig-mcp-data-seven.vercel.app',
+    );
+    vi.stubEnv('VERCEL_URL', 'schleswig-mcp-data-seven-preview.vercel.app');
+    expect(deploymentOrigin()).toBe(
+      'https://schleswig-mcp-data-seven-preview.vercel.app',
+    );
+  });
   it.each([
     'http://city.example',
     'https://user:secret@city.example',
@@ -41,9 +59,13 @@ describe('deployment configuration', () => {
     const configuration = JSON.parse(
       await readFile(new URL('../vercel.json', import.meta.url), 'utf8'),
     ) as {
+      framework: null;
+      outputDirectory: string;
       functions: Record<string, { includeFiles: string }>;
       routes: { src: string; dest?: string; status?: number }[];
     };
+    expect(configuration.framework).toBeNull();
+    expect(configuration.outputDirectory).toBe('public');
     expect(Object.keys(configuration.functions)).toEqual([
       'api/index.ts',
       'api/mcp.ts',
@@ -51,5 +73,22 @@ describe('deployment configuration', () => {
     for (const fn of Object.values(configuration.functions))
       expect(fn.includeFiles).toBe('data/curated/**/*.json');
     expect(configuration.routes.at(-1)).toEqual({ src: '/.*', status: 404 });
+    for (const [path, destination] of [
+      ['/api/v1/schleswig/addresses', '/api/index'],
+      ['/api/v1/schleswig/water-level', '/api/index'],
+      ['/mcp', '/api/mcp'],
+      ['/api/mcp', '/api/mcp'],
+      ['/mcp/extra', undefined],
+      ['/src/index.ts', undefined],
+      ['/dist/src/index.js', undefined],
+      ['/data/curated/geodata-sh/addresses.json', undefined],
+      ['/data/imported/example.json', undefined],
+    ]) {
+      const route = configuration.routes.find(({ src }) =>
+        new RegExp(`^${src}$`).test(path!),
+      );
+      expect(route?.dest).toBe(destination);
+      if (!destination) expect(route?.status).toBe(404);
+    }
   });
 });

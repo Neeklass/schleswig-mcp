@@ -44,6 +44,13 @@ EPSG:4647, but retained eastings (about 536,000–538,000) have no zone prefix. 
 inconsistency is recorded in `metadata.projectedCoordinates`; values were not
 silently altered or relabeled. Use longitude/latitude for spatial operations.
 
+The subsequent QA review reconfirmed the publisher's
+[field descriptions](https://opendata.schleswig-holstein.de/dataset/8049b860-6d5c-4ad8-a584-43bec41a6220/resource/13269a62-71af-499e-b4b2-e28882c4d6c1/download/badegewasser-stammdaten-aktuell.json):
+`UTM_OST` and `UTM_NORD` still declare EPSG:4647, while longitude and latitude
+declare EPSG:4326. `sourceDeclaredCrs` records that declaration, not a verified
+CRS assignment to the retained numbers. No authoritative correction was found;
+no Gold coordinates or metadata were changed.
+
 The CSV distribution specifically declares
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and **Sozialministerium S-H**,
 rechecked on 2026-10-17. Preserve that credit, source/license links and processing

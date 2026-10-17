@@ -1,5 +1,10 @@
 # Architecture and Gold-data audit
 
+This is the historical architecture audit. Gold files are now tracked and the
+service is deployed. See the [README](../README.md) for current
+deployment verification, schema-portability fixes and compatibility limits; the
+test counts and deployment decisions below describe the original audit only.
+
 Completed on **2026-10-17**. The working tree was inspected before implementation,
 including manual edits, all five Gold JSON files, existing original readers,
 original-source evidence, notebook/filter utilities, tests and build/CI settings.
