@@ -1,4 +1,23 @@
 import { z } from 'zod';
+import { addressSchema } from '../modules/models/addresses.ts';
+import { goldDatasetSchema, uniqueIds } from '../shared/gold-metadata.ts';
+import { cachedGold, curatedRoot } from '../shared/gold-reader.ts';
+
+export const addressGoldSchema = goldDatasetSchema(
+  addressSchema,
+  'schleswig-addresses',
+).superRefine((value, context) => {
+  uniqueIds(value.data, (record) => record.id, context);
+  if (value.metadata.coordinateReferenceSystem !== 'EPSG:4326')
+    context.addIssue({
+      code: 'custom',
+      message: 'Address coordinates must use EPSG:4326.',
+    });
+});
+export const getAddressDataset = cachedGold(
+  new URL('geodata-sh/addresses.json', curatedRoot),
+  addressGoldSchema,
+);
 import {
   readCsv,
   readLocalDataset,

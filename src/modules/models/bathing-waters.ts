@@ -1,0 +1,28 @@
+import { z } from 'zod';
+export const bathingWaterSchema = z.strictObject({
+  id: z.string().regex(/^DESH_PR_\d+$/),
+  name: z.string().min(1),
+  waterCategory: z.string().min(1),
+  coastalSea: z.string(),
+  bathingWaterType: z.string(),
+  additionalDescription: z.string(),
+  euRegistrationDate: z.iso.date(),
+  euDeregistrationDate: z.iso.date().nullable(),
+  riverBasinDistrictId: z.string(),
+  riverBasinDistrictName: z.string(),
+  waterBodyId: z.string(),
+  waterBodyName: z.string(),
+  keywords: z.array(z.string().min(1)),
+  districtCode: z.literal('59'),
+  districtName: z.literal('Schleswig-Flensburg'),
+  municipalityCode: z.literal('075'),
+  municipalityName: z.literal('Schleswig, Stadt'),
+  utmEasting: z.number().min(100000).max(999999),
+  utmNorthing: z.number().min(0).max(10000000),
+  longitude: z.number().min(-180).max(180),
+  latitude: z.number().min(-90).max(90),
+  bathingSiteInformation: z.string(),
+  impactAssessment: z.string(),
+  potentialPollutionSources: z.string().nullable(),
+});
+export type BathingWater = z.infer<typeof bathingWaterSchema>;

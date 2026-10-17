@@ -1,0 +1,8 @@
+# Optional notebook environment; independent of the Node.js API.
+pandas>=2.2,<4
+matplotlib>=3.10,<4
+pyarrow>=20,<27
+ipykernel>=6.29,<8
+# Notebook validation and execution tests.
+nbformat>=5.10,<6
+nbclient>=0.10,<1

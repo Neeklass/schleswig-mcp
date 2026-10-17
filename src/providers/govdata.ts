@@ -1,5 +1,184 @@
 // Sources discovered through GovData; downloads come directly from their publishers.
 import { z } from 'zod';
+import { bathingWaterSchema } from '../modules/models/bathing-waters.ts';
+import { goldDatasetSchema, uniqueIds } from '../shared/gold-metadata.ts';
+import { cachedGold, curatedRoot } from '../shared/gold-reader.ts';
+
+export const bathingGoldSchema = goldDatasetSchema(
+  bathingWaterSchema,
+  'schleswig-bathing-waters',
+).superRefine((value, context) => {
+  uniqueIds(value.data, (record) => record.id, context);
+  if (
+    value.metadata.coordinateReferenceSystem !== 'EPSG:4326' ||
+    !value.metadata.projectedCoordinates
+  )
+    context.addIssue({
+      code: 'custom',
+      message: 'Bathing-water coordinate metadata is missing.',
+    });
+});
+export const getBathingWaterDataset = cachedGold(
+  new URL('govdata/bathing_waters.json', curatedRoot),
+  bathingGoldSchema,
+);
+
+const regionGoldSchema = z.strictObject({
+  friendlyUrl: z.string(),
+  name: z.literal('Schleswig'),
+  title: z.string(),
+  id: z.number().int(),
+  ags: z.literal('01059075'),
+  ars: z.literal('010590075075'),
+  type: z.literal('GEMEINDE'),
+  demographicType: z.number().int(),
+  parent: z.string(),
+});
+const yearSchema = z.number().int().min(1900).max(2200);
+const indicatorDefinitionSchema = z.strictObject({
+  id: z.number().int(),
+  name: z.string(),
+  title: z.string(),
+  type: z.string(),
+  explanation: z.string(),
+  hint: z.string(),
+  calculation: z.string(),
+  source: z.string(),
+  unit: z.string().min(1),
+  decimalPlaces: z.number().int().nonnegative(),
+  friendlyUrl: z.string(),
+  years: z.array(yearSchema),
+  minimumRegionType: z.string(),
+  maximumRegionType: z.string(),
+  topLowRegionsAvailable: z.boolean(),
+  topics: z.array(z.string()),
+  colorSchema: z.string(),
+});
+const populationDocumentSchema = z
+  .strictObject({
+    regionsAndRegionFilters: z.array(regionGoldSchema).length(1),
+    indicatorsAndTopics: z
+      .array(
+        z.strictObject({
+          id: z.number().int(),
+          name: z.string(),
+          title: z.string(),
+          friendlyUrl: z.string(),
+          explanation: z.string().nullable(),
+          type: z.string(),
+          comparisonYear: yearSchema.nullable(),
+          comparisonYearTitle: z.string().nullable(),
+          indicators: z.array(indicatorDefinitionSchema),
+          topics: z.array(z.never()),
+        }),
+      )
+      .min(1),
+    renderer: z.string(),
+    mapOutline: z.null(),
+    activeSelection: z.null(),
+    years: z.array(yearSchema).min(1),
+    data: z.strictObject({
+      type: z.string(),
+      regions: z.array(regionGoldSchema).length(1),
+      source: z.string().min(1),
+      indicators: z
+        .array(
+          z.strictObject({
+            id: z.number().int(),
+            friendlyUrl: z.string(),
+            name: z.string().min(1),
+            unit: z.string().min(1),
+            minValue: z.number().nullable(),
+            maxValue: z.number().nullable(),
+            regionYearValues: z.array(z.array(z.number().nullable())).length(1),
+          }),
+        )
+        .min(1),
+    }),
+  })
+  .superRefine((document, context) => {
+    const definitions = document.indicatorsAndTopics.flatMap(
+      (topic) => topic.indicators,
+    );
+    uniqueIds(document.data.indicators, (record) => record.id, context);
+    uniqueIds(definitions, (record) => record.id, context);
+    if (
+      new Set(document.years).size !== document.years.length ||
+      JSON.stringify(document.data.regions) !==
+        JSON.stringify(document.regionsAndRegionFilters)
+    )
+      context.addIssue({
+        code: 'custom',
+        message: 'Ambiguous years or inconsistent region selection.',
+      });
+    for (const indicator of document.data.indicators) {
+      const definition = definitions.find((item) => item.id === indicator.id);
+      const values = indicator.regionYearValues[0] ?? [];
+      const present = values.filter((value) => value !== null);
+      if (
+        !definition ||
+        definition.name !== indicator.name ||
+        definition.unit !== indicator.unit ||
+        values.length !== document.years.length ||
+        indicator.minValue !== (present.length ? Math.min(...present) : null) ||
+        indicator.maxValue !== (present.length ? Math.max(...present) : null)
+      )
+        context.addIssue({
+          code: 'custom',
+          message: 'Invalid indicator definition, dimensions or extrema.',
+        });
+    }
+    if (definitions.length !== document.data.indicators.length)
+      context.addIssue({
+        code: 'custom',
+        message: 'Indicator definitions do not match the data.',
+      });
+  });
+export const populationGoldSchema = goldDatasetSchema(
+  populationDocumentSchema,
+  'schleswig-population-forecast',
+  'CC0-1.0',
+).superRefine((value, context) => {
+  if (
+    value.data.length !== 1 ||
+    JSON.stringify(value.metadata.temporalCoverage?.years) !==
+      JSON.stringify(value.data[0]?.years)
+  )
+    context.addIssue({
+      code: 'custom',
+      message:
+        'Expected one projection document and matching temporal coverage.',
+    });
+});
+export const getPopulationDataset = cachedGold(
+  new URL('govdata/population_forecast.json', curatedRoot),
+  populationGoldSchema.transform((value) => {
+    const document = value.data[0]!;
+    const definitions = document.indicatorsAndTopics.flatMap(
+      (topic) => topic.indicators,
+    );
+    return {
+      metadata: value.metadata,
+      data: document.data.indicators.map((indicator) => {
+        const definition = definitions.find(
+          (item) => item.id === indicator.id,
+        )!;
+        return {
+          id: String(indicator.id),
+          name: indicator.name,
+          unit: indicator.unit,
+          explanation: definition.explanation,
+          calculation: definition.calculation,
+          source: definition.source,
+          values: document.years.map((year, index) => ({
+            year,
+            value: indicator.regionYearValues[0]![index]!,
+          })),
+        };
+      }),
+    };
+  }),
+);
 import {
   DatasetError,
   readCsv,

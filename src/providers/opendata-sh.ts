@@ -1,4 +1,26 @@
 import { z } from 'zod';
+import { monumentSchema } from '../modules/models/monuments.ts';
+import { goldDatasetSchema, uniqueIds } from '../shared/gold-metadata.ts';
+import { cachedGold, curatedRoot } from '../shared/gold-reader.ts';
+
+export const monumentGoldSchema = goldDatasetSchema(
+  monumentSchema
+    .omit({ id: true })
+    .extend({ object_id: z.number().int().positive() }),
+  'schleswig-monuments',
+).superRefine((value, context) =>
+  uniqueIds(value.data, (record) => record.object_id, context),
+);
+export const getMonumentDataset = cachedGold(
+  new URL('opendata-sh/monuments.json', curatedRoot),
+  monumentGoldSchema.transform((value) => ({
+    metadata: value.metadata,
+    data: value.data.map(({ object_id, ...record }) => ({
+      id: String(object_id),
+      ...record,
+    })),
+  })),
+);
 import {
   readJson,
   readRemoteDataset,

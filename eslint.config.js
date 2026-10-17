@@ -4,7 +4,13 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'data/imported/**'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'coverage/**',
+      'data/imported/**',
+      '.scratchpad/**',
+    ],
   },
   js.configs.recommended,
   tseslint.configs.recommended,
@@ -21,7 +27,7 @@ export default defineConfig(
     },
   },
   {
-    files: ['src/**/*.ts', 'tests/**/*.ts'],
+    files: ['api/**/*.ts', 'mcp/**/*.ts', 'src/**/*.ts', 'tests/**/*.ts'],
     languageOptions: { parserOptions: { projectService: true } },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',

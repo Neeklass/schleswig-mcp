@@ -1,77 +1,84 @@
 # Working on Schleswig MCP
 
-- Write code, comments, documentation,
-  and commit messages in English.
-- Discuss substantial changes and work in small steps. Follow the scope explicitly
-  approved in the conversation; report changes and verification results afterward.
-- Never commit, push, publish, or choose a source-code license without permission.
-- Prioritize correctness, simplicity, maintainability, type safety, and testability.
+- Write code, comments, documentation, errors, public API/tool descriptions and
+  commit messages in English. Preserve German original text, official names,
+  identifiers and required source credits.
+- Discuss substantial changes, work in small steps and follow approved scope.
+  Respect uncommitted changes. Report changes and verification afterward.
+- Never commit, push, publish or choose a source-code license without permission.
 - Use strict TypeScript, native ES modules, npm, native fetch, Zod, the official
-  MCP TypeScript SDK, and Vitest. Verify compatible stable versions before upgrades.
-- Keep HTTP and MCP adapters thin. Both call the same domain modules.
-- Validate external data at the boundary. Distinguish unavailable, invalid, missing,
-  and stale measurements. A gauge reading is not water depth.
-- Use verified public data sources with documented licenses and attribution.
-  Keep source-code licensing separate from data licensing.
-- Avoid speculative abstractions, additional infrastructure, and unrelated changes.
-- Run `npm run check` for implementation changes. Automated tests must not depend
-  on the live upstream service. Verify live integration separately when relevant.
-- Update the README and relevant documents when behavior or setup changes.
+  MCP TypeScript SDK and Vitest. Verify compatible stable versions before upgrades.
+- Prioritize correctness, simplicity, maintainability, type safety and testability.
+  Avoid generic provider/plugin systems, databases, frameworks, infrastructure
+  and placeholders without concrete requirements.
 
-## Architecture and data sources
+## Architecture
 
-The project follows a modular, source-independent architecture.
+- REST-specific logic belongs exclusively in `api/`: routes, requests, query
+  validation, HTTP security, statuses, errors and serialization. `api/index.ts`
+  is the Vercel REST entry point.
+- MCP-specific logic belongs exclusively in `mcp/`: initialization, tools,
+  descriptions, protocol schemas, transport, validation and errors. `api/mcp.ts`
+  is only the minimal re-export required for Vercel Function discovery.
+- `src/app.ts` and `src/index.ts` are minimal local bootstraps. Do not restore
+  `src/shared/http.ts` or `src/mcp/`.
+- Shared functions and public models belong in `src/modules/`, including
+  `src/modules/models/`. They must not depend on transports. REST/MCP call the
+  same functions and interpret data identically.
+- `src/providers/` represents providers/source catalogs, not individual datasets.
+  Providers load, validate and map sources to domain models; one provider can
+  supply several modules. Modules must not parse external CSV/API formats.
+- Preserve 1:1 filenames: `src/providers/<provider>.ts` ↔
+  `docs/datasources/<provider>.md`.
+- Reused technical helpers belong in `src/shared/`. Keep metadata validation,
+  domain models and pagination shared, without duplicate business logic.
 
-- `src/modules/` contains only implemented domain functions and models exposed
-  through REST or MCP. Only `water-level.ts` is currently active. Preserve the
-  existing comment-only files and their intended provider assignments; they are
-  not implemented features. Do not add further placeholder modules.
-- `src/providers/` groups integrations by external provider or source catalog,
-  not by module or individual dataset. One provider can serve multiple modules.
-  Keep source parsing, validation, and mapping here; do not create separate
-  providers for datasets already covered by an existing provider.
-- `docs/datasources/<name>.md` corresponds 1:1 to `src/providers/<name>.ts`.
-  Each document may describe multiple datasets, endpoints, and data products.
-  Distinguish the publisher, catalog, optional local original, implemented
-  provider, and actual public integration.
-- `src/shared/` contains common technical helpers, errors, and the HTTP adapter
-  in `http.ts`. These helpers are not providers. The MCP adapter is
-  `src/mcp/mcp.ts`; both adapters call `src/modules/water-level.ts`.
-- `data/imported/` contains unchanged original downloads, grouped by source.
-  Keep them out of Git, formatting, linting, and builds. Do not move, overwrite,
-  or delete originals. They are not intended for direct production API use.
-  Tests and builds must work without them. Document how to obtain them again.
-- `data/curated/` is reserved for datasets manually prepared by the project owner,
-  reduced to the needed information in a suitable compact format such as Parquet.
-  No preparation pipeline, conversion, or curated-data reader is implemented.
-  Do not decide whether these future files belong in Git without authorization.
+Assignments: `pegelonline` → `water-level`; `geodata` → `addresses`;
+`opendata-sh` → `monuments`; `bundesnetzagentur` → `car-charging-stations`;
+`govdata` → `bathing-waters` and `population-forecast`. Preserve them.
+The `geodata-sh` data folders identify LVermGeo SH; its provider/document are
+named `geodata`.
 
-Current assignments: `pegelonline.ts` supplies the active `water-level.ts` module.
-The comments in `monuments.ts`, `car-charging-stations.ts`, `bathing-waters.ts`,
-`population-forecast.ts`, and `addresses.ts` assign future features to
-`opendata-sh.ts`, `bundesnetzagentur.ts`, `govdata.ts` (both bathing waters and
-population), and `geodata.ts`, respectively. The `geodata-sh` comment identifies
-LVermGeo SH; the raw-data folder keeps that name. These comments do not register
-REST endpoints or MCP tools.
+## Data
 
-REST handlers and MCP tools must not communicate directly with external APIs or
-parse source files. Adding a provider does not authorize a public endpoint.
+- `data/imported/` holds unchanged originals. Never modify, move, overwrite,
+  delete or commit them. Exclude them from formatting, linting, builds and
+  deployment. They are optional and are never production request sources.
+- `data/curated/` holds manually prepared static API JSON. Use `{metadata, data}`,
+  shared metadata and dataset-specific record schemas. Do not introduce automatic
+  preparation, additional products or replacement snapshots implicitly.
+- Change curated content only when the error and correction are evidenced;
+  document corrections. Do not decide Git inclusion without owner authorization.
+  Gold files must accompany static-feature builds and deployments.
+- Validate metadata, counts, unique IDs, required fields, types, coordinates,
+  dates and dataset-specific relationships. Schleswig city AGS is `01059075`;
+  do not confuse it with Schleswig-Flensburg or Schleswig-Holstein.
+- Distinguish domain dates, source publication/updates, actual downloads and
+  preparation timestamps. Use null when unsupported; never infer event times
+  from filenames or filesystem timestamps.
+- Verify provider, publisher, catalog, links, each dataset's license and credits.
+  Retain CC BY credits, license links and notices of modification. Data licensing
+  does not license source code.
+- Keep explicit original readers separate from cached Gold readers. Neither
+  prepares data. Do not load originals per request. Cache validated snapshots
+  read-only; restart/redeploy after replacement.
+- PEGELONLINE stays live. Missing, invalid, unavailable and stale measurements
+  are distinct. A gauge reading is not water depth.
 
-Source-specific integrations are responsible for fetching or loading data, validating it, and mapping it to domain-specific data models.
+## Checks and documentation
 
-Domain modules must not depend on the original format of an external API, CSV export, or manually maintained dataset.
-
-Prefer simple, explicit implementations. Do not create generic provider interfaces, plugin systems, abstract base classes, databases, or complex data pipelines until a concrete requirement justifies them.
-
-Do not create empty directories or placeholder files for future features.
-
-Each new data source must include appropriate validation, tests, and source documentation.
-
-Distinguish publishers from discovery catalogs such as GovData. Source documents
-must state the official endpoint, format, license, attribution, update procedure,
-limitations, associated provider, and whether the data is exposed by the API.
-Keep the existing explicit source readers separate from future manual data
-preparation. Do not introduce automatic preparation or conversion. Future
-providers may read `data/curated/` when needed; large original snapshots must not
-be loaded on every API request. Do not make the running water-level module,
-tests, or builds depend on optional imported or curated files.
+- Run `npm run check` for implementation changes: typecheck, lint, formatting,
+  offline tests, build and compiled REST/MCP checks.
+- Tests use Gold files and synthetic fixtures, never live APIs or ignored
+  originals. Verify live integration separately when relevant.
+- Verify source and build paths and packaged Gold access. Vercel must include
+  Gold explicitly. Never accept client-controlled paths or serve repository files.
+- Bound list responses with common pagination. Public errors are safe and English.
+- Update README and relevant documents for behavior/setup changes. Source docs
+  identify publisher/catalog, official endpoint/download, original format,
+  Gold files/count/scope, dates, processing, license/credit, update procedure,
+  provider/modules, integration status and limitations. Show ignored originals
+  as code paths, not broken relative links.
+- Keep optional Python exploration and historical filters separate from Node.js.
+  Respect notebook settings and outputs. Do not claim deployment verification
+  based only on local tests.

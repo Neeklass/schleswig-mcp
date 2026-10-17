@@ -1,77 +1,70 @@
 # Bundesnetzagentur charging-station register
 
-This document corresponds to [`src/providers/bundesnetzagentur.ts`](../../src/providers/bundesnetzagentur.ts).
-The provider represents the agency and can supply several modules or data
-products. Currently only the register reader below is implemented. The existing
-`src/modules/car-charging-stations.ts` file contains only its provider assignment
-comment and does not expose a function.
+Provider: [`src/providers/bundesnetzagentur.ts`](../../src/providers/bundesnetzagentur.ts).
+Publisher and original data provider: **Bundesnetzagentur** (Federal Network Agency).
+No discovery catalog is required. Status: **Gold reader, domain module, REST and
+MCP implemented**. Consumer: `src/modules/car-charging-stations.ts`, REST
+`/api/v1/schleswig/charging-stations`, MCP `list_schleswig_charging_stations`.
 
-## Source and local file
+## Original and Gold data
 
-Provider: Germany's Federal Network Agency (Bundesnetzagentur).
-The [official charging-station map and downloads](https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html)
-publish registered publicly accessible charging infrastructure in Germany.
+- [Official map, downloads and terms](https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html).
+- [Pinned CSV download](https://data.bundesnetzagentur.de/Bundesnetzagentur/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenregister_BNetzA_2026-09-01.csv).
+- Optional local original: `data/imported/bundesnetzagentur/2026-09-01_Ladesaeulenregister.csv`.
+- Format: UTF-8 semicolon-separated CSV with introductory lines, quoted multiline
+  values, decimal commas and German date strings. Original: 116,443 records.
+- Gold: [`data/curated/bundesnetzagentur/charging-stations.json`](../../data/curated/bundesnetzagentur/charging-stations.json),
+  **61 installations**, each with address, coordinates, connector details and
+  source identifiers. All station IDs are unique.
 
-- Local snapshot: [2026-09-01_Ladesaeulenregister.csv](../../data/imported/bundesnetzagentur/2026-09-01_Ladesaeulenregister.csv).
-- The file's introductory rows identify its update date as **2026-09-01**.
-- Format: semicolon-separated CSV, with introductory rows before the column
-  headers and decimal commas in coordinates.
+Selection is `Ort = Schleswig`, postal code `24837`, state `Schleswig-Holstein`.
+The Gold municipality is Schleswig city, AGS `01059075`. The source selection
+uses administrative address fields, not a geographic boundary intersection or
+a substring match on the district/state.
 
-Status: **technically retrievable; provider implemented; not publicly integrated**.
-[`src/providers/bundesnetzagentur.ts`](../../src/providers/bundesnetzagentur.ts)
-exports `fetchSchleswigChargingStations()`. It streams the pinned CSV download,
-discovers and validates the header and update date, supports quoted multiline
-fields and decimal commas, and maps selected fields to typed records. It selects
-`Ort = Schleswig`, postal code `24837`, and state `Schleswig-Holstein`; this is
-an explicit source-field selection, not a geographical boundary intersection.
-No public module, REST endpoint, or MCP tool calls it. Local originals are optional.
+## Dates and evidenced processing
 
-Originals in `data/imported/` remain unchanged and are not intended for direct
-production API use. The project owner will manually prepare reduced datasets in
-`data/curated/`, potentially in Parquet, for later provider use. There is no automatic
-preparation, conversion, or curated-data reader, and curated-file versioning remains
-undecided. The existing remote reader does not write local or prepared files.
+The original preamble explicitly says the register was updated **2026-09-01**.
+Gold uses this as the register snapshot date (`dataAsOf`) and `sourceUpdatedAt`.
+It does not date every commissioning event. Publication time is unknown.
+Actual download/preparation timestamps are unproven and remain null; the formerly
+claimed preparation timestamp was removed.
 
-Live retrieval and parsing verified on **2026-10-17**: 116,443 source records,
-61 selected records. The 55,559,083-byte CSV is streamed and only the selected
-records are retained. The download limit is 128 MiB and the default deadline is
-60 seconds. Call this during an explicit refresh, not on every API request.
+Manual preparation selected Schleswig, renamed fields, grouped address/coordinate
+objects and charging points/connectors, converted numbers and dates, split
+payment/connector lists, removed empty list entries, and converted missing
+optional values and `Keine Angabe` opening hours to null. It retains the source
+opening-hours code, including `247`. Separate weekday/time columns are omitted
+(12 retained installations have source details in those columns).
 
-## Data license and attribution
+The audit compared all 61 retained records, including connector type/power,
+EVSE IDs, public keys, addresses, dates and coordinates, with the original.
+The data array was unchanged. The top-level `recordCount` was moved into metadata;
+processing, source format/download and explicit date semantics were added.
 
-License: [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
-The agency explicitly assigns this license to both the map and the published
-register list in the data-use notice on its
-[official download page](https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html).
-License references checked on **2026-10-17**.
+## License
 
-The required attribution name is **Bundesnetzagentur.de**. Retain the source and
-license links and identify any changes when distributing adapted data.
-This data license does not license the project's source code.
+The official download page explicitly licenses the published register list under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and requires the credit
+**Bundesnetzagentur.de**. This was rechecked on 2026-10-17. Preserve that credit,
+the source and license URLs, and `processing.steps` as the modification notice.
+This does not select a source-code license.
 
-## Updates and limitations
+## Access, updates and limitations
 
-The publisher provides updated downloads. This integration deliberately pins a
-verified release; it does not scrape the map or silently select another release.
-Verify a newer CSV and its license on the official download page before updating
-`CHARGING_STATIONS_URL`. The provider reads the data date from the CSV preamble.
-Keep downloaded originals under distinct dated filenames. No scheduled refresh
-is implemented here.
+`getChargingStationDataset()` reads and validates cached Gold. The original
+`fetchSchleswigChargingStations()` remains an explicit remote inspection reader,
+bounded to 128 MiB and 60 seconds; no endpoint calls it. Neither creates Gold.
 
-The register covers operators that completed the notification procedure and is
-not a complete inventory of all publicly accessible charging infrastructure.
-The agency disclaims accuracy and completeness. The snapshot does not provide
-live connector availability or charging-session status.
+For updates, obtain a new release from the official page, verify its preamble,
+license and fields, and save it under a new name in `data/imported/bundesnetzagentur/`.
+The owner prepares a replacement Gold snapshot manually, updates provenance,
+runs `npm run check`, then restarts/redeploys. No automatic refresh is implemented.
+The existing `data/scripts/filter_charging_stations.py` targets an older
+intermediate CSV, not the current Gold JSON.
 
-## Reacquisition
-
-Exact pinned download:
-
-```text
-https://data.bundesnetzagentur.de/Bundesnetzagentur/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenregister_BNetzA_2026-09-01.csv
-```
-
-Save it as `data/imported/bundesnetzagentur/2026-09-01_Ladesaeulenregister.csv`
-if absent, or under a new name. It is excluded from Git and is not needed by
-tests, builds, or the water-level API. The provider downloads the resource only
-when explicitly called and does not write a local file.
+The register is not exhaustive: it includes installations whose notification
+procedure was complete at the update date. Status is not live occupancy or
+connector availability. The publisher does not guarantee accuracy/completeness.
+Public keys are meter-verification material supplied in the public source, not
+application secrets.

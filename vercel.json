@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "data/curated/**/*.json",
+      "maxDuration": 15
+    },
+    "api/mcp.ts": {
+      "includeFiles": "data/curated/**/*.json",
+      "maxDuration": 15
+    }
+  },
+  "routes": [
+    { "src": "/api/v1/schleswig(?:/.*)?", "dest": "/api/index" },
+    { "src": "/mcp", "dest": "/api/mcp" },
+    { "src": "/api/mcp", "dest": "/api/mcp" },
+    { "src": "/.*", "status": 404 }
+  ]
+}

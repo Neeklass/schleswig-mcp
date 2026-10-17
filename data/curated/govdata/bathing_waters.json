@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "id": "schleswig-bathing-waters",
+    "title": "Bathing Waters in Schleswig",
+    "description": "Bathing-water reference locations and characteristics for Schleswig; no current water-quality assessment.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": null,
+      "sourcePublishedAt": "2026-04-01",
+      "sourceUpdatedAt": "2026-04-01",
+      "retrievedAt": null,
+      "curatedAt": null
+    },
+    "source": {
+      "provider": "Ministerium für Justiz und Gesundheit Schleswig-Holstein",
+      "publisher": "Ministerium für Justiz und Gesundheit Schleswig-Holstein",
+      "catalog": "GovData",
+      "url": "https://www.govdata.de/suche/daten/badegewasser-stammdaten",
+      "downloadUrl": "https://efi2.schleswig-holstein.de/bg/opendata/v_badegewaesser_odata.csv",
+      "format": "ISO-8859-1 pipe-separated CSV"
+    },
+    "license": {
+      "id": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Sozialministerium S-H"
+    },
+    "coordinateReferenceSystem": "EPSG:4326",
+    "processing": {
+      "steps": [
+        "Selected Schleswig city records with district code 59 and municipality code 075.",
+        "Selected and renamed attributes; converted numeric strings to numbers and registration dates to ISO dates.",
+        "Converted empty optional values to null and split comma-separated keywords.",
+        "Removed trailing HTML line breaks from the Luisenbad description; retained source coordinate values without transformation."
+      ]
+    },
+    "recordCount": 2,
+    "projectedCoordinates": {
+      "fields": ["utmEasting", "utmNorthing"],
+      "sourceDeclaredCrs": "EPSG:4647",
+      "note": "Source metadata declares EPSG:4647, but the retained eastings have no zone prefix. Values are preserved; use longitude/latitude for spatial operations."
+    }
+  },
+  "data": [
+    {
+      "id": "DESH_PR_0349",
+      "name": "Schlei, Schleswig, Auf der Freiheit",
+      "waterCategory": "Küstengewässer",
+      "coastalSea": "Ostsee",
+      "bathingWaterType": "bereits bestehendes Badegewässer",
+      "additionalDescription": "natürlich",
+      "euRegistrationDate": "2018-04-15",
+      "euDeregistrationDate": null,
+      "riverBasinDistrictId": "9610",
+      "riverBasinDistrictName": "Schlei / Trave",
+      "waterBodyId": "B2.9610.07.04",
+      "waterBodyName": "innere Schlei",
+      "keywords": ["Schlei", "Schleswig", "Auf Der Freiheit"],
+      "districtCode": "59",
+      "districtName": "Schleswig-Flensburg",
+      "municipalityCode": "075",
+      "municipalityName": "Schleswig, Stadt",
+      "utmEasting": 538025.01093039,
+      "utmNorthing": 6040459.002811428,
+      "longitude": 9.588478374263024,
+      "latitude": 54.51195046051083,
+      "bathingSiteInformation": "Die Badestelle \"Auf der Freiheit\" befindet sich auf einem ehemaligen Bundeswehrgelände. Mittlerweile sind hier großzügig gestaltete Grünanlagen mit zahlreichen Sitzmöglichkeiten direkt am Schleiufer der \"Kleinen Breite\" geschaffen worden. In unmittelbarer Nähe der Badestelle wird das Restaurant/Hotel \"Strandleben\" betrieben. Neben dem kleinen sandigen Strand gibt es große Grasliegeflächen.",
+      "impactAssessment": "Unter normalen Wetter- und Umgebungsbedingungen sind keine Auswirkungen auf die Badegewässerqualität bekannt",
+      "potentialPollutionSources": null
+    },
+    {
+      "id": "DESH_PR_0266",
+      "name": "Schlei, Schleswig Luisenbad",
+      "waterCategory": "Küstengewässer",
+      "coastalSea": "Ostsee",
+      "bathingWaterType": "bereits bestehendes Badegewässer",
+      "additionalDescription": "natürlich",
+      "euRegistrationDate": "1991-04-15",
+      "euDeregistrationDate": null,
+      "riverBasinDistrictId": "9610",
+      "riverBasinDistrictName": "Schlei / Trave",
+      "waterBodyId": "B2.9610.07.04",
+      "waterBodyName": "innere Schlei",
+      "keywords": ["Schlei", "Schleswig", "Luisenbad"],
+      "districtCode": "59",
+      "districtName": "Schleswig-Flensburg",
+      "municipalityCode": "075",
+      "municipalityName": "Schleswig, Stadt",
+      "utmEasting": 536174.71092731,
+      "utmNorthing": 6040519.802811296,
+      "longitude": 9.55990447526464,
+      "latitude": 54.51263246348916,
+      "bathingSiteInformation": "Die Badestelle befindet sich an der Schlei direkt in der Stadt Schleswig unweit des bekannten Doms. Es bestehen Park- und Verpflegungsmöglichkeiten, Spielgeräte und sanitäre Anlagen.",
+      "impactAssessment": "Nach Starkregenereignissen kann es an dieser Badestelle vorübergehend zur Beeinträchtigung der Badegewässerqualität kommen",
+      "potentialPollutionSources": "Zerkarien"
+    }
+  ]
+}

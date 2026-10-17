@@ -1,4 +1,4 @@
-import { createApp } from './shared/http.ts';
+import { createApp } from './app.ts';
 
 const rawPort = process.env['PORT'] ?? '3000';
 if (!/^\d+$/.test(rawPort) || Number(rawPort) < 1 || Number(rawPort) > 65_535) {

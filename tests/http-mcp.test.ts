@@ -7,10 +7,15 @@ import {
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { WaterLevelError } from '../src/shared/errors.ts';
 import type { ErrorCode } from '../src/shared/errors.ts';
-import { API_PATH, createApp } from '../src/shared/http.ts';
+import { API_PATH } from '../api/index.ts';
+import { createApp } from '../src/app.ts';
 import { getSchleswigWaterLevel } from '../src/modules/water-level.ts';
 import type { GetWaterLevel } from '../src/modules/water-level.ts';
 import { NOW, stationFixture } from './fixtures.ts';
+import * as addressProvider from '../src/providers/geodata.ts';
+import { DatasetError } from '../src/shared/dataset-io.ts';
+import { createMcpEndpoint } from '../mcp/index.ts';
+import { createServer } from 'node:http';
 
 const apps: ReturnType<typeof createApp>[] = [];
 const clients: Client[] = [];
@@ -48,6 +53,204 @@ async function fixtureResult() {
 }
 
 describe('HTTP API and MCP', () => {
+  it.each([
+    ['addresses', 'list_schleswig_addresses', 7619],
+    ['monuments', 'list_schleswig_monuments', 251],
+    ['bathing-waters', 'list_schleswig_bathing_waters', 2],
+    ['charging-stations', 'list_schleswig_charging_stations', 61],
+    ['population-forecast', 'list_schleswig_population_forecast', 39],
+  ])(
+    'serves the same bounded %s page and metadata over both protocols',
+    async (route, tool, total) => {
+      const getWaterLevel = vi.fn<GetWaterLevel>();
+      const base = await start(getWaterLevel);
+      const response = await fetch(
+        `${base}/api/v1/schleswig/${route}?limit=1&offset=1`,
+      );
+      expect(response.status).toBe(200);
+      expect(response.headers.get('x-content-type-options')).toBe('nosniff');
+      const body: unknown = await response.json();
+      expect(body).toMatchObject({
+        metadata: { municipality: { ags: '01059075' } },
+        pagination: { limit: 1, offset: 1, total, returned: 1 },
+      });
+      const client = await connect(base);
+      const result = await client.callTool({
+        name: String(tool),
+        arguments: { limit: 1, offset: 1 },
+      });
+      expect(result.isError).not.toBe(true);
+      expect(result.structuredContent).toEqual(body);
+      expect(getWaterLevel).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([
+    'limit=101',
+    'limit=0',
+    'limit=1.5',
+    'limit=',
+    'limit=1e2',
+    'limit=1&limit=2',
+    'offset=-1',
+    'offset=9007199254740992',
+    'unknown=x',
+    '__proto__=x',
+    'constructor=x',
+    'q=',
+    'id=',
+  ])('rejects invalid REST query %s', async (query) => {
+    const base = await start(vi.fn<GetWaterLevel>());
+    const response = await fetch(`${base}/api/v1/schleswig/addresses?${query}`);
+    expect(response.status).toBe(400);
+    expect(await response.json()).toMatchObject({
+      error: { code: 'BAD_REQUEST' },
+    });
+  });
+
+  it('rejects water-level query parameters and keeps empty search results successful', async () => {
+    const getWaterLevel = vi.fn<GetWaterLevel>();
+    const base = await start(getWaterLevel);
+    expect((await fetch(`${base}${API_PATH}?station=other`)).status).toBe(400);
+    const response = await fetch(
+      `${base}/api/v1/schleswig/addresses?id=missing`,
+    );
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({
+      data: [],
+      pagination: { total: 0, nextOffset: null },
+    });
+    expect(getWaterLevel).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { limit: 101 },
+    { limit: '1' },
+    { offset: -1 },
+    { q: '' },
+    { unknown: true },
+  ])('validates MCP list input %j', async (args) => {
+    const base = await start(vi.fn<GetWaterLevel>());
+    const client = await connect(base);
+    expect(
+      (
+        await client.callTool({
+          name: 'list_schleswig_addresses',
+          arguments: args,
+        })
+      ).isError,
+    ).toBe(true);
+  });
+
+  it.each([
+    'DATA_NOT_FOUND',
+    'INVALID_SOURCE_DATA',
+    'SOURCE_UNAVAILABLE',
+  ] as const)('returns safe %s errors over REST and MCP', async (code) => {
+    const spy = vi
+      .spyOn(addressProvider, 'getAddressDataset')
+      .mockRejectedValue(
+        new DatasetError(code, 'private path or parser detail'),
+      );
+    try {
+      const base = await start(vi.fn<GetWaterLevel>());
+      const response = await fetch(`${base}/api/v1/schleswig/addresses`);
+      expect(response.status).toBe(503);
+      const body: unknown = await response.json();
+      expect(body).toMatchObject({ error: { code } });
+      expect(JSON.stringify(body)).not.toContain('private');
+      const client = await connect(base);
+      const result = await client.callTool({
+        name: 'list_schleswig_addresses',
+        arguments: {},
+      });
+      expect(result.isError).toBe(true);
+      expect(result.content).toEqual([
+        { type: 'text', text: JSON.stringify(body) },
+      ]);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it('limits MCP request bodies', async () => {
+    const base = await start(vi.fn<GetWaterLevel>());
+    const response = await fetch(`${base}/mcp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/event-stream',
+      },
+      body: JSON.stringify({ padding: 'x'.repeat(65_536) }),
+    });
+    expect(response.status).toBe(413);
+  });
+
+  it('accepts a configured public Host and same origin, and rejects a different origin', async () => {
+    const app = createApp(fixtureResult, 'https://schleswig.example');
+    apps.push(app);
+    app.server.listen(0, '127.0.0.1');
+    await once(app.server, 'listening');
+    const address = app.server.address();
+    if (!address || typeof address === 'string')
+      throw new Error('Expected TCP address.');
+    for (const [path, origin, expected] of [
+      [API_PATH, 'https://schleswig.example', 200],
+      [API_PATH, 'https://evil.example', 403],
+      ['/mcp', 'https://schleswig.example', 405],
+      ['/mcp', 'https://evil.example', 403],
+      ['/mcp', 'http://schleswig.example', 403],
+      ['/mcp', 'https://schleswig.example:8443', 403],
+    ] as const) {
+      const status = await new Promise<number | undefined>(
+        (resolve, reject) => {
+          get(
+            `http://127.0.0.1:${address.port}${path}`,
+            { headers: { Host: 'schleswig.example', Origin: origin } },
+            (response) => {
+              response.resume();
+              resolve(response.statusCode);
+            },
+          ).on('error', reject);
+        },
+      );
+      expect(status).toBe(expected);
+    }
+  });
+
+  it('supports Vercel-style pre-parsed MCP request bodies through the minimal entry point', async () => {
+    const endpoint = createMcpEndpoint(fixtureResult);
+    const server = createServer((request, response) => {
+      const chunks: Buffer[] = [];
+      request.on('data', (chunk: Buffer) => chunks.push(chunk));
+      request.on('end', () => {
+        const text = Buffer.concat(chunks).toString();
+        void endpoint.handle(
+          Object.assign(request, {
+            body: text ? (JSON.parse(text) as unknown) : undefined,
+          }),
+          response,
+        );
+      });
+    });
+    server.listen(0, '127.0.0.1');
+    await once(server, 'listening');
+    const address = server.address();
+    if (!address || typeof address === 'string')
+      throw new Error('Expected TCP address.');
+    try {
+      const client = await connect(`http://127.0.0.1:${address.port}`);
+      const result = await client.callTool({
+        name: 'list_schleswig_addresses',
+        arguments: { limit: 1 },
+      });
+      expect(result.isError).not.toBe(true);
+    } finally {
+      await endpoint.close();
+      server.closeAllConnections();
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
+  });
   it('exposes the same structured result over HTTP and the real MCP client', async () => {
     const expected = await fixtureResult();
     const getWaterLevel = vi.fn<GetWaterLevel>().mockResolvedValue(expected);
@@ -62,6 +265,11 @@ describe('HTTP API and MCP', () => {
     const tools = await client.listTools();
     expect(tools.tools.map((tool) => tool.name)).toEqual([
       'get_schleswig_water_level',
+      'list_schleswig_addresses',
+      'list_schleswig_monuments',
+      'list_schleswig_bathing_waters',
+      'list_schleswig_charging_stations',
+      'list_schleswig_population_forecast',
     ]);
     expect(tools.tools[0]?.annotations?.readOnlyHint).toBe(true);
     const result = await client.callTool({

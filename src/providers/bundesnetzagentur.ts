@@ -1,4 +1,23 @@
 import { z } from 'zod';
+import { chargingStationSchema } from '../modules/models/car-charging-stations.ts';
+import { goldDatasetSchema, uniqueIds } from '../shared/gold-metadata.ts';
+import { cachedGold, curatedRoot } from '../shared/gold-reader.ts';
+
+export const chargingGoldSchema = goldDatasetSchema(
+  chargingStationSchema,
+  'schleswig-charging-stations',
+).superRefine((value, context) => {
+  uniqueIds(value.data, (record) => record.id, context);
+  if (value.metadata.coordinateReferenceSystem !== 'EPSG:4326')
+    context.addIssue({
+      code: 'custom',
+      message: 'Charging-station coordinates must use EPSG:4326.',
+    });
+});
+export const getChargingStationDataset = cachedGold(
+  new URL('bundesnetzagentur/charging-stations.json', curatedRoot),
+  chargingGoldSchema,
+);
 import {
   DatasetError,
   readCsv,

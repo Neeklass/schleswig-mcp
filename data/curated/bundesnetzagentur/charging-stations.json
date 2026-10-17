@@ -1,0 +1,3100 @@
+{
+  "metadata": {
+    "id": "schleswig-charging-stations",
+    "title": "Public Charging Stations in Schleswig",
+    "description": "Registered publicly accessible electric vehicle charging infrastructure in Schleswig; no live connector availability.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": "2026-09-01",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": "2026-09-01",
+      "retrievedAt": null,
+      "curatedAt": null
+    },
+    "source": {
+      "provider": "Bundesnetzagentur",
+      "publisher": "Bundesnetzagentur",
+      "catalog": null,
+      "url": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html",
+      "downloadUrl": "https://data.bundesnetzagentur.de/Bundesnetzagentur/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenregister_BNetzA_2026-09-01.csv",
+      "format": "UTF-8 semicolon-separated CSV with preamble"
+    },
+    "license": {
+      "id": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Bundesnetzagentur.de"
+    },
+    "coordinateReferenceSystem": "EPSG:4326",
+    "processing": {
+      "steps": [
+        "Selected Ort Schleswig, postal code 24837 and state Schleswig-Holstein.",
+        "Selected and renamed fields; grouped addresses, coordinates, charging points and connectors.",
+        "Converted decimal commas to numbers and commissioning dates to ISO dates.",
+        "Converted empty optional fields and unspecified opening hours to null; split payment methods and connector lists and removed empty list entries.",
+        "Retained the source opening-hours code; omitted separate weekday and time-detail columns."
+      ]
+    },
+    "recordCount": 61
+  },
+  "data": [
+    {
+      "id": "1040095",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2017-03-10",
+      "address": {
+        "street": "Friedrich-Ebert-Straße",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.518628,
+        "longitude": 9.551668
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040106",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-11-11",
+      "address": {
+        "street": "Friedrich-Ebert-Straße",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.518628,
+        "longitude": 9.551668
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040107",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-08-19",
+      "address": {
+        "street": "Sankt Jürgener Straße",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.52398,
+        "longitude": 9.570095
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040109",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-11-11",
+      "address": {
+        "street": "Sankt Jürgener Straße",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.52398,
+        "longitude": 9.570095
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040110",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2017-03-10",
+      "address": {
+        "street": "Rathausmarkt",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514135,
+        "longitude": 9.571629
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040111",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-03-03",
+      "address": {
+        "street": "Am Hafen",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.51167,
+        "longitude": 9.57121
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040112",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-08-20",
+      "address": {
+        "street": "Schloßinsel",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.51128,
+        "longitude": 9.54122
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040113",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-03-03",
+      "address": {
+        "street": "Am Hafen",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.51167,
+        "longitude": 9.57121
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040114",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-03-03",
+      "address": {
+        "street": "Werkstraße",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.51757,
+        "longitude": 9.58457
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041335",
+      "operator": "team energie GmbH & Co. KG",
+      "displayName": "team energie",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 300,
+      "commissionedAt": "2022-11-01",
+      "address": {
+        "street": "Marie-Curie-Str.",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.542206,
+        "longitude": 9.581089
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 300
+            },
+            {
+              "connectorType": "DC CHAdeMO",
+              "ratedPowerKw": 300
+            }
+          ],
+          "evseId": null,
+          "publicKey": "3056 3010 0607 2A86 48CE 3D02 0106 052B 8104 000A 0342 0004 8464 9E15 E3DC 1EDF 4BD8 0D68 B2CE F01F 16A0 C8CA 1586 729A B1E4 40D8 6BB8 BDE7 EFD6 C69D 00B1 7F30 2772 EAC5 9965 F199 7674 BE59 B181 55C0 95AF 72B9 59A0 5150"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 300
+            }
+          ],
+          "evseId": null,
+          "publicKey": "3056 3010 0607 2A86 48CE 3D02 0106 052B 8104 000A 0342 0004 1BE8 C4BD 766C A648 25DC D4E5 383E 4B10 A744 6ACA AD1F DFF7 100B DA33 F584 3472 55C2 F25D 0439 BEE3 874E 4095 3975 A68E D4CF 9D75 C357 35A3 1B7C B5E7 0333 A69E"
+        }
+      ]
+    },
+    {
+      "id": "1041336",
+      "operator": "team energie GmbH & Co. KG",
+      "displayName": "team energie",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 300,
+      "commissionedAt": "2022-11-01",
+      "address": {
+        "street": "Marie-Curie-Str.",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.54218,
+        "longitude": 9.581189
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 300
+            }
+          ],
+          "evseId": null,
+          "publicKey": "3056 3010 0607 2A86 48CE 3D02 0106 052B 8104 000A 0342 0004 3EBC FF16 F480 41DD F448 12DE D8B4 7668 6664 4124 B520 5712 FD67 671F 2D6D 96CD 503C DCDB FCD1 31E7 EC5E B95E E0EB C64B 7CB2 C9E2 EF2B 2EF7 D409 57BE 67C0 6D28"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 300
+            }
+          ],
+          "evseId": null,
+          "publicKey": "3056 3010 0607 2A86 48CE 3D02 0106 052B 8104 000A 0342 0004 1C2E 3A74 10DB B826 445A 033C 7311 723B 9292 2F43 302E F770 6817 4CD3 A2B7 D34D A49F 72A2 D546 40CE 2E00 94E3 C209 4F3D B200 1E62 6D65 AFEC C31A C440 5A0A 36DD"
+        }
+      ]
+    },
+    {
+      "id": "1041337",
+      "operator": "team energie GmbH & Co. KG",
+      "displayName": "team energie",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2022-11-01",
+      "address": {
+        "street": "Marie-Curie-Str.",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.542111,
+        "longitude": 9.581449
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1077509",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2024-06-15",
+      "address": {
+        "street": "Wiesenstr.",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514138,
+        "longitude": 9.565164
+      },
+      "locationName": "Parkplatz",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            },
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1116131",
+      "operator": "Albert Bauer GmbH",
+      "displayName": "Bauer-Gruppe",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 50,
+      "commissionedAt": "2024-07-10",
+      "address": {
+        "street": "Heinrich-Hertz-Str.",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.530651,
+        "longitude": 9.582138
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": [
+        "RFID-Karte",
+        "Onlinezahlungsverfahren",
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 50
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 50
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1127324",
+      "operator": "team energie GmbH & Co. KG",
+      "displayName": "team energie",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2022-11-01",
+      "address": {
+        "street": "Marie-Curie-Str.",
+        "houseNumber": "1",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.542111,
+        "longitude": 9.581449
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1145192",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2025-04-16",
+      "address": {
+        "street": "Jollenweg",
+        "houseNumber": "2",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.516925,
+        "longitude": 9.588704
+      },
+      "locationName": null,
+      "parkingInformation": "Nur für Kunden/Besucher",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*ISE*E0017767",
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*ISE*E0017768",
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1136860",
+      "operator": "EnBW mobility+ AG und Co.KG ",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 200,
+      "commissionedAt": "2025-10-21",
+      "address": {
+        "street": "Georg-Pfingsten-Weg",
+        "houseNumber": "3",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.503583,
+        "longitude": 9.543694
+      },
+      "locationName": "REWE Schleswig, Georg-Pfingsten-Weg 3",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Debitkarte (Lesegerät)",
+        "Debitkarte (NFC)",
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)",
+        "Sonstige"
+      ],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 200
+            }
+          ],
+          "evseId": "DE*EBW*E911649*1",
+          "publicKey": "3056301006072A8648CE3D020106052B8104000A03420004422A45624FF9587CDEE479540119DD78E8F93D23F1D11462181D6E9F70F0586F697C7B8F5D6BF10A9A8F08238630820A1DF1FF6F8EDD897094A2B8014DCD2A08"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 200
+            }
+          ],
+          "evseId": "DE*EBW*E911649*2",
+          "publicKey": "3056301006072A8648CE3D020106052B8104000A03420004605B9D494FD7C57DFB448119ADF3AEB2871F6617DEAB653AAAF1438B156D82D1F03D48C57950C8D8F89068CE29EA1E296FF5A06642C4D2AB287654566E6BB575"
+        }
+      ]
+    },
+    {
+      "id": "1136861",
+      "operator": "EnBW mobility+ AG und Co.KG ",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 200,
+      "commissionedAt": "2025-10-21",
+      "address": {
+        "street": "Georg-Pfingsten-Weg",
+        "houseNumber": "3",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.503583,
+        "longitude": 9.543694
+      },
+      "locationName": "REWE Schleswig, Georg-Pfingsten-Weg 3",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Debitkarte (Lesegerät)",
+        "Debitkarte (NFC)",
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)",
+        "Sonstige"
+      ],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 200
+            }
+          ],
+          "evseId": "DE*EBW*E911583*1",
+          "publicKey": "3056301006072A8648CE3D020106052B8104000A034200040FCB0A198E58654F631EA04F2B564513977FBF5E23B18E66325275DAF0AA83A35C3862F1B27EBF6E61EA861BDD7480715C78EEBCAD6C6313CCAC75A7A29CDECC"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 200
+            }
+          ],
+          "evseId": "DE*EBW*E911583*2",
+          "publicKey": "3056301006072A8648CE3D020106052B8104000A03420004E63A0EC9E73BA9C8A8F4459E424550D9FD35DDBBAD28B71114364094DC1F6EA7467499368AF22258D4D27C03E9935FC2E356B2F140233161EE4528BD34420B70"
+        }
+      ]
+    },
+    {
+      "id": "1114933",
+      "operator": "Audi Zentrum Flensburg Vertriebs GmbH",
+      "displayName": "Audi Zentrum FL",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 46,
+      "commissionedAt": "2024-10-01",
+      "address": {
+        "street": "Werner-von-Siemens-Str.",
+        "houseNumber": "5",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.537626,
+        "longitude": 9.581049
+      },
+      "locationName": "SFL058",
+      "parkingInformation": "Nur für Kunden/Besucher",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 24
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1103588",
+      "operator": "Marie-Luise Lüttmer",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2024-04-08",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "6",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514575,
+        "longitude": 9.589479
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040108",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-03-03",
+      "address": {
+        "street": "Flensburger Straße",
+        "houseNumber": "7",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.51386,
+        "longitude": 9.54509
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1086299",
+      "operator": "Johannes Nissen",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 11,
+      "commissionedAt": "2024-02-24",
+      "address": {
+        "street": "Schleibogen",
+        "houseNumber": "7",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.511898,
+        "longitude": 9.584251
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Kostenlos"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1103578",
+      "operator": "Lüttmer Property Management GmbH",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2024-07-03",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "7",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514977,
+        "longitude": 9.590254
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1103584",
+      "operator": "Lüttmer Property Management GmbH",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2024-07-03",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "7",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514977,
+        "longitude": 9.590254
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041252",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-01-27",
+      "address": {
+        "street": "Ilensee",
+        "houseNumber": "8",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.516933,
+        "longitude": 9.583036
+      },
+      "locationName": "DE*CNT*EP00785*003",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP00785*003*1",
+          "publicKey": "3 0593 0130 6072 A864 8CE3 D020 1060 82A8 648C E3D0 3010 7034 2000 4BA7 302C 3815 091E FD86 2322 79AC 34BA 92EC 5233 8D82 F828 BCDB 8A1F 10C2 CE43 82AA 2F1F CC29 51E9 EB4D 892C 5F7B E589 79C1 AB62 975B E90B 92C4 0BC2 99CF 9E08 8"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP00785*003*2",
+          "publicKey": "3 0593 0130 6072 A864 8CE3 D020 1060 82A8 648C E3D0 3010 7034 2000 40F3 75E5 BBA8 A1D1 4638 0EEC BEF6 72D6 B89C 5AB9 BC85 0055 ADA5 AEA7 BC03 3EEE 7DFE A475 B5F2 66C5 AABF 6D77 876B B993 314B 1C01 173E A3AD 5845 68F9 1FEC 7E8E D"
+        }
+      ]
+    },
+    {
+      "id": "1041248",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-01-27",
+      "address": {
+        "street": "Königstr.",
+        "houseNumber": "9",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514816,
+        "longitude": 9.566383
+      },
+      "locationName": "DE*CNT*EP03095*001",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP03095*001*1",
+          "publicKey": "3 0593 0130 6072 A864 8CE3 D020 1060 82A8 648C E3D0 3010 7034 2000 4AED 54E6 20E0 246D FF57 9D81 9506 EB92 4E07 C6E9 B75A 0D7B 4A72 BF64 F40F 2474 A08F 534C B70A E4F5 67A1 10BF EBBC 1FA2 F6C5 0B78 308B BE52 0C3B 0A8F 5255 A5F7"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP03095*001*2",
+          "publicKey": "3 0593 0130 6072 A864 8CE3 D020 1060 82A8 648C E3D0 3010 7034 2000 4199 CD5E FDDD EB36 8162 97C6 9784 0CC7 F240 2292 0AFD F0C2 1845 D7DC 4334 A614 D5F5 BA52 0E98 0E32 C24F FFB6 A753 38CC 881D 1201 42F8 9A8B 54E1 35AE F7F4 3B90 E"
+        }
+      ]
+    },
+    {
+      "id": "1011572",
+      "operator": "Comfortcharge GmbH",
+      "displayName": "Comfort Charge",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 200,
+      "commissionedAt": "2023-06-13",
+      "address": {
+        "street": "Schwarzer Weg",
+        "houseNumber": "13",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.51501,
+        "longitude": 9.56351
+      },
+      "locationName": "Schleswig, CC_24_0010",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 200
+            }
+          ],
+          "evseId": "DECCH*ECCH2300024DLT*1",
+          "publicKey": "3059301306072a8648ce3d020106082a8648ce3d0301070342000474b94092643e34a5f6683beedc0cfb2fd8978ab999ad0cbfcb9710eab665b62ca70076d41e5485248fdc34958d054704aa76d9041411fb38bd2808934f9eacbb"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 200
+            }
+          ],
+          "evseId": "DECCH*ECCH2300024DLT*2",
+          "publicKey": "3059301306072a8648ce3d020106082a8648ce3d0301070342000474b94092643e34a5f6683beedc0cfb2fd8978ab999ad0cbfcb9710eab665b62ca70076d41e5485248fdc34958d054704aa76d9041411fb38bd2808934f9eacbb"
+        }
+      ]
+    },
+    {
+      "id": "1040115",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2021-03-18",
+      "address": {
+        "street": "Stadtfeld",
+        "houseNumber": "13",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.521061,
+        "longitude": 9.563741
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040117",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2021-03-18",
+      "address": {
+        "street": "Stadtfeld",
+        "houseNumber": "13",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.521061,
+        "longitude": 9.563741
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040118",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2021-03-18",
+      "address": {
+        "street": "Stadtfeld",
+        "houseNumber": "13",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.521061,
+        "longitude": 9.563741
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040120",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2021-03-18",
+      "address": {
+        "street": "Stadtfeld",
+        "houseNumber": "13",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.521061,
+        "longitude": 9.563741
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040122",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2021-03-18",
+      "address": {
+        "street": "Stadtfeld",
+        "houseNumber": "13",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.521061,
+        "longitude": 9.563741
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041402",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2023-04-06",
+      "address": {
+        "street": "Königstr.",
+        "houseNumber": "17",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514528,
+        "longitude": 9.56488
+      },
+      "locationName": "DE*CNT*EP01158*001",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP01158*001*1",
+          "publicKey": "AMCINKT5WNE6AYRXHTOK5ZUWJ2WPZ4FXZVE47U4D"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP01158*001*2",
+          "publicKey": "ALWZVURCNE6Y2N4MRUPVYMFEVFWGJC6MECLCY6IK"
+        }
+      ]
+    },
+    {
+      "id": "1041403",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2023-04-06",
+      "address": {
+        "street": "Königstr.",
+        "houseNumber": "17",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514528,
+        "longitude": 9.56488
+      },
+      "locationName": "DE*CNT*EP01158*002",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP01158*002*1",
+          "publicKey": "AOJPRDJKT3TSACJCPH2MCP4ZVZCKBKAMTBSWRVQH"
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP01158*002*2",
+          "publicKey": "ALMAWZUOW2LUUSXVEWAJJPHUMWC6F42BUY6GSX7T"
+        }
+      ]
+    },
+    {
+      "id": "1068562",
+      "operator": "Jessen Verwaltung GmbH & Co. KG",
+      "displayName": "Elektro Jessen",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 4,
+      "ratedPowerKw": 50,
+      "commissionedAt": "2022-09-19",
+      "address": {
+        "street": "Heinrich-Hertz-Straße",
+        "houseNumber": "18",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.537282,
+        "longitude": 9.584805
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Kreditkarte (NFC)",
+        "Onlinezahlungsverfahren",
+        "Debitkarte (NFC)"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 50
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 50
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 3,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 4,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040124",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2023-11-03",
+      "address": {
+        "street": "Lutherstr.",
+        "houseNumber": "22",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.518213,
+        "longitude": 9.559171
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041283",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 4,
+      "ratedPowerKw": 11,
+      "commissionedAt": "2021-09-30",
+      "address": {
+        "street": "Moltkestr.",
+        "houseNumber": "32",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.519967,
+        "longitude": 9.557392
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 3,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 4,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041284",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 4,
+      "ratedPowerKw": 11,
+      "commissionedAt": "2021-09-30",
+      "address": {
+        "street": "Moltkestr.",
+        "houseNumber": "32",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.519967,
+        "longitude": 9.557392
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 3,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 4,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1152341",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 400,
+      "commissionedAt": "2025-02-27",
+      "address": {
+        "street": "Moltkestr.",
+        "houseNumber": "32",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.520516,
+        "longitude": 9.558359
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": [
+        "RFID-Karte",
+        "Onlinezahlungsverfahren",
+        "Kreditkarte (Lesegerät)"
+      ],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 400
+            }
+          ],
+          "evseId": "\tDEGFCE1234701976*1",
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 400
+            }
+          ],
+          "evseId": "\tDEGFCE1234701976*2",
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1152342",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Schnellladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 400,
+      "commissionedAt": "2025-02-27",
+      "address": {
+        "street": "Moltkestr.",
+        "houseNumber": "32",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.520516,
+        "longitude": 9.558359
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": [
+        "RFID-Karte",
+        "Onlinezahlungsverfahren",
+        "Kreditkarte (Lesegerät)"
+      ],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 400
+            }
+          ],
+          "evseId": "\tDEGFCE1234701976*1",
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 400
+            }
+          ],
+          "evseId": "\tDEGFCE1234701976*2",
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041300",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2021-11-15",
+      "address": {
+        "street": "Moltkestraße",
+        "houseNumber": "34",
+        "addressSuffix": "Parkhaus P440-P431",
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.520035,
+        "longitude": 9.558295
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041301",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2021-11-15",
+      "address": {
+        "street": "Moltkestrasse",
+        "houseNumber": "34",
+        "addressSuffix": "Parkhaus P440-P431",
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.520035,
+        "longitude": 9.558338
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041302",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2021-11-15",
+      "address": {
+        "street": "Moltkestraße",
+        "houseNumber": "34",
+        "addressSuffix": "Parkplatz P440-P431",
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.520067,
+        "longitude": 9.558327
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041303",
+      "operator": "GEWOBA Nord Baugenossenschaft eG",
+      "displayName": "GEWOBA Nord",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2021-11-15",
+      "address": {
+        "street": "Moltkestraße",
+        "houseNumber": "34",
+        "addressSuffix": "Parkhaus P440-431",
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.520073,
+        "longitude": 9.558349
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040121",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2020-08-20",
+      "address": {
+        "street": "Sankt Jürgener Straße",
+        "houseNumber": "52",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.5312,
+        "longitude": 9.57499
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1096767",
+      "operator": "Autohaus Jordt Automobil Handelsgesellschaft mbH",
+      "displayName": "Autohaus Jordt",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 33,
+      "commissionedAt": "2021-01-19",
+      "address": {
+        "street": "St. Jürgener Str.",
+        "houseNumber": "52",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.531215,
+        "longitude": 9.574939
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte", "Sonstige"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1136491",
+      "operator": "Autohaus Jordt Automobil Handelsgesellschaft mbH",
+      "displayName": "Autohaus Jordt",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2021-02-26",
+      "address": {
+        "street": "St.-Jürgener-Str.",
+        "houseNumber": "52",
+        "addressSuffix": "Rechts von Haupteingang und Dialogannahme",
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.531215,
+        "longitude": 9.574833
+      },
+      "locationName": "Rechts von Haupteingang und Dialogannahme",
+      "parkingInformation": "Nur für Kunden/Besucher",
+      "paymentMethods": [
+        "Kreditkarte (NFC)",
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "DC Fahrzeugkupplung Typ Combo 2 (CCS)",
+              "ratedPowerKw": 22
+            },
+            {
+              "connectorType": "AC Typ 1 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": "DE*GCE*EACCM225281",
+          "publicKey": "DE*GCE*EACCM225281"
+        }
+      ]
+    },
+    {
+      "id": "1040126",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2023-05-09",
+      "address": {
+        "street": "Friedrichstr.",
+        "houseNumber": "57",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.502705,
+        "longitude": 9.541937
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040127",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2023-05-09",
+      "address": {
+        "street": "Friedrichstr.",
+        "houseNumber": "57",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.502705,
+        "longitude": 9.541937
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040128",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2023-05-09",
+      "address": {
+        "street": "Friedrichstr.",
+        "houseNumber": "57",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.502705,
+        "longitude": 9.541937
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040129",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2023-05-09",
+      "address": {
+        "street": "Friedrichstr.",
+        "houseNumber": "57",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.502705,
+        "longitude": 9.541937
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1041237",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2019-09-16",
+      "address": {
+        "street": "Kolonnenweg",
+        "houseNumber": "152",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.508616,
+        "longitude": 9.520183
+      },
+      "locationName": "DE*CNT*EP04091*001",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP04091*001*1",
+          "publicKey": "0CA3 EBA9 654A 233A F48C 5507 5D62 46C5 656D 661E BD9B 6277 2E51 380A 0CD5 09C5 4278 E7A4 C375 84F1 314A EC14 E8A9 879C"
+        }
+      ]
+    },
+    {
+      "id": "1138105",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2022-01-10",
+      "address": {
+        "street": "Kolonnenweg",
+        "houseNumber": "152",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.508616,
+        "longitude": 9.520183
+      },
+      "locationName": "DE*CNT*EP04091*002",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP04091*002*1",
+          "publicKey": "020D72414001632ADDBC8F3437EBE25E710B6633D7EE565E95E928F6CE273C53B0AD69F2C15248A857A18BA6225802D0"
+        }
+      ]
+    },
+    {
+      "id": "1138106",
+      "operator": "GP Joule Connect GmbH",
+      "displayName": "GP JOULE Connect GmbH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 1,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2022-01-15",
+      "address": {
+        "street": "Kolonnenweg",
+        "houseNumber": "152",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.508616,
+        "longitude": 9.520183
+      },
+      "locationName": "DE*CNT*EP04091*003",
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": "DE*CNT*EP04091*003*1",
+          "publicKey": "35BC59FA9EC02513E6DE727E98397B64D394E21CE5178CFDD9A4D3CBCF334DB809AE290CCC80ABEA6B97B3B93E325E9F"
+        }
+      ]
+    },
+    {
+      "id": "1117530",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2016-11-01",
+      "address": {
+        "street": "St.-Jürgener-Str.",
+        "houseNumber": "1-3",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.52399,
+        "longitude": 9.570006
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["RFID-Karte", "Onlinezahlungsverfahren"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1040125",
+      "operator": "Stadtwerke SH GmbH & Co. KG",
+      "displayName": "Stadtwerke SH",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2023-06-07",
+      "address": {
+        "street": "Am Fabrikhof",
+        "houseNumber": "7-9",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.511058,
+        "longitude": 9.584054
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Onlinezahlungsverfahren",
+        "RFID-Karte",
+        "Plug & Charge"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1057256",
+      "operator": "nonoxx pro GmbH",
+      "displayName": "nonoxx pro",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2024-06-01",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "1+2",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514155,
+        "longitude": 9.588587
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)",
+        "Onlinezahlungsverfahren"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1057257",
+      "operator": "nonoxx pro GmbH",
+      "displayName": "nonoxx pro",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2024-06-01",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "1+2",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514155,
+        "longitude": 9.588587
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)",
+        "Onlinezahlungsverfahren"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1057258",
+      "operator": "nonoxx pro GmbH",
+      "displayName": "nonoxx pro",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2024-06-01",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "1+2",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514155,
+        "longitude": 9.588587
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)",
+        "Onlinezahlungsverfahren"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1057259",
+      "operator": "nonoxx pro GmbH",
+      "displayName": "nonoxx pro",
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 44,
+      "commissionedAt": "2024-06-01",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "1+2",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.514155,
+        "longitude": 9.588587
+      },
+      "locationName": null,
+      "parkingInformation": null,
+      "paymentMethods": [
+        "Kreditkarte (Lesegerät)",
+        "Kreditkarte (NFC)",
+        "Onlinezahlungsverfahren"
+      ],
+      "openingHours": null,
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 22
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    },
+    {
+      "id": "1103580",
+      "operator": "Lüttmer Projektentwicklungsgesellschaft mbH",
+      "displayName": null,
+      "status": "In Betrieb",
+      "stationType": "Normalladeeinrichtung",
+      "chargingPointCount": 2,
+      "ratedPowerKw": 22,
+      "commissionedAt": "2024-07-03",
+      "address": {
+        "street": "Am Pionierhafen",
+        "houseNumber": "1+2",
+        "addressSuffix": null,
+        "postalCode": "24837",
+        "city": "Schleswig"
+      },
+      "coordinates": {
+        "latitude": 54.5141,
+        "longitude": 9.588562
+      },
+      "locationName": null,
+      "parkingInformation": "Keine Beschränkung",
+      "paymentMethods": ["Onlinezahlungsverfahren", "RFID-Karte"],
+      "openingHours": "247",
+      "chargingPoints": [
+        {
+          "position": 1,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        },
+        {
+          "position": 2,
+          "connectors": [
+            {
+              "connectorType": "AC Typ 2 Steckdose",
+              "ratedPowerKw": 11
+            }
+          ],
+          "evseId": null,
+          "publicKey": null
+        }
+      ]
+    }
+  ]
+}

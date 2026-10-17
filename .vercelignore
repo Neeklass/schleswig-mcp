@@ -1,0 +1,10 @@
+.git
+.scratchpad
+data/imported
+data/scripts
+data/exploration.ipynb
+data/requirements.txt
+tests
+coverage
+dist
+.env*

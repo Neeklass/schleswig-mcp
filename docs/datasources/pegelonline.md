@@ -4,7 +4,8 @@ Status: **technically retrievable and integrated into the public HTTP API and MC
 This document corresponds to [`src/providers/pegelonline.ts`](../../src/providers/pegelonline.ts).
 The provider represents PEGELONLINE and can supply multiple modules; its only
 current consumer is [`src/modules/water-level.ts`](../../src/modules/water-level.ts).
-The adapters in `src/shared/http.ts` and `src/mcp/mcp.ts` both call that module.
+The adapters in `api/index.ts` and `mcp/mcp.ts` both call that module:
+REST `/api/v1/schleswig/water-level`, MCP `get_schleswig_water_level`.
 
 ## Source and verified station
 
@@ -20,8 +21,10 @@ source notices and license metadata. The shared service in
 [`src/modules/water-level.ts`](../../src/modules/water-level.ts) applies freshness
 rules; HTTP and MCP adapters call that service.
 
-The planned manual preparation of other datasets under `data/curated/` does not
-affect this live integration. It needs neither raw nor curated local files.
+The implemented static datasets under `data/curated/` do not affect this live
+integration. PEGELONLINE has no Gold file or local original. It needs neither
+raw nor curated local files and returns one station's latest W measurement.
+WSV is both the original provider and publisher; no discovery catalog is queried.
 
 Verified against the live REST API on **2026-10-14**:
 
