@@ -1,5 +1,7 @@
 node_modules/
 dist/
+public/openapi.json
+public/mcp-docs.html
 coverage/
 .vitest/
 .scratchpad/

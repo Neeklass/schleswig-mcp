@@ -4,11 +4,88 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Schleswig MCP</title>
+    <meta
+      name="description"
+      content="Public data about Schleswig city through a REST API and the Model Context Protocol."
+    />
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Schleswig MCP</h1>
-    <p>
-      A REST API and Model Context Protocol (MCP) server for Schleswig, Germany.
-    </p>
+    <div class="page">
+      <header>
+        <nav aria-label="Main navigation">
+          <a href="/" aria-current="page">Home</a>
+          <a href="/docs">REST API documentation</a>
+          <a href="/mcp-docs">MCP documentation</a>
+          <a href="/openapi.json">OpenAPI specification</a>
+          <a href="https://github.com/Neeklass/schleswig-mcp">GitHub</a>
+        </nav>
+        <h1>Schleswig MCP</h1>
+        <p>
+          Public data about the city of Schleswig, Germany, through a REST API
+          and the Model Context Protocol (MCP).
+        </p>
+      </header>
+      <main>
+        <h2>Available data</h2>
+        <p>
+          The service covers Schleswig city (municipality code
+          <code>01059075</code>).
+        </p>
+        <ul>
+          <li>
+            <strong>Water level — live:</strong> the latest available
+            PEGELONLINE station reading, with its timestamp and freshness. A
+            gauge reading is not water depth.
+          </li>
+          <li>
+            <strong>Addresses — snapshot:</strong> official address records with
+            coordinates.
+          </li>
+          <li>
+            <strong>Cultural monuments — snapshot:</strong> entries from the
+            cultural monument register.
+          </li>
+          <li>
+            <strong>Bathing waters — snapshot:</strong> reference locations,
+            without current water quality or swimming safety assessments.
+          </li>
+          <li>
+            <strong>Charging stations — snapshot:</strong> registered
+            infrastructure, without live connector availability.
+          </li>
+          <li>
+            <strong>Population forecast — snapshot:</strong> indicators
+            containing historical inputs and projected values.
+          </li>
+        </ul>
+        <h2>Example requests</h2>
+        <p>
+          All REST endpoints use <code>GET</code>. Dataset lists default to 20
+          records and allow at most 100 per request.
+        </p>
+        <pre><code>GET /api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5
+GET /api/v1/schleswig/water-level</code></pre>
+        <p>
+          <a href="/api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5"
+            >View the address example</a
+          >
+          or use the <a href="/docs">interactive REST reference</a>. MCP clients
+          connect to <code>/mcp</code>; see the
+          <a href="/mcp-docs">connection instructions</a>.
+        </p>
+        <h2>Sources and licenses</h2>
+        <p>
+          Public datasets have dataset-specific licenses, source credits and
+          documented data dates. Responses include this information and any
+          known limitations. German original values are preserved. See the
+          <a
+            href="https://github.com/Neeklass/schleswig-mcp/tree/main/docs/datasources"
+            >datasource documentation</a
+          >
+          before reusing data.
+        </p>
+      </main>
+    </div>
   </body>
 </html>

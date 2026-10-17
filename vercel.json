@@ -18,6 +18,42 @@
     { "src": "/api/v1/schleswig(?:/.*)?", "dest": "/api/index" },
     { "src": "/mcp", "dest": "/api/mcp" },
     { "src": "/api/mcp", "dest": "/api/mcp" },
+    {
+      "src": "/",
+      "dest": "/index.html",
+      "methods": ["GET", "HEAD"],
+      "headers": { "X-Content-Type-Options": "nosniff" }
+    },
+    {
+      "src": "/docs",
+      "dest": "/docs.html",
+      "methods": ["GET", "HEAD"],
+      "headers": { "X-Content-Type-Options": "nosniff" }
+    },
+    {
+      "src": "/mcp-docs",
+      "dest": "/mcp-docs.html",
+      "methods": ["GET", "HEAD"],
+      "headers": { "X-Content-Type-Options": "nosniff" }
+    },
+    {
+      "src": "/openapi\\.json",
+      "dest": "/openapi.json",
+      "methods": ["GET", "HEAD"],
+      "headers": { "X-Content-Type-Options": "nosniff" }
+    },
+    {
+      "src": "/styles\\.css",
+      "dest": "/styles.css",
+      "methods": ["GET", "HEAD"],
+      "headers": { "X-Content-Type-Options": "nosniff" }
+    },
+    {
+      "src": "/docs\\.js",
+      "dest": "/docs.js",
+      "methods": ["GET", "HEAD"],
+      "headers": { "X-Content-Type-Options": "nosniff" }
+    },
     { "src": "/.*", "status": 404 }
   ]
 }

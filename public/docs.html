@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>REST API documentation — Schleswig MCP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="page docs-header">
+      <nav aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/docs" aria-current="page">REST API documentation</a>
+        <a href="/mcp-docs">MCP documentation</a>
+        <a href="/openapi.json">OpenAPI specification</a>
+        <a href="https://github.com/Neeklass/schleswig-mcp">GitHub</a>
+      </nav>
+      <p>
+        Interactive reference powered by Scalar. Requests use this site's API.
+        The <a href="/openapi.json">OpenAPI 3.1 document</a> is also available
+        directly.
+      </p>
+      <noscript
+        ><p>
+          Enable JavaScript to use Scalar, or download the OpenAPI document.
+        </p></noscript
+      >
+      <p id="docs-status" role="status">Loading the API reference…</p>
+    </header>
+    <main id="api-reference" aria-label="REST API reference"></main>
+    <script type="module" src="/docs.js"></script>
+  </body>
+</html>

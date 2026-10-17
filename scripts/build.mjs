@@ -29,8 +29,14 @@ const compiler = spawnSync(
 );
 if (compiler.error) throw compiler.error;
 if (compiler.status !== 0) process.exit(compiler.status ?? 1);
+await import('./generate-docs.mjs');
 await mkdir(resolve(output, 'data'), { recursive: true });
 await cp(resolve(root, 'data/curated'), resolve(output, 'data/curated'), {
   recursive: true,
 });
-console.log('Built api/, mcp/ and src/; copied prepared Gold data.');
+await cp(resolve(root, 'public'), resolve(output, 'public'), {
+  recursive: true,
+});
+console.log(
+  'Built api/, mcp/ and src/; copied prepared Gold data and public documentation.',
+);

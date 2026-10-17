@@ -17,6 +17,28 @@ try {
   app.server.listen(0, '127.0.0.1');
   await once(app.server, 'listening');
   const base = `http://127.0.0.1:${app.server.address().port}`;
+  for (const path of [
+    '/',
+    '/docs',
+    '/mcp-docs',
+    '/openapi.json',
+    '/styles.css',
+    '/docs.js',
+  ]) {
+    const response = await fetch(`${base}${path}`);
+    assert.equal(response.status, 200, path);
+    assert.ok((await response.text()).length > 100);
+  }
+  const specification = await (await fetch(`${base}/openapi.json`)).json();
+  assert.equal(specification.openapi, '3.1.0');
+  assert.equal(Object.keys(specification.paths).length, 6);
+  for (const path of [
+    '/src/index.ts',
+    '/data/curated/geodata-sh/addresses.json',
+    '/.env',
+  ]) {
+    assert.equal((await fetch(`${base}${path}`)).status, 404, path);
+  }
   await client.connect(
     new StreamableHTTPClientTransport(new URL(`${base}/mcp`)),
   );
@@ -39,7 +61,7 @@ try {
     assert.deepEqual(result.structuredContent, data);
   }
   console.log(
-    'Compiled REST/MCP and all five packaged datasets passed from an unrelated working directory.',
+    'Compiled website, REST/MCP and all five packaged datasets passed from an unrelated working directory.',
   );
 } finally {
   await client.close();

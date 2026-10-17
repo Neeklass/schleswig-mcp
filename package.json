@@ -10,9 +10,13 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "start": "node dist/src/index.js",
+    "docs:generate": "node scripts/generate-docs.mjs",
+    "predev": "npm run docs:generate",
     "dev": "node --watch src/index.ts",
     "typecheck": "tsc --noEmit",
+    "pretest": "npm run docs:generate",
     "test": "vitest run",
+    "pretest:watch": "npm run docs:generate",
     "test:watch": "vitest",
     "smoke": "node scripts/smoke.mjs",
     "lint": "eslint .",

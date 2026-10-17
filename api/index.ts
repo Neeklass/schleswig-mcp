@@ -11,6 +11,7 @@ import { listQuerySchema } from '../src/shared/pagination.ts';
 import type { ListQuery } from '../src/shared/pagination.ts';
 import { publicError } from '../src/shared/errors.ts';
 import { deploymentOrigin } from '../src/shared/deployment.ts';
+import { serveWebsite } from './_lib/website.ts';
 
 export const API_PREFIX = '/api/v1/schleswig/';
 export const API_PATH = `${API_PREFIX}water-level`;
@@ -112,6 +113,7 @@ export function createRestHandler(
         failure(response, 403, 'FORBIDDEN', 'Host or Origin is not allowed.');
         return;
       }
+      if (await serveWebsite(request, response, url.pathname)) return;
       const name = url.pathname.startsWith(API_PREFIX)
         ? url.pathname.slice(API_PREFIX.length)
         : '';

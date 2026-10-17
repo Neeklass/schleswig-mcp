@@ -55,6 +55,46 @@ override to Preview would reject preview requests. Deployment mode accepts the
 configured hostname and Origin. Clients without Origin headers work. No cross-origin browser access or
 authentication service is implemented.
 
+## Website and API reference
+
+| Route           | Content                                                      |
+| --------------- | ------------------------------------------------------------ |
+| `/`             | Minimal project homepage                                     |
+| `/docs`         | Interactive Scalar REST reference                            |
+| `/openapi.json` | Generated OpenAPI 3.1 specification                          |
+| `/mcp-docs`     | MCP connection instructions, six tools and response examples |
+
+`npm run dev` generates documentation and serves these routes alongside the API
+and MCP on `http://127.0.0.1:3000`. After `npm run build`, `npm start` serves the
+same files from `dist/public/`, independently of the working directory. Vercel
+serves `public/` using explicit routes; API and MCP routes retain priority.
+
+Edit the homepage and Scalar shell in `public/index.html` and `public/docs.html`;
+shared styling is in `public/styles.css`. `public/docs.js` uses Scalar's
+[plain HTML integration](https://scalar.com/products/api-references/integrations/html-js)
+with the pinned **1.75.0** CDN module, system fonts, light mode and no proxy.
+Interactive requests and specification loading use relative, same-origin URLs,
+including on previews. Scalar needs JavaScript and access to jsDelivr; the
+OpenAPI download and other pages remain available without it.
+
+REST documentation is maintained in `api/_lib/openapi.ts`, which converts the
+existing domain and query Zod schemas without changing runtime validation.
+Examples contain one actual Gold record per list and a labelled synthetic water
+reading. Builds never call PEGELONLINE. The specification describes additional
+cross-field checks that cannot be represented by Zod's JSON Schema conversion.
+
+MCP prose is maintained in `mcp/documentation.html`, with static tool sections
+rendered by `mcp/documentation.ts`. The documentation build reuses the REST
+example values because both transports return the same domain results. Tests
+compare every documented example with REST and real MCP client execution.
+
+`npm run docs:generate` refreshes `public/openapi.json` and
+`public/mcp-docs.html`; these generated files are ignored by Git. Generation also
+runs before development, tests and during builds. Rerun it after editing schemas,
+documentation or examples while the development server is running. Do not edit
+generated files. No frontend framework, custom console or website build system
+is used. Utility files in `api/_lib/` are not additional Vercel Functions.
+
 ## REST contract
 
 Water level accepts no query parameters and retains its `station`, `measurement`,
@@ -210,7 +250,8 @@ test budget. This leaves headroom below Vercel's
 [4.5 MB response limit](https://vercel.com/docs/functions/limitations).
 
 `npm run build` cleans only generated `dist/`, compiles `api/`, `mcp/`, `src/`,
-and copies Gold to `dist/data/curated/`. Start with `node dist/src/index.js` or
+generates documentation, copies `public/` to `dist/public/` and copies Gold to
+`dist/data/curated/`. Start with `node dist/src/index.js` or
 `npm start`. Module-relative paths are independent of the working directory.
 `npm run check:build` checks compiled execution. With the built server running,
 `npm run smoke` separately checks live PEGELONLINE through REST and MCP.
@@ -225,19 +266,24 @@ same-origin acceptance, foreign-Origin rejection and private-file 404 responses.
 These checks inspected the existing deployment; local fixes were not deployed.
 
 `vercel.json` prepares two Node.js Functions, explicit REST/MCP routes and Gold
-JSON inclusion in both bundles. Other paths return 404. `.vercelignore` excludes
+JSON inclusion in both bundles. The website has an explicit public-file allowlist;
+other paths return 404. `.vercelignore` excludes
 originals, exploration tools, tests and scratch data. Vercel uses deployment-root
 Gold paths to account for relocated bundles. Select Node.js 24 and configure
 `PUBLIC_ORIGIN`; do not use `dist/` as a static hosting output directory.
 
 Keep the Framework Preset **Other**. `outputDirectory` is explicitly `public`,
-which contains only a small English identification page (`public/index.html`).
-This supplies the non-empty static output directory Vercel requires; application
-source, `dist/` and original datasets are not static assets. Existing routes are
-unchanged, so the final 404 rule still applies to `/` and `/index.html`.
+containing the homepage, Scalar shell, generated documentation and small CSS/JS
+assets. Only `/`, `/docs`, `/mcp-docs`, `/openapi.json`, `/styles.css` and `/docs.js`
+are added to the public routing allowlist for GET/HEAD. Application source,
+`dist/` and complete original/Gold datasets are not static assets; documentation
+contains only bounded examples with their attribution. The two function
+definitions, Gold inclusion, execution limits and domain settings are unchanged.
 
 After the next owner-authorized deployment, rerun Inspector's strict tools/list
-check and verify the fix on the remote endpoint. Preview environment-variable
+check and verify the fix on the remote endpoint. Also verify all four website
+routes, the Scalar CDN load, a same-origin address request and private-file 404s.
+The website changes have only been checked locally. Preview environment-variable
 scope, generated bundles, cold starts, function logs and platform protections
 still require dashboard/preview verification. Local tests do not verify a new
 deployment. Both functions retain a 15-second limit; the only request-time
