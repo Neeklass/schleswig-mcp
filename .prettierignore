@@ -4,3 +4,5 @@ coverage/
 .vitest/
 .scratchpad/
 package-lock.json
+data/imported/
+AGENTS.md

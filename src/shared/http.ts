@@ -1,14 +1,16 @@
 import { createServer } from 'node:http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { toNodeHandler } from '@modelcontextprotocol/node';
 import {
-  localhostHostValidation,
-  localhostOriginValidation,
-  toNodeHandler,
-} from '@modelcontextprotocol/node';
+  localhostAllowedHostnames,
+  localhostAllowedOrigins,
+  validateHostHeader,
+  validateOriginHeader,
+} from '@modelcontextprotocol/server';
 import { publicError } from './errors.ts';
-import { createWaterLevelMcp } from './mcp.ts';
-import { getSchleswigWaterLevel } from './water-level.ts';
-import type { GetWaterLevel } from './water-level.ts';
+import { createWaterLevelMcp } from '../mcp/mcp.ts';
+import { getSchleswigWaterLevel } from '../modules/water-level.ts';
+import type { GetWaterLevel } from '../modules/water-level.ts';
 
 export const API_PATH = '/api/v1/schleswig/water-level';
 
@@ -25,13 +27,37 @@ export function createApp(
 ) {
   const mcp = createWaterLevelMcp(getWaterLevel);
   const handleMcp = toNodeHandler(mcp, { maxRequestBodySize: 64 * 1_024 });
-  const validateHost = localhostHostValidation();
-  const validateOrigin = localhostOriginValidation();
+  const allowedHosts = localhostAllowedHostnames();
+  const allowedOrigins = localhostAllowedOrigins();
 
   async function handle(request: IncomingMessage, response: ServerResponse) {
-    if (!validateHost(request, response) || !validateOrigin(request, response))
+    let path: string;
+    try {
+      path = new URL(request.url ?? '/', 'http://127.0.0.1').pathname;
+    } catch {
+      json(response, 400, {
+        error: { code: 'BAD_REQUEST', message: 'Invalid request target.' },
+      });
       return;
-    const path = new URL(request.url ?? '/', 'http://127.0.0.1').pathname;
+    }
+    const rejected = [
+      validateHostHeader(request.headers.host, allowedHosts),
+      validateOriginHeader(request.headers.origin, allowedOrigins),
+    ].find((result) => !result.ok);
+    if (rejected && !rejected.ok) {
+      json(
+        response,
+        403,
+        path === '/mcp'
+          ? {
+              jsonrpc: '2.0',
+              error: { code: -32000, message: rejected.message },
+              id: null,
+            }
+          : { error: { code: 'FORBIDDEN', message: rejected.message } },
+      );
+      return;
+    }
     if (path === '/mcp') {
       const mcpRequest = Object.assign(request, {
         method: request.method ?? 'GET',

@@ -5,11 +5,11 @@ import {
   StreamableHTTPClientTransport,
 } from '@modelcontextprotocol/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { WaterLevelError } from '../src/errors.ts';
-import type { ErrorCode } from '../src/errors.ts';
-import { API_PATH, createApp } from '../src/http.ts';
-import { getSchleswigWaterLevel } from '../src/water-level.ts';
-import type { GetWaterLevel } from '../src/water-level.ts';
+import { WaterLevelError } from '../src/shared/errors.ts';
+import type { ErrorCode } from '../src/shared/errors.ts';
+import { API_PATH, createApp } from '../src/shared/http.ts';
+import { getSchleswigWaterLevel } from '../src/modules/water-level.ts';
+import type { GetWaterLevel } from '../src/modules/water-level.ts';
 import { NOW, stationFixture } from './fixtures.ts';
 
 const apps: ReturnType<typeof createApp>[] = [];
@@ -166,6 +166,62 @@ describe('HTTP API and MCP', () => {
       arguments: { station: 'other' },
     });
     expect(result.isError).toBe(true);
+    expect(getWaterLevel).not.toHaveBeenCalled();
+  });
+
+  it('keeps REST access errors in the REST envelope and MCP access errors in JSON-RPC', async () => {
+    const getWaterLevel = vi.fn<GetWaterLevel>();
+    const base = await start(getWaterLevel);
+    for (const header of ['Host', 'Origin']) {
+      const value = header === 'Host' ? 'example.com' : 'https://example.com';
+      for (const path of [API_PATH, '/mcp']) {
+        const result = await new Promise<{
+          status: number | undefined;
+          body: unknown;
+        }>((resolve, reject) => {
+          get(
+            `${base}${path}`,
+            { headers: { [header]: value } },
+            (response) => {
+              let body = '';
+              response.on('data', (chunk: Buffer) => {
+                body += chunk.toString();
+              });
+              response.on('end', () =>
+                resolve({
+                  status: response.statusCode,
+                  body: JSON.parse(body) as unknown,
+                }),
+              );
+            },
+          ).on('error', reject);
+        });
+        expect(result.status).toBe(403);
+        expect(result.body).toMatchObject(
+          path === '/mcp'
+            ? { jsonrpc: '2.0', error: { code: -32000 }, id: null }
+            : { error: { code: 'FORBIDDEN' } },
+        );
+        if (path === API_PATH)
+          expect(result.body).not.toHaveProperty('jsonrpc');
+      }
+    }
+    expect(getWaterLevel).not.toHaveBeenCalled();
+  });
+
+  it('classifies an invalid request target as a client error', async () => {
+    const getWaterLevel = vi.fn<GetWaterLevel>();
+    const base = new URL(await start(getWaterLevel));
+    const status = await new Promise<number | undefined>((resolve, reject) => {
+      get(
+        { hostname: base.hostname, port: base.port, path: '//[' },
+        (response) => {
+          response.resume();
+          resolve(response.statusCode);
+        },
+      ).on('error', reject);
+    });
+    expect(status).toBe(400);
     expect(getWaterLevel).not.toHaveBeenCalled();
   });
 

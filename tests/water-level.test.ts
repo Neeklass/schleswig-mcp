@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
-import { SOURCE_URL } from '../src/pegelonline.ts';
+import { SOURCE_URL } from '../src/providers/pegelonline.ts';
 import {
   getSchleswigWaterLevel,
   waterLevelSchema,
-} from '../src/water-level.ts';
+} from '../src/modules/water-level.ts';
 import { NOW, stationFixture } from './fixtures.ts';
 
 function fetchJson(body: unknown, status = 200) {

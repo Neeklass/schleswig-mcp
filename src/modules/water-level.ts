@@ -1,11 +1,10 @@
 import { z } from 'zod';
-import { WaterLevelError } from './errors.ts';
+import { WaterLevelError } from '../shared/errors.ts';
 import {
   fetchSchleswigMeasurement,
-  SOURCE_URL,
   STATION_ID,
-} from './pegelonline.ts';
-import type { PegelonlineOptions } from './pegelonline.ts';
+} from '../providers/pegelonline.ts';
+import type { PegelonlineOptions } from '../providers/pegelonline.ts';
 
 export const STALE_AFTER_SECONDS = 15 * 60;
 export const FUTURE_TOLERANCE_SECONDS = 60;
@@ -39,15 +38,15 @@ export const waterLevelSchema = z.object({
 });
 
 export type WaterLevel = z.infer<typeof waterLevelSchema>;
+export type WaterLevelReading = Omit<WaterLevel, 'freshness'>;
 export type GetWaterLevel = () => Promise<WaterLevel>;
 
 export async function getSchleswigWaterLevel(
   options: PegelonlineOptions & { now?: () => Date } = {},
 ): Promise<WaterLevel> {
-  const { station, timeseries, measurement } =
-    await fetchSchleswigMeasurement(options);
+  const reading = await fetchSchleswigMeasurement(options);
   const fetchedAt = (options.now ?? (() => new Date()))();
-  const ageMs = fetchedAt.getTime() - Date.parse(measurement.timestamp);
+  const ageMs = fetchedAt.getTime() - Date.parse(reading.measurement.timestamp);
   if (ageMs < -FUTURE_TOLERANCE_SECONDS * 1_000) {
     throw new WaterLevelError('INVALID_UPSTREAM_RESPONSE');
   }
@@ -55,39 +54,18 @@ export async function getSchleswigWaterLevel(
   const isStale = ageMs > STALE_AFTER_SECONDS * 1_000;
   const notices = [
     'Water level relative to the station gauge zero; this is not water depth.',
-    'PEGELONLINE provides unvalidated raw measurements.',
+    ...reading.notices,
   ];
   if (isStale)
     notices.push('The latest available measurement is older than 15 minutes.');
-  const sourceComment =
-    timeseries.comment?.longDescription || timeseries.comment?.shortDescription;
-  if (sourceComment)
-    notices.push(`PEGELONLINE station notice: ${sourceComment}`);
-
-  return {
-    station: {
-      id: station.uuid,
-      number: station.number,
-      name: station.longname,
-      water: station.water.longname,
-    },
-    measurement: {
-      ...measurement,
-      unit: timeseries.unit,
-      reference: 'gauge_zero',
-    },
+  return waterLevelSchema.parse({
+    ...reading,
     freshness: {
       fetchedAt: fetchedAt.toISOString(),
       ageSeconds,
       isStale,
       staleAfterSeconds: STALE_AFTER_SECONDS,
     },
-    source: {
-      name: 'PEGELONLINE',
-      url: SOURCE_URL,
-      license: 'DL-DE-Zero-2.0',
-      licenseUrl: 'https://www.govdata.de/dl-de/zero-2-0',
-    },
     notices,
-  };
+  });
 }

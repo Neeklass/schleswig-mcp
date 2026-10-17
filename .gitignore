@@ -3,7 +3,8 @@ dist/
 coverage/
 .vitest/
 .scratchpad/
+data/imported/
 *.log
 .env
 .env.local
-docs/
+AGENTS.md

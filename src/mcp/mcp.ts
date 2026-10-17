@@ -1,8 +1,8 @@
 import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
-import { publicError } from './errors.ts';
-import { waterLevelSchema } from './water-level.ts';
-import type { GetWaterLevel } from './water-level.ts';
+import { publicError } from '../shared/errors.ts';
+import { waterLevelSchema } from '../modules/water-level.ts';
+import type { GetWaterLevel } from '../modules/water-level.ts';
 
 export function createWaterLevelMcp(getWaterLevel: GetWaterLevel) {
   return createMcpHandler(() => {

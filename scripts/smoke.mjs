@@ -3,7 +3,7 @@ import {
   Client,
   StreamableHTTPClientTransport,
 } from '@modelcontextprotocol/client';
-import { waterLevelSchema } from '../dist/water-level.js';
+import { waterLevelSchema } from '../dist/modules/water-level.js';
 
 const base = `http://127.0.0.1:${process.env.PORT ?? '3000'}`;
 const client = new Client({ name: 'schleswig-smoke', version: '1.0.0' });

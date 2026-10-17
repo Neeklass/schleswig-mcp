@@ -1,4 +1,4 @@
-import { STATION_ID } from '../src/pegelonline.ts';
+import { STATION_ID } from '../src/providers/pegelonline.ts';
 
 // Synthetic values in the shape verified against the official station endpoint.
 export function stationFixture() {

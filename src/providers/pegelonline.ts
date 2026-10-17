@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { WaterLevelError } from './errors.ts';
+import { WaterLevelError } from '../shared/errors.ts';
+import type { WaterLevelReading } from '../modules/water-level.ts';
 
 export const STATION_ID = '09370c05-1041-4395-a5d4-b8db6e59c4c8';
 export const SOURCE_URL = `https://pegelonline.wsv.de/webservices/rest-api/v2/stations/${STATION_ID}.json?includeTimeseries=true&includeCurrentMeasurement=true`;
@@ -37,7 +38,7 @@ export interface PegelonlineOptions {
 
 export async function fetchSchleswigMeasurement(
   options: PegelonlineOptions = {},
-) {
+): Promise<WaterLevelReading> {
   const fetchData = options.fetch ?? globalThis.fetch;
   const timeout = AbortSignal.timeout(options.timeoutMs ?? REQUEST_TIMEOUT_MS);
   let response: Response;
@@ -78,9 +79,31 @@ export async function fetchSchleswigMeasurement(
   if (!timeseries.data.currentMeasurement)
     throw new WaterLevelError('MEASUREMENT_UNAVAILABLE');
 
+  const notices = ['PEGELONLINE provides unvalidated raw measurements.'];
+  const sourceComment =
+    timeseries.data.comment?.longDescription ||
+    timeseries.data.comment?.shortDescription;
+  if (sourceComment)
+    notices.push(`PEGELONLINE station notice: ${sourceComment}`);
+
   return {
-    station,
-    timeseries: timeseries.data,
-    measurement: timeseries.data.currentMeasurement,
+    station: {
+      id: station.uuid,
+      number: station.number,
+      name: station.longname,
+      water: station.water.longname,
+    },
+    measurement: {
+      ...timeseries.data.currentMeasurement,
+      unit: timeseries.data.unit,
+      reference: 'gauge_zero',
+    },
+    source: {
+      name: 'PEGELONLINE',
+      url: SOURCE_URL,
+      license: 'DL-DE-Zero-2.0',
+      licenseUrl: 'https://www.govdata.de/dl-de/zero-2-0',
+    },
+    notices,
   };
 }
