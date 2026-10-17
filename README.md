@@ -125,14 +125,21 @@ Zod's closed tuple emitted `items: false`, which is valid JSON Schema but reject
 by some consumers according to [Inspector's portability rules](https://github.com/modelcontextprotocol/inspector/blob/2.11.0/core/json/schemaLint.ts).
 An explicit `z.never()` tuple rest now emits the equivalent `items: { "not": {} }`;
 the two ordered field names remain mandatory and extra items remain forbidden.
-There is no custom schema postprocessor or relaxed validation.
 
-The same Inspector checker reports **zero errors** after this change. Nine
-warnings remain for valid nullable `type` unions in bathing-water, charging and
-population output fields. These are compatibility advisories for narrower
-consumer dialects, not MCP conformance failures. Null values remain distinct
-from omitted properties. No nullable-field workaround is applied merely to
-suppress warnings; see [Inspector's rationale](https://github.com/modelcontextprotocol/inspector/pull/2395).
+For bathing-water, charging and population tools, `mcp/output-schema.ts` adapts
+the SDK's Standard Schema output converter after Zod's final union compaction.
+It expands nullable `type` arrays into equivalent `anyOf` branches, removing
+Inspector's nine remaining portability warnings. It visits schema positions
+only, preserving constraints, references, defaults and examples. The original
+Zod validators, inferred types and input converters remain unchanged; required
+nullable properties still accept explicit null and reject omission. Domain
+models, REST responses and Gold files are unchanged.
+
+Inspector 2.11.0's portability checker reports **zero errors and zero warnings**.
+Both type arrays and `anyOf` are valid JSON Schema 2020-12. Clients that translate
+schemas into narrower dialects may still need their own adaptation: OpenAPI 3.0,
+for example, has no `null` type, so changing the union spelling cannot make it
+fully compatible. See [Inspector's rationale](https://github.com/modelcontextprotocol/inspector/pull/2395).
 
 On Windows with Node.js 24.12.0, Inspector 2.11.0's CLI produced the complete
 zero-error report but then aborted during shutdown with `UV_HANDLE_CLOSING`.

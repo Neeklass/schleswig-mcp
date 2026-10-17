@@ -1,5 +1,6 @@
 import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
+import { mcpOutputSchema } from './output-schema.ts';
 import { publicError } from '../src/shared/errors.ts';
 import {
   getSchleswigWaterLevel,
@@ -107,7 +108,7 @@ export function createSchleswigMcp(
             'Find Schleswig bathing-water reference locations by name or keyword. Does not report current water quality or swimming safety.' +
             listDescription,
           inputSchema: listQuerySchema,
-          outputSchema: bathingWaterPageSchema,
+          outputSchema: mcpOutputSchema(bathingWaterPageSchema),
           annotations,
         },
         (input) => toolResult(() => listSchleswigBathingWaters(input)),
@@ -119,7 +120,7 @@ export function createSchleswigMcp(
             'Find registered Schleswig charging infrastructure by operator, display name or address. Register status is not live connector availability.' +
             listDescription,
           inputSchema: listQuerySchema,
-          outputSchema: chargingStationPageSchema,
+          outputSchema: mcpOutputSchema(chargingStationPageSchema),
           annotations,
         },
         (input) => toolResult(() => listSchleswigChargingStations(input)),
@@ -131,7 +132,7 @@ export function createSchleswigMcp(
             'Read Schleswig population projection indicators and their year values. Search indicator name. Historical inputs and projections must not all be treated as observations. Pagination counts indicators; metadata.recordCount counts source documents.' +
             listDescription,
           inputSchema: listQuerySchema,
-          outputSchema: populationPageSchema,
+          outputSchema: mcpOutputSchema(populationPageSchema),
           annotations,
         },
         (input) => toolResult(() => listSchleswigPopulationForecast(input)),
