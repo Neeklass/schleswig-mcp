@@ -177,6 +177,12 @@ originals, exploration tools, tests and scratch data. Vercel uses deployment-roo
 Gold paths to account for relocated bundles. Select Node.js 24 and configure
 `PUBLIC_ORIGIN`; do not use `dist/` as a static hosting output directory.
 
+Keep the Framework Preset **Other**. `outputDirectory` is explicitly `public`,
+which contains only a small English identification page (`public/index.html`).
+This supplies the non-empty static output directory Vercel requires; application
+source, `dist/` and original datasets are not static assets. Existing routes are
+unchanged, so the final 404 rule still applies to `/` and `/index.html`.
+
 Before production, verify actual bundles, rewrites, domain/origin settings, body
 parsing and platform limits in a preview deployment. Hosted deployment is
 **not verified** by local tests. Platform rate/usage protections remain deployment
