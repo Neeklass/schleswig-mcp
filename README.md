@@ -116,8 +116,8 @@ them directly. Regenerate after changes while the development server is running.
 
 The responsive website uses text-only branding, local REST/MCP/GitHub SVG icons,
 and System, Light and Dark appearance modes. See the
-[maintenance notes](docs/implementation-report.md#website-and-generated-documentation)
-for Scalar initialization, theme behavior and asset handling, and
+[shared browser script](public/docs.js)
+for Scalar initialization and theme behavior, and
 [icon sources](docs/header-icons.md) for credits.
 
 ## Data sources and limitations
@@ -175,10 +175,11 @@ source changes. `npm run check:build` checks packaged execution from an unrelate
 working directory. With the compiled server running, `npm run smoke` separately
 checks live PEGELONLINE through REST and MCP; it is not part of the offline suite.
 
-See [browser verification](docs/implementation-report.md#browser-verification)
-for the existing optional browser smoke tests and
-[data exploration](docs/implementation-report.md#optional-data-exploration) for
-the separate Python notebook workflow.
+The optional [browser smoke test](scripts/check-browser.mjs) and
+[theme checks](scripts/check-theme-browser.mjs) use an isolated Playwright
+installation in `.scratchpad/scalar-browser/` and a server on port 3000.
+The [data exploration notebook](data/exploration.ipynb) is a separate Python
+workflow; review its source selection before running it.
 
 ## Deployment
 
@@ -197,9 +198,9 @@ fragment; applying the production override to previews rejects preview requests.
 Both Functions have a 15-second limit; PEGELONLINE requests have a five-second
 timeout. Originals and local analysis artifacts are excluded by `.vercelignore`.
 Repository files and complete datasets are not public static assets. Local tests
-do not verify a deployment; follow the
-[deployment verification checklist](docs/implementation-report.md#browser-verification)
-after publishing an authorized change.
+do not verify a deployment. After publishing an authorized change, verify the
+website, same-origin REST requests, MCP tool calls and private-file 404 responses
+on the production and preview origins.
 
 ## Attribution and licensing
 

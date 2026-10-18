@@ -38,7 +38,7 @@ optional values and `Keine Angabe` opening hours to null. It retains the source
 opening-hours code, including `247`. Separate weekday/time columns are omitted
 (12 retained installations have source details in those columns).
 
-The [2026-10-17 audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17)
+The 2026-10-17 audit
 compared all 61 retained records, including connector type/power,
 EVSE IDs, public keys, addresses, dates and coordinates, with the original.
 The data array was unchanged. The top-level `recordCount` was moved into metadata;

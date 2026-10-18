@@ -34,7 +34,7 @@ to string `id` for the public domain model without rewriting the Gold records.
 These records contain address text, not spatial coordinates; no coordinate
 reference system applies to the exposed records.
 
-The [2026-10-17 audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17)
+The 2026-10-17 audit
 compared every retained field against the original and corrected two
 unintended text substitutions:
 

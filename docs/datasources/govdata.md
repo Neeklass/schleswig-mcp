@@ -36,7 +36,7 @@ Evidenced manual preparation selected Schleswig, selected/renamed attributes,
 converted numeric/date strings, split keywords, converted empty optional values
 to null, and removed trailing `<br><br>` from the Luisenbad description. Coordinate
 numbers were retained without transformation. The
-[2026-10-17 audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17)
+2026-10-17 audit
 compared retained fields to the original; the data array was unchanged. Incorrect monument ID,
 title, description, provider, publisher, URL and attribution were replaced.
 

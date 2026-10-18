@@ -29,7 +29,7 @@ coordinates in ETRS89 / UTM zone 32N (EPSG:25832). The accompanying notes give
 Gold: [`data/curated/geodata-sh/addresses.json`](../../data/curated/geodata-sh/addresses.json),
 **7,619 addresses**, 7,619 unique OIDs and 310 distinct source street names.
 The data array was unchanged during the
-[2026-10-17 architecture audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17).
+2026-10-17 architecture audit.
 
 | Gold field              | Source/rule                          |
 | ----------------------- | ------------------------------------ |
