@@ -1,11 +1,21 @@
 import { once } from 'node:events';
-import { readdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { readFile, readdir } from 'node:fs/promises';
+import { runInNewContext } from 'node:vm';
 import {
   Client,
   fromJsonSchema,
   StreamableHTTPClientTransport,
 } from '@modelcontextprotocol/client';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { z } from 'zod';
 import { createApp } from '../src/app.ts';
 import {
@@ -77,12 +87,39 @@ describe('public website', () => {
     },
   );
   it('keeps only explicitly published files in public/', async () => {
-    const files = await readdir(new URL('../public/', import.meta.url));
-    expect(files.sort()).toEqual(
-      Object.values(websiteFiles)
-        .map(({ file }) => file)
-        .sort(),
+    const files = await readdir(new URL('../public/', import.meta.url), {
+      recursive: true,
+    });
+    expect(files.map((file) => file.replaceAll('\\', '/')).sort()).toEqual(
+      ['icons', ...Object.values(websiteFiles).map(({ file }) => file)].sort(),
     );
+  });
+  it('serves self-contained local icons and preserves the official MCP geometry', async () => {
+    for (const name of ['rest-api', 'mcp', 'github']) {
+      const response = await fetch(`${base}/icons/${name}.svg`);
+      expect(response.headers.get('content-type')).toBe(
+        'image/svg+xml; charset=utf-8',
+      );
+      const svg = await response.text();
+      expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
+      expect(svg).not.toMatch(/<(?:script|image|use|foreignObject)\b|\bhref=/);
+      expect(
+        (await fetch(`${base}/icons/${name}.svg`, { method: 'POST' })).status,
+      ).toBe(405);
+      if (name === 'mcp') {
+        expect(svg).toContain('viewBox="0 0 195 195"');
+        const paths = [...svg.matchAll(/\bd="([^"]+)"/g)].map(
+          (match) => match[1],
+        );
+        expect(paths).toHaveLength(3);
+        // Fingerprint of the three unmodified official symbol paths, without wordmark.
+        expect(
+          createHash('sha256').update(JSON.stringify(paths)).digest('hex'),
+        ).toBe(
+          '5518a898a1cffb5968b4dfbebed8b7db405a3a73d134312eb39dd62165ec7023',
+        );
+      }
+    }
   });
   it.each([
     '/src/index.ts',
@@ -94,6 +131,12 @@ describe('public website', () => {
     '/.env',
     '/vercel.json',
     '/package.json',
+    '/schleswig-logo.png',
+    '/icons',
+    '/icons/other.svg',
+    '/icons/mcpXsvg',
+    '/icons/mcp.svg/extra',
+    '/icons/%2e%2e%2fpackage.json',
     '/__proto__',
     '/%2e%2e%2fpackage.json',
   ])('does not expose %s', async (path) => {
@@ -117,12 +160,117 @@ describe('public website', () => {
     for (const path of ['/docs', '/mcp-docs', '/openapi.json'])
       expect(home).toContain(`href="${path}"`);
     const html = await (await fetch(`${base}/docs`)).text();
-    expect(html).toContain('id="api-reference"');
+    expect(html).toContain('id="rest-reference"');
+    // Scalar's standalone ESM also auto-mounts the legacy ID, creating an
+    // unconfigured second instance with permanent introduction skeletons.
+    expect(html).not.toMatch(/id="api-reference"|data-spec(?:-url)?=/);
+    expect(html).toContain('href="#rest-reference"');
     expect(html).toContain('src="/docs.js"');
     const js = await (await fetch(`${base}/docs.js`)).text();
     expect(js).toContain('@scalar/api-reference@1.75.0/esm.js');
-    expect(js).toContain("url: '/openapi.json'");
+    expect(js).toContain("fetch('/openapi.json'");
     expect(js).not.toContain('proxyUrl');
+  });
+  it('keeps the homepage source note and request example concise', async () => {
+    const html = await (await fetch(`${base}/`)).text();
+    const sources = html.match(
+      /<section aria-labelledby="sources">([\s\S]*?)<\/section>/,
+    )![1]!;
+    expect(sources.match(/<p>/g)).toHaveLength(1);
+    expect(sources.replace(/\s+/g, ' ')).toContain(
+      'Data comes from public sources. Responses include source, license, date, and limitation information. Most datasets are snapshots; only water levels are retrieved live.',
+    );
+    expect(sources).not.toContain('<a');
+    const request = html.match(
+      /<section aria-labelledby="example-requests">([\s\S]*?)<\/section>/,
+    )![1]!;
+    expect(request).toContain('Start with a request');
+    expect(request).toContain(
+      'Dataset lists default to 20 records and allow at most 100 per request.',
+    );
+    expect(request).toContain(
+      'GET /api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5',
+    );
+    expect(request).toContain('GET /api/v1/schleswig/water-level');
+    const afterCode = request.split('</pre>')[1]!;
+    expect(afterCode.replace(/<[^>]+>/g, '').trim()).toBe(
+      'View the address example',
+    );
+    expect(afterCode).toContain(
+      'href="/api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5"',
+    );
+    const response = await fetch(
+      `${base}/api/v1/schleswig/addresses?q=Abelsteg&limit=5`,
+    );
+    expect(response.status).toBe(200);
+  });
+  it.each(['/', '/docs', '/mcp-docs'])(
+    'provides independent text branding and accessible navigation on %s',
+    async (path) => {
+      const html = await (await fetch(`${base}${path}`)).text();
+      expect(html).toMatch(
+        /class="site-wordmark" href="\/"[^>]*>Schleswig MCP</,
+      );
+      expect(html).toContain('class="site-nav" aria-label="Main navigation"');
+      expect(html).toContain('aria-current="page"');
+      expect(html).toContain('class="skip-link"');
+      expect(html).toContain('tabindex="-1"');
+      expect(html.replace(/\s+/g, ' ')).toContain(
+        'Not operated or endorsed by the City of Schleswig.',
+      );
+      expect(html).not.toMatch(/<img\b|schleswig-logo/);
+      const repositoryLinks = html.match(
+        /href="https:\/\/github\.com\/Neeklass\/schleswig-mcp[^"\s]*"/g,
+      );
+      expect(repositoryLinks).toEqual([
+        'href="https://github.com/Neeklass/schleswig-mcp"',
+      ]);
+      const nav = html.match(
+        /<nav class="site-nav"[^>]*>([\s\S]*?)<\/nav>/,
+      )![1]!;
+      for (const [href, label, icon] of [
+        ['/docs', 'REST API documentation', 'rest-api'],
+        ['/mcp-docs', 'MCP documentation', 'mcp'],
+        [
+          'https://github.com/Neeklass/schleswig-mcp',
+          'GitHub repository',
+          'github',
+        ],
+      ]) {
+        const link = nav.match(
+          new RegExp(`<a\\s+href="${href}"[^>]*>([\\s\\S]*?)<\\/a\\s*>`),
+        )!;
+        expect(link[0]).toContain(`aria-label="${label}"`);
+        expect(link[0]).toContain(`title="${label}"`);
+        expect(link[1]).toContain('aria-hidden="true"');
+        expect(link[1]).toContain(`class="site-icon site-icon-${icon}"`);
+        expect(link[1]).not.toMatch(/<svg|<path|<img/);
+        expect(link[1]!.replace(/<!--[\s\S]*?-->|<[^>]*>/g, '').trim()).toBe(
+          '',
+        );
+      }
+      expect(nav).toContain('id="theme-control"');
+      expect(nav).toContain('type="button"');
+      expect(html).toMatch(
+        /<script src="\/docs.js"><\/script>\s*<link rel="stylesheet"/,
+      );
+      expect(html.match(/src="\/docs.js"/g)).toHaveLength(1);
+    },
+  );
+  it('keeps editorial styles outside the full-width Scalar mount', async () => {
+    const css = await (await fetch(`${base}/styles.css`)).text();
+    // Unlayered element selectors override Scalar's layered component styles.
+    expect(css).not.toMatch(
+      /(?:^|[},])\s*(?:nav|a|code|pre|table|th|td|summary|main|header|h1|h2|p|\*)\s*[{,:]/m,
+    );
+    const html = await (await fetch(`${base}/docs`)).text();
+    expect(html).toMatch(
+      /<\/section>\s*<main\s+id="rest-reference"[^>]*><\/main>/,
+    );
+    expect(html).toContain('role="status"');
+    expect(html).toContain('aria-live="polite"');
+    expect(html).toContain('Reload the reference');
+    expect(html).toContain('requires JavaScript');
   });
   it('serves the current generated OpenAPI and MCP examples', async () => {
     expect(await (await fetch(`${base}/openapi.json`)).json()).toEqual(
@@ -158,7 +306,297 @@ describe('public website', () => {
   });
 });
 
+describe('Scalar loading feedback', () => {
+  afterEach(() => vi.useRealTimers());
+
+  async function runLoader(
+    options: {
+      response?: Response;
+      fetchError?: boolean;
+      importError?: boolean;
+      mountError?: boolean;
+      stalledImport?: boolean;
+      systemDark?: boolean;
+      stored?: string;
+      storageBlocked?: boolean;
+      noReference?: boolean;
+    } = {},
+  ) {
+    vi.useFakeTimers();
+    const elements = Object.fromEntries(
+      ['docs-status', 'docs-feedback', 'rest-reference', 'theme-control'].map(
+        (id) => [
+          id,
+          {
+            hidden: false,
+            textContent: '',
+            title: '',
+            setAttribute: vi.fn(),
+            addEventListener: vi.fn(),
+            classList: { toggle: vi.fn() },
+          },
+        ],
+      ),
+    );
+    type Configuration = {
+      content: typeof document;
+      onLoaded: () => void;
+      darkMode: boolean;
+    };
+    const createApiReference = vi.fn<
+      (selector: string, configuration: Configuration) => void
+    >(() => {
+      if (options.mountError) throw new Error('Synthetic mount failure.');
+    });
+    const fetchDocument = vi.fn(() =>
+      options.fetchError
+        ? Promise.reject(new Error('Synthetic network failure.'))
+        : Promise.resolve(options.response ?? Response.json(document)),
+    );
+    const loadScalar = vi.fn(() => {
+      if (options.importError)
+        return Promise.reject(new Error('CDN unavailable.'));
+      if (options.stalledImport) return new Promise(() => {});
+      return Promise.resolve({ createApiReference });
+    });
+    const source = await readFile(
+      new URL('../public/docs.js', import.meta.url),
+      'utf8',
+    );
+    // Execute the shipped loader offline; substitute only the remote module boundary.
+    const offlineSource = source.replace(
+      /import\('https:\/\/cdn\.jsdelivr\.net\/npm\/@scalar\/api-reference@[^']+'\)/,
+      'loadScalar()',
+    );
+    expect(offlineSource).not.toBe(source);
+    const root = {
+      dataset: {} as Record<string, string>,
+      style: {} as Record<string, string>,
+    };
+    const ready = vi.fn();
+    const system = {
+      matches: options.systemDark ?? false,
+      addEventListener: vi.fn(),
+    };
+    const storage = {
+      getItem: vi.fn(() => {
+        if (options.storageBlocked) throw new Error('Blocked');
+        return options.stored ?? null;
+      }),
+      setItem: vi.fn(() => {
+        if (options.storageBlocked) throw new Error('Blocked');
+      }),
+      removeItem: vi.fn(() => {
+        if (options.storageBlocked) throw new Error('Blocked');
+      }),
+    };
+    const windowEvents = vi.fn();
+    runInNewContext(offlineSource, {
+      document: {
+        documentElement: root,
+        addEventListener: ready,
+        getElementById: (id: string) =>
+          options.noReference && id === 'rest-reference' ? null : elements[id],
+      },
+      window: {
+        matchMedia: () => system,
+        localStorage: storage,
+        addEventListener: windowEvents,
+      },
+      fetch: fetchDocument,
+      AbortSignal,
+      setTimeout,
+      clearTimeout,
+      loadScalar,
+    });
+    const initial = { ...root.dataset };
+    const pending = (ready.mock.calls[0]![1] as () => Promise<void>)();
+    const click = () =>
+      (
+        elements['theme-control']!.addEventListener.mock
+          .calls[0]![1] as () => void
+      )();
+    const systemChange = (dark: boolean) => {
+      system.matches = dark;
+      (system.addEventListener.mock.calls[0]![1] as () => void)();
+    };
+    return {
+      elements,
+      createApiReference,
+      fetchDocument,
+      pending,
+      root,
+      initial,
+      click,
+      systemChange,
+      storage,
+      windowEvents,
+    };
+  }
+
+  it('waits for Scalar onLoaded and passes the complete same-origin document', async () => {
+    const loader = await runLoader();
+    await loader.pending;
+    expect(loader.fetchDocument.mock.calls).toHaveLength(1);
+    expect(loader.createApiReference).toHaveBeenCalledWith(
+      '#rest-reference',
+      expect.objectContaining({
+        content: document,
+        showSidebar: true,
+        withDefaultFonts: false,
+      }),
+    );
+    expect(loader.elements['docs-feedback']!.hidden).toBe(false);
+    expect(loader.elements['docs-status']!.textContent).toContain('Loading');
+    loader.createApiReference.mock.calls[0]![1].onLoaded();
+    expect(loader.elements['docs-feedback']!.hidden).toBe(true);
+    expect(
+      loader.elements['rest-reference']!.setAttribute,
+    ).toHaveBeenLastCalledWith('aria-busy', 'false');
+    await vi.advanceTimersByTimeAsync(20000);
+    expect(loader.elements['docs-feedback']!.hidden).toBe(true);
+  });
+
+  it.each([false, true])(
+    'applies system preference before DOMContentLoaded: dark=%s',
+    async (systemDark) => {
+      const loader = await runLoader({ systemDark, noReference: true });
+      await loader.pending;
+      expect(loader.initial).toEqual({
+        themeMode: 'system',
+        theme: systemDark ? 'dark' : 'light',
+      });
+      expect(loader.fetchDocument).not.toHaveBeenCalled();
+      expect(loader.createApiReference).not.toHaveBeenCalled();
+      loader.systemChange(!systemDark);
+      expect(loader.root.dataset.theme).toBe(systemDark ? 'light' : 'dark');
+    },
+  );
+
+  it.each(['light', 'dark'])(
+    'restores explicit %s and ignores system changes',
+    async (stored) => {
+      const loader = await runLoader({
+        stored,
+        systemDark: stored === 'light',
+      });
+      await loader.pending;
+      expect(loader.initial).toEqual({ themeMode: stored, theme: stored });
+      loader.systemChange(false);
+      loader.systemChange(true);
+      expect(loader.root.dataset.theme).toBe(stored);
+      expect(loader.createApiReference.mock.calls[0]![1].darkMode).toBe(
+        stored === 'dark',
+      );
+    },
+  );
+
+  it.each([false, true])(
+    'cycles and synchronizes one Scalar instance when storage is blocked=%s',
+    async (storageBlocked) => {
+      const loader = await runLoader({ storageBlocked });
+      await loader.pending;
+      loader.createApiReference.mock.calls[0]![1].onLoaded();
+      loader.click();
+      expect(loader.storage.setItem).toHaveBeenLastCalledWith(
+        'schleswig-theme',
+        'light',
+      );
+      loader.click();
+      expect(loader.root.dataset.theme).toBe('dark');
+      expect(loader.storage.setItem).toHaveBeenLastCalledWith(
+        'schleswig-theme',
+        'dark',
+      );
+      expect(
+        loader.elements['rest-reference']!.classList.toggle,
+      ).toHaveBeenCalledWith('dark-mode', true);
+      expect(
+        loader.elements['rest-reference']!.classList.toggle,
+      ).toHaveBeenLastCalledWith('light-mode', false);
+      expect(loader.elements['theme-control']!.title).toBe(
+        'Theme: Dark. Switch to System.',
+      );
+      loader.click();
+      expect(loader.storage.removeItem).toHaveBeenCalledWith('schleswig-theme');
+      expect(loader.root.dataset.themeMode).toBe('system');
+      loader.systemChange(true);
+      expect(loader.root.dataset.theme).toBe('dark');
+      expect(loader.createApiReference).toHaveBeenCalledTimes(1);
+    },
+  );
+
+  it('ignores invalid stored values and follows changes from another tab', async () => {
+    const loader = await runLoader({ stored: 'invalid', noReference: true });
+    await loader.pending;
+    expect(loader.initial.themeMode).toBe('system');
+    const storageChanged = loader.windowEvents.mock.calls[0]![1] as (event: {
+      key: string | null;
+      newValue: string | null;
+    }) => void;
+    storageChanged({ key: 'schleswig-theme', newValue: 'dark' });
+    expect(loader.root.dataset.theme).toBe('dark');
+    storageChanged({ key: null, newValue: null });
+    expect(loader.root.dataset.themeMode).toBe('system');
+  });
+
+  it.each([
+    { importError: true },
+    { fetchError: true },
+    { response: new Response('Unavailable', { status: 503 }) },
+    { response: new Response('<html>Not JSON</html>') },
+    { response: Response.json(null) },
+    { response: Response.json({ openapi: '3.1.0', paths: {} }) },
+    { mountError: true },
+  ])(
+    'reports loading failures without exposing internal errors: %j',
+    async (options) => {
+      const loader = await runLoader(options);
+      await loader.pending;
+      expect(loader.elements['docs-feedback']!.hidden).toBe(false);
+      expect(loader.elements['docs-status']!.textContent).toContain(
+        'could not load',
+      );
+      expect(loader.elements['docs-status']!.textContent).not.toContain(
+        'Synthetic',
+      );
+      expect(
+        loader.elements['rest-reference']!.setAttribute,
+      ).toHaveBeenLastCalledWith('aria-busy', 'false');
+      expect(vi.getTimerCount()).toBe(0);
+    },
+  );
+
+  it('reports a stalled CDN import after twenty seconds', async () => {
+    const loader = await runLoader({ stalledImport: true });
+    await vi.advanceTimersByTimeAsync(20000);
+    expect(loader.elements['docs-status']!.textContent).toContain(
+      'could not load',
+    );
+    expect(loader.createApiReference).not.toHaveBeenCalled();
+  });
+
+  it('reports an asynchronous render stall and recovers from a late load', async () => {
+    const loader = await runLoader();
+    await loader.pending;
+    await vi.advanceTimersByTimeAsync(20000);
+    expect(loader.elements['docs-status']!.textContent).toContain(
+      'could not load',
+    );
+    loader.createApiReference.mock.calls[0]![1].onLoaded();
+    expect(loader.elements['docs-feedback']!.hidden).toBe(true);
+    expect(loader.elements['docs-status']!.textContent).toBe(
+      'API reference loaded.',
+    );
+  });
+});
+
 describe('OpenAPI contract', () => {
+  it('does not add repository deep links to public documentation', () => {
+    expect(JSON.stringify(document)).not.toMatch(
+      /https:\/\/github\.com\/Neeklass\/schleswig-mcp\//,
+    );
+  });
   it('uses OpenAPI 3.1 with a relative server and exactly six GET operations', () => {
     expect(document.openapi).toBe('3.1.0');
     expect(document.jsonSchemaDialect).toBe(

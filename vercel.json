@@ -54,6 +54,33 @@
       "methods": ["GET", "HEAD"],
       "headers": { "X-Content-Type-Options": "nosniff" }
     },
+    {
+      "src": "/icons/rest-api\\.svg",
+      "dest": "/icons/rest-api.svg",
+      "methods": ["GET", "HEAD"],
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "image/svg+xml; charset=utf-8"
+      }
+    },
+    {
+      "src": "/icons/mcp\\.svg",
+      "dest": "/icons/mcp.svg",
+      "methods": ["GET", "HEAD"],
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "image/svg+xml; charset=utf-8"
+      }
+    },
+    {
+      "src": "/icons/github\\.svg",
+      "dest": "/icons/github.svg",
+      "methods": ["GET", "HEAD"],
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "image/svg+xml; charset=utf-8"
+      }
+    },
     { "src": "/.*", "status": 404 }
   ]
 }

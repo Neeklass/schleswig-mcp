@@ -1,6 +1,6 @@
 # PEGELONLINE water-level data
 
-Status: **technically retrievable and integrated into the public HTTP API and MCP**.
+Status: **live integration through the REST API and MCP**.
 This document corresponds to [`src/providers/pegelonline.ts`](../../src/providers/pegelonline.ts).
 The provider represents PEGELONLINE and can supply multiple modules; its only
 current consumer is [`src/modules/water-level.ts`](../../src/modules/water-level.ts).
@@ -39,8 +39,8 @@ Verified against the live REST API on **2026-10-14**:
 | Reported measurement interval      | 1 minute                               |
 
 The [station endpoint](https://pegelonline.wsv.de/webservices/rest-api/v2/stations/09370c05-1041-4395-a5d4-b8db6e59c4c8.json?includeTimeseries=true&includeCurrentMeasurement=true)
-returns station metadata and `timeseries`, including the unit and
-`currentMeasurement.timestamp` / `currentMeasurement.value`. This gives the MVP all
+returns JSON station metadata and `timeseries`, including the unit and
+`currentMeasurement.timestamp` / `currentMeasurement.value`. This gives the service all
 required information in one request. Discovery used `stations.json?fuzzyId=schleswig`;
 runtime requests use the immutable UUID, as recommended by the
 [official REST guide](https://pegelonline.wsv.de/webservice/guideRestapi).
@@ -48,9 +48,11 @@ runtime requests use the immutable UUID, as recommended by the
 ## Meaning and limitations
 
 The reading is a water level relative to the station's gauge zero, not water depth.
-The MVP does not convert it into an elevation, navigation depth, flood warning, or
+The service does not convert it into an elevation, navigation depth, flood warning, or
 safety assessment. It preserves the supplied unit and timestamp. The source also
-provides gauge-zero metadata; this MVP does not use it for conversions.
+provides gauge-zero metadata; the service does not use it for conversions.
+The public response contains no spatial coordinates. `gauge_zero` describes the
+measurement reference, not a geographic coordinate reference system.
 
 The API documents timezone-qualified timestamps and a measurement interval in
 minutes. See the [official response documentation](https://pegelonline.wsv.de/webservice/dokuRestapi).
@@ -68,7 +70,7 @@ PEGELONLINE identifies the data license as **Data licence Germany – Zero –
 Version 2.0 (DL-DE-Zero-2.0)** in its
 [source overview](https://pegelonline.wsv.de/webservice/ueberblick).
 The authoritative [license text is available from GovData](https://www.govdata.de/dl-de/zero-2-0).
-License references checked on **2026-10-17**. The license permits reuse without
+License references checked on **2026-10-18**. The license permits reuse without
 conditions, including without a mandatory attribution notice.
 
 Every successful response includes PEGELONLINE's name, the exact source endpoint,

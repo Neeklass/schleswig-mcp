@@ -4,18 +4,92 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MCP documentation — Schleswig MCP</title>
+    <script src="/docs.js"></script>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <div class="page">
+  <body class="site-body">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header site-shell">
+      <a class="site-wordmark" href="/">Schleswig MCP</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a
+          href="/docs"
+          aria-label="REST API documentation"
+          title="REST API documentation"
+          ><span class="site-icon site-icon-rest-api" aria-hidden="true"></span
+        ></a>
+        <a
+          href="/mcp-docs"
+          aria-label="MCP documentation"
+          title="MCP documentation"
+          aria-current="page"
+          ><span class="site-icon site-icon-mcp" aria-hidden="true"></span
+        ></a>
+        <a
+          href="https://github.com/Neeklass/schleswig-mcp"
+          aria-label="GitHub repository"
+          title="GitHub repository"
+          ><span
+            class="site-icon site-icon-github"
+            aria-hidden="true"
+          ></span></a
+        ><button
+          class="theme-control"
+          type="button"
+          id="theme-control"
+          aria-label="Theme: System. Switch to Light."
+          title="Theme: System. Switch to Light."
+          hidden
+        >
+          <svg
+            data-theme-icon="system"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="4" width="18" height="13" rx="2" />
+            <path d="M8 21h8m-4-4v4" />
+          </svg>
+          <svg
+            data-theme-icon="light"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"
+            />
+          </svg>
+          <svg
+            data-theme-icon="dark"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+    <main
+      class="site-content site-shell site-reading"
+      id="main-content"
+      tabindex="-1"
+    >
       <header>
-        <nav aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="/docs">REST API documentation</a>
-          <a href="/mcp-docs" aria-current="page">MCP documentation</a>
-          <a href="/openapi.json">OpenAPI specification</a>
-          <a href="https://github.com/Neeklass/schleswig-mcp">GitHub</a>
-        </nav>
+        <p class="site-kicker">Model Context Protocol · Streamable HTTP</p>
         <h1>MCP documentation</h1>
         <p>
           Six read-only tools provide public data about Schleswig city, Germany
@@ -23,54 +97,68 @@
           functions and return the same domain data.
         </p>
       </header>
-      <main>
-        <h2>Connect</h2>
-        <p>
-          Public endpoint:
-          <code>https://schleswig-mcp-data-seven.vercel.app/mcp</code>.
-          Transport: <strong>Streamable HTTP</strong>. No API key is required.
-        </p>
-        <p>
-          The service is stateless. Use an MCP client to initialize, discover
-          tools and call them over POST. GET and DELETE return HTTP 405 because
-          there is no standalone SSE notification stream or stored session to
-          delete. Opening <code>/mcp</code> in a browser is not a connection
-          test.
-        </p>
-        <h3>MCP Inspector</h3>
-        <pre><code>npx @modelcontextprotocol/inspector@2.11.0</code></pre>
-        <ol>
-          <li>Open the local Inspector URL printed by the command.</li>
-          <li>
-            Select Streamable HTTP and enter the public endpoint above. Use
-            Inspector's proxy connection mode so requests originate from its
-            local backend; direct cross-origin browser requests are rejected.
-          </li>
-          <li>
-            Connect, list tools, then run
-            <code>list_schleswig_addresses</code> with
-            <code>{"limit": 1}</code>.
-          </li>
-        </ol>
-        <p>CLI discovery:</p>
-        <pre><code>npx @modelcontextprotocol/inspector@2.11.0 --cli https://schleswig-mcp-data-seven.vercel.app/mcp --transport http --method tools/list</code></pre>
-        <p>
-          See the
-          <a href="https://modelcontextprotocol.io/docs/tools/inspector"
-            >official Inspector documentation</a
-          >. Inspector 2.11.0 has produced complete results followed by a
-          Windows/Node.js 24 shutdown assertion in local testing; this is a
-          tooling limitation, not a successful CLI exit.
-        </p>
-        <h3>VS Code configuration</h3>
-        <p>
-          Use this in <code>.vscode/mcp.json</code>, following the
-          <a
-            href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration"
-            >documented HTTP server configuration</a
-          >:
-        </p>
-        <pre><code>{
+      <p class="site-note">
+        Independent project. Not operated or endorsed by the City of Schleswig.
+      </p>
+      <nav class="site-actions" aria-label="On this page">
+        <a href="#connect">Connect</a>
+        <a href="#inputs">Inputs</a>
+        <a href="#results">Results</a>
+        <a href="#tools">Tools</a>
+        <a href="#limitations">Limitations</a>
+      </nav>
+      <h2 id="connect">Connect</h2>
+      <p>
+        Public endpoint:
+        <code>https://schleswig-mcp-data-seven.vercel.app/mcp</code>. Transport:
+        <strong>Streamable HTTP</strong>. No API key is required.
+      </p>
+      <p>
+        In an AI client that supports remote MCP servers, add this endpoint as
+        an HTTP server with no authentication. Connect and discover its tools,
+        then call <code>list_schleswig_addresses</code> with
+        <code>{"limit": 1}</code>. Configuration names vary by client; examples
+        for Inspector and VS Code follow.
+      </p>
+      <p>
+        The service is stateless. Use an MCP client to initialize, discover
+        tools and call them over POST. GET and DELETE return HTTP 405 because
+        there is no standalone SSE notification stream or stored session to
+        delete. Opening <code>/mcp</code> in a browser is not a connection test.
+      </p>
+      <h3>MCP Inspector</h3>
+      <pre><code>npx @modelcontextprotocol/inspector@2.11.0</code></pre>
+      <ol>
+        <li>Open the local Inspector URL printed by the command.</li>
+        <li>
+          Select Streamable HTTP and enter the public endpoint above. Use
+          Inspector's proxy connection mode so requests originate from its local
+          backend; direct cross-origin browser requests are rejected.
+        </li>
+        <li>
+          Connect, list tools, then run
+          <code>list_schleswig_addresses</code> with <code>{"limit": 1}</code>.
+        </li>
+      </ol>
+      <p>CLI discovery:</p>
+      <pre><code>npx @modelcontextprotocol/inspector@2.11.0 --cli https://schleswig-mcp-data-seven.vercel.app/mcp --transport http --method tools/list</code></pre>
+      <p>
+        See the
+        <a href="https://modelcontextprotocol.io/docs/tools/inspector"
+          >official Inspector documentation</a
+        >. Inspector 2.11.0 has produced complete results followed by a
+        Windows/Node.js 24 shutdown assertion in local testing; this is a
+        tooling limitation, not a successful CLI exit.
+      </p>
+      <h3>VS Code configuration</h3>
+      <p>
+        Use this in <code>.vscode/mcp.json</code>, following the
+        <a
+          href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration"
+          >documented HTTP server configuration</a
+        >:
+      </p>
+      <pre><code>{
   "servers": {
     "schleswig": {
       "type": "http",
@@ -78,125 +166,123 @@
     }
   }
 }</code></pre>
-        <p>
-          This configuration format is verified against VS Code's documentation;
-          a connection in your VS Code installation still needs verification.
-          For local development, use <code>http://127.0.0.1:3000/mcp</code>.
-        </p>
-        <h2>Inputs and pagination</h2>
-        <p>
-          <code>get_schleswig_water_level</code> takes <code>{}</code>. All five
-          list tools accept the same optional arguments:
-        </p>
-        <table>
-          <caption>
-            List tool arguments
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Argument</th>
-              <th scope="col">Type and behavior</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>id</code></td>
-              <td>
-                String, 1–100 characters after trimming; exact, case-sensitive
-                ID.
-              </td>
-            </tr>
-            <tr>
-              <td><code>q</code></td>
-              <td>
-                String, 1–200 characters after trimming; case-insensitive
-                substring search.
-              </td>
-            </tr>
-            <tr>
-              <td><code>limit</code></td>
-              <td>Integer 1–100; default 20.</td>
-            </tr>
-            <tr>
-              <td><code>offset</code></td>
-              <td>Integer 0–9007199254740991; default 0.</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          Use JSON numbers for integers. Unknown arguments, null inputs and
-          empty strings are invalid. <code>id</code> and <code>q</code> combine
-          with AND. No match or an offset beyond the result returns a successful
-          empty page.
-        </p>
-        <p>
-          Keep the filters and limit unchanged and follow
-          <code>pagination.nextOffset</code> until null.
-          <code>total</code> counts matching records,
-          <code>returned</code> counts this page, and <code>offset</code> and
-          <code>limit</code> echo the applied pagination. Source order is stable
-          within a snapshot but can change after replacement.
-        </p>
-        <h2>Results</h2>
-        <p>
-          Successful calls contain <code>structuredContent</code> and a matching
-          JSON text entry in <code>content</code>. Water level returns
-          <code>station</code>, <code>measurement</code>,
-          <code>freshness</code>, <code>source</code> and <code>notices</code>.
-          List tools return <code>metadata</code>, <code>data</code>,
-          <code>pagination</code> and <code>notices</code>.
-        </p>
-        <p>
-          Metadata includes the dataset identifier, municipality, data and
-          source dates, provider, publisher, license, required credit and
-          processing notes. Unknown dates and missing nullable values remain
-          null. Preserve source attribution, license URLs and modification
-          notices when reusing data. German original values are retained. See
-          the
-          <a
-            href="https://github.com/Neeklass/schleswig-mcp/tree/main/docs/datasources"
-            >datasource documentation</a
-          >.
-        </p>
-        <p>
-          Each example below shows the complete <code>structuredContent</code>,
-          without repeating the identical text entry. Static examples contain
-          one real snapshot record (<code>{"limit": 1}</code>); the water
-          example is synthetic and is not a current measurement. Full property
-          schemas are available through MCP <code>tools/list</code>; the
-          <a href="/docs">REST reference</a> documents the same domain
-          responses.
-        </p>
-        <h2>Tool reference</h2>
-        <!-- TOOL_REFERENCE -->
-        <h2>Errors and limitations</h2>
-        <p>
-          Source failures produce <code>isError: true</code> and a JSON text
-          error, without a success <code>structuredContent</code>. For example:
-        </p>
-        <pre><code>{
+      <p>
+        Start the server from VS Code's MCP controls and confirm that its tools
+        appear. This example follows VS Code's documented format; it has not
+        been tested interactively in VS Code. For local development, use
+        <code>http://127.0.0.1:3000/mcp</code>.
+      </p>
+      <h2 id="inputs">Inputs and pagination</h2>
+      <p>
+        <code>get_schleswig_water_level</code> takes <code>{}</code>. All five
+        list tools accept the same optional arguments:
+      </p>
+      <table>
+        <caption>
+          List tool arguments
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Argument</th>
+            <th scope="col">Type and behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td>
+              String, 1–100 characters after trimming; exact, case-sensitive ID.
+            </td>
+          </tr>
+          <tr>
+            <td><code>q</code></td>
+            <td>
+              String, 1–200 characters after trimming; case-insensitive
+              substring search.
+            </td>
+          </tr>
+          <tr>
+            <td><code>limit</code></td>
+            <td>Integer 1–100; default 20.</td>
+          </tr>
+          <tr>
+            <td><code>offset</code></td>
+            <td>Integer 0–9007199254740991; default 0.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Use JSON numbers for integers. Unknown arguments, null inputs and empty
+        strings are invalid. <code>id</code> and <code>q</code> combine with
+        AND. No match or an offset beyond the result returns a successful empty
+        page.
+      </p>
+      <p>
+        Keep the filters and limit unchanged and follow
+        <code>pagination.nextOffset</code> until null. <code>total</code> counts
+        matching records, <code>returned</code> counts this page, and
+        <code>offset</code> and <code>limit</code> echo the applied pagination.
+        Source order is stable within a snapshot but can change after
+        replacement.
+      </p>
+      <h2 id="results">Results</h2>
+      <p>
+        Successful calls contain <code>structuredContent</code> and a matching
+        JSON text entry in <code>content</code>. Water level returns
+        <code>station</code>, <code>measurement</code>, <code>freshness</code>,
+        <code>source</code> and <code>notices</code>. List tools return
+        <code>metadata</code>, <code>data</code>, <code>pagination</code> and
+        <code>notices</code>.
+      </p>
+      <p>
+        Metadata includes the dataset identifier, municipality, data and source
+        dates, provider, publisher, license, required credit and processing
+        notes. Unknown dates and missing nullable values remain null. Preserve
+        source attribution, license URLs and modification notices when reusing
+        data. German original values are retained.
+      </p>
+      <p>
+        Each example below shows the complete <code>structuredContent</code>,
+        without repeating the identical text entry. Static examples contain one
+        real snapshot record (<code>{"limit": 1}</code>); the water example is
+        synthetic and is not a current measurement. Full property schemas are
+        available through MCP <code>tools/list</code>; the
+        <a href="/docs">REST reference</a> documents the same domain responses.
+      </p>
+      <h2 id="tools">Tool reference</h2>
+      <!-- TOOL_REFERENCE -->
+      <h2 id="limitations">Errors and limitations</h2>
+      <p>
+        Source failures produce <code>isError: true</code> and a JSON text
+        error, without a success <code>structuredContent</code>. For example:
+      </p>
+      <pre><code>{
   "isError": true,
   "content": [{
     "type": "text",
     "text": "{\"error\":{\"code\":\"DATA_NOT_FOUND\",\"message\":\"The prepared dataset is missing.\"}}"
   }]
 }</code></pre>
-        <p>
-          Invalid tool arguments and transport errors use the MCP SDK's protocol
-          error handling. Host and Origin checks remain enforced; cross-origin
-          browser calls are unsupported. Requests are limited to 64 KiB, lists
-          to 100 records. Only water level calls an external service at request
-          time; avoid unnecessary polling. Snapshots change only after
-          replacement and restart or redeployment.
-        </p>
-        <p>
-          Tool schemas use JSON Schema 2020-12 and retain explicit required
-          nulls. Local Inspector 2.11.0 portability checks report no errors or
-          warnings after the schema fixes. Clients translating to narrower
-          schema dialects may still need their own adaptation. This website does
-          not verify the state of a future deployment.
-        </p>
-      </main>
-    </div>
+      <p>
+        Invalid tool arguments and transport errors use the MCP SDK's protocol
+        error handling. Host and Origin checks remain enforced; cross-origin
+        browser calls are unsupported. Requests are limited to 64 KiB, lists to
+        100 records. Only water level calls an external service at request time;
+        avoid unnecessary polling. Snapshots change only after replacement and
+        restart or redeployment.
+      </p>
+      <p>
+        Tool schemas use JSON Schema 2020-12. Required nullable properties must
+        be present, but their value may be null. Clients translating schemas to
+        narrower dialects may need their own adaptation.
+      </p>
+    </main>
+    <footer class="site-footer site-shell">
+      <p>
+        Independent open-data project. Not operated or endorsed by the City of
+        Schleswig.
+      </p>
+      <a href="/openapi.json">OpenAPI 3.1</a>
+    </footer>
   </body>
 </html>

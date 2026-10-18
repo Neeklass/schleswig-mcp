@@ -16,7 +16,16 @@ export default defineConfig(
   tseslint.configs.recommended,
   {
     files: ['public/**/*.js'],
-    languageOptions: { globals: { document: 'readonly' } },
+    languageOptions: {
+      globals: {
+        document: 'readonly',
+        window: 'readonly',
+        fetch: 'readonly',
+        AbortSignal: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+      },
+    },
   },
   {
     files: ['scripts/**/*.mjs'],

@@ -15,7 +15,8 @@ MCP implemented**. Consumer: `src/modules/car-charging-stations.ts`, REST
   values, decimal commas and German date strings. Original: 116,443 records.
 - Gold: [`data/curated/bundesnetzagentur/charging-stations.json`](../../data/curated/bundesnetzagentur/charging-stations.json),
   **61 installations**, each with address, coordinates, connector details and
-  source identifiers. All station IDs are unique.
+  source identifiers. All station IDs are unique. Gold coordinates use EPSG:4326;
+  latitude/longitude numbers were retained from the source without transformation.
 
 Selection is `Ort = Schleswig`, postal code `24837`, state `Schleswig-Holstein`.
 The Gold municipality is Schleswig city, AGS `01059075`. The source selection
@@ -37,7 +38,8 @@ optional values and `Keine Angabe` opening hours to null. It retains the source
 opening-hours code, including `247`. Separate weekday/time columns are omitted
 (12 retained installations have source details in those columns).
 
-The audit compared all 61 retained records, including connector type/power,
+The [2026-10-17 audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17)
+compared all 61 retained records, including connector type/power,
 EVSE IDs, public keys, addresses, dates and coordinates, with the original.
 The data array was unchanged. The top-level `recordCount` was moved into metadata;
 processing, source format/download and explicit date semantics were added.
@@ -46,7 +48,7 @@ processing, source format/download and explicit date semantics were added.
 
 The official download page explicitly licenses the published register list under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and requires the credit
-**Bundesnetzagentur.de**. This was rechecked on 2026-10-17. Preserve that credit,
+**Bundesnetzagentur.de**. This was rechecked on 2026-10-18. Preserve that credit,
 the source and license URLs, and `processing.steps` as the modification notice.
 This does not select a source-code license.
 
@@ -62,6 +64,10 @@ The owner prepares a replacement Gold snapshot manually, updates provenance,
 runs `npm run check`, then restarts/redeploys. No automatic refresh is implemented.
 The existing `data/scripts/filter_charging_stations.py` targets an older
 intermediate CSV, not the current Gold JSON.
+
+The official page checked on 2026-10-18 lists a release dated 2026-09-30. The
+packaged snapshot remains 2026-09-01; this documentation review did not replace
+it. Availability of newer upstream data does not update the API automatically.
 
 The register is not exhaustive: it includes installations whose notification
 procedure was complete at the update date. Status is not live occupancy or

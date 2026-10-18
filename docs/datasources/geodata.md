@@ -28,7 +28,8 @@ coordinates in ETRS89 / UTM zone 32N (EPSG:25832). The accompanying notes give
 
 Gold: [`data/curated/geodata-sh/addresses.json`](../../data/curated/geodata-sh/addresses.json),
 **7,619 addresses**, 7,619 unique OIDs and 310 distinct source street names.
-The data array was unchanged during this architecture audit.
+The data array was unchanged during the
+[2026-10-17 architecture audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17).
 
 | Gold field              | Source/rule                          |
 | ----------------------- | ------------------------------------ |
@@ -65,7 +66,7 @@ The documented PROJ operation is inverse UTM zone 32N, ETRS89 to WGS 84 (1), axi
 order change. PROJ reports 1 metre operation accuracy, not address-point accuracy.
 The existing preparation checked the published UTM reference
 `(687071.44, 6210141.33)` → approximately `(longitude 12, latitude 56)` and a
-central-meridian control. The current audit independently compared every retained
+central-meridian control. The 2026-10-17 audit independently compared every retained
 address field and repeated all 7,619 inverse transformations: maximum numerical
 error **2.7939677238464355e-9 metres**, below 1e-6 metres.
 
@@ -73,7 +74,7 @@ Latitude range: `54.492538602138396`–`54.542654501100166`;
 longitude: `9.514787456961404`–`9.597083365296816`. A broad Schleswig-vicinity check
 is only a plausibility check; municipality selection comes from official keys.
 
-Original SHA-256 values, unchanged in the current audit:
+Original SHA-256 values recorded in the 2026-10-17 audit:
 
 | Original                                                 | SHA-256                                                            |
 | -------------------------------------------------------- | ------------------------------------------------------------------ |
@@ -88,7 +89,7 @@ data for application tests/builds.
 
 The [official OpenGBD terms](https://geodaten.schleswig-holstein.de/gaialight-sh/_apps/dladownload/lizenz.html)
 specify [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), checked on
-2026-10-17. Required modified-source credit:
+2026-10-18. Required modified-source credit:
 **©GeoBasis-DE/LVermGeo SH/CC BY 4.0 (Quelle verändert)**.
 Preserve it together with dataset/license links and processing notices. The
 German required credit is intentional. This does not select a source-code license.

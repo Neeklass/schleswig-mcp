@@ -3,89 +3,205 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Schleswig MCP</title>
+    <title>
+      Schleswig MCP — Public Open Data for Developers and AI Assistants
+    </title>
     <meta
       name="description"
-      content="Public data about Schleswig city through a REST API and the Model Context Protocol."
+      content="An independent open-data project providing structured public information about Schleswig city through REST and MCP."
     />
+    <script src="/docs.js"></script>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <div class="page">
-      <header>
-        <nav aria-label="Main navigation">
-          <a href="/" aria-current="page">Home</a>
-          <a href="/docs">REST API documentation</a>
-          <a href="/mcp-docs">MCP documentation</a>
-          <a href="/openapi.json">OpenAPI specification</a>
-          <a href="https://github.com/Neeklass/schleswig-mcp">GitHub</a>
-        </nav>
-        <h1>Schleswig MCP</h1>
-        <p>
-          Public data about the city of Schleswig, Germany, through a REST API
-          and the Model Context Protocol (MCP).
-        </p>
-      </header>
-      <main>
-        <h2>Available data</h2>
+  <body class="site-body">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header site-shell">
+      <a class="site-wordmark" href="/" aria-current="page">Schleswig MCP</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a
+          href="/docs"
+          aria-label="REST API documentation"
+          title="REST API documentation"
+          ><span class="site-icon site-icon-rest-api" aria-hidden="true"></span
+        ></a>
+        <a
+          href="/mcp-docs"
+          aria-label="MCP documentation"
+          title="MCP documentation"
+          ><span class="site-icon site-icon-mcp" aria-hidden="true"></span
+        ></a>
+        <a
+          href="https://github.com/Neeklass/schleswig-mcp"
+          aria-label="GitHub repository"
+          title="GitHub repository"
+          ><span
+            class="site-icon site-icon-github"
+            aria-hidden="true"
+          ></span></a
+        ><button
+          class="theme-control"
+          type="button"
+          id="theme-control"
+          aria-label="Theme: System. Switch to Light."
+          title="Theme: System. Switch to Light."
+          hidden
+        >
+          <svg
+            data-theme-icon="system"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="4" width="18" height="13" rx="2" />
+            <path d="M8 21h8m-4-4v4" />
+          </svg>
+          <svg
+            data-theme-icon="light"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"
+            />
+          </svg>
+          <svg
+            data-theme-icon="dark"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+    <main class="site-content site-shell" id="main-content" tabindex="-1">
+      <p class="site-kicker">Schleswig, Germany · Open data · AGS 01059075</p>
+      <h1>Public Open Data for Developers and AI Assistants</h1>
+      <p class="site-lead">
+        Schleswig MCP provides structured public information about the city of
+        Schleswig through a REST API and the Model Context Protocol (MCP).
+      </p>
+      <p class="site-note">
+        An independent open-data project. Not operated or endorsed by the City
+        of Schleswig.
+      </p>
+      <div class="site-actions">
+        <a href="/docs">Explore the REST API</a>
+        <a href="/mcp-docs">Connect with MCP</a>
+        <a href="/openapi.json">OpenAPI specification</a>
+      </div>
+
+      <section aria-labelledby="available-data">
+        <h2 id="available-data">Available data</h2>
         <p>
           The service covers Schleswig city (municipality code
-          <code>01059075</code>).
+          <code>01059075</code>). Water level is live; the other five categories
+          use prepared snapshots.
         </p>
-        <ul>
-          <li>
-            <strong>Water level — live:</strong> the latest available
-            PEGELONLINE station reading, with its timestamp and freshness. A
-            gauge reading is not water depth.
-          </li>
-          <li>
-            <strong>Addresses — snapshot:</strong> official address records with
-            coordinates.
-          </li>
-          <li>
-            <strong>Cultural monuments — snapshot:</strong> entries from the
-            cultural monument register.
-          </li>
-          <li>
-            <strong>Bathing waters — snapshot:</strong> reference locations,
-            without current water quality or swimming safety assessments.
-          </li>
-          <li>
-            <strong>Charging stations — snapshot:</strong> registered
-            infrastructure, without live connector availability.
-          </li>
-          <li>
-            <strong>Population forecast — snapshot:</strong> indicators
-            containing historical inputs and projected values.
-          </li>
-        </ul>
-        <h2>Example requests</h2>
+        <dl class="dataset-list">
+          <div>
+            <dt>
+              Water level <span class="dataset-kind">Live · PEGELONLINE</span>
+            </dt>
+            <dd>
+              The latest available station reading, with its timestamp and
+              freshness. A gauge reading is not water depth. Unvalidated
+              measurements are not navigation advice, flood warnings or safety
+              assessments.
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Addresses <span class="dataset-kind">Snapshot · LVermGeo SH</span>
+            </dt>
+            <dd>Official address records with coordinates.</dd>
+          </div>
+          <div>
+            <dt>
+              Cultural monuments
+              <span class="dataset-kind">Snapshot · Open Data SH catalog</span>
+            </dt>
+            <dd>Entries from the cultural monument register.</dd>
+          </div>
+          <div>
+            <dt>
+              Bathing waters
+              <span class="dataset-kind">Snapshot · GovData catalog</span>
+            </dt>
+            <dd>
+              Reference locations, without current water quality or swimming
+              safety assessments.
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Charging stations
+              <span class="dataset-kind">Snapshot · Bundesnetzagentur</span>
+            </dt>
+            <dd>
+              Registered infrastructure, without live connector availability.
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Population forecast
+              <span class="dataset-kind">Snapshot · GovData catalog</span>
+            </dt>
+            <dd>
+              Indicators containing historical inputs and projected values, not
+              current population counts.
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="example-requests">
+        <h2 id="example-requests">Start with a request</h2>
         <p>
-          All REST endpoints use <code>GET</code>. Dataset lists default to 20
-          records and allow at most 100 per request.
+          All REST endpoints use <code>GET</code>. No API key is required.
+          Dataset lists default to 20 records and allow at most 100 per request.
         </p>
-        <pre><code>GET /api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5
+        <pre
+          tabindex="0"
+          aria-label="Example REST requests"
+        ><code>GET /api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5
 GET /api/v1/schleswig/water-level</code></pre>
         <p>
           <a href="/api/v1/schleswig/addresses?q=Abelsteg&amp;limit=5"
             >View the address example</a
           >
-          or use the <a href="/docs">interactive REST reference</a>. MCP clients
-          connect to <code>/mcp</code>; see the
-          <a href="/mcp-docs">connection instructions</a>.
         </p>
-        <h2>Sources and licenses</h2>
+      </section>
+
+      <section aria-labelledby="sources">
+        <h2 id="sources">Sources and limitations</h2>
         <p>
-          Public datasets have dataset-specific licenses, source credits and
-          documented data dates. Responses include this information and any
-          known limitations. German original values are preserved. See the
-          <a
-            href="https://github.com/Neeklass/schleswig-mcp/tree/main/docs/datasources"
-            >datasource documentation</a
-          >
-          before reusing data.
+          Data comes from public sources. Responses include source, license,
+          date, and limitation information. Most datasets are snapshots; only
+          water levels are retrieved live.
         </p>
-      </main>
-    </div>
+      </section>
+    </main>
+    <footer class="site-footer site-shell">
+      <p>
+        Independent open-data project. Not operated or endorsed by the City of
+        Schleswig.
+      </p>
+      <a href="/openapi.json">OpenAPI 3.1</a>
+    </footer>
   </body>
 </html>

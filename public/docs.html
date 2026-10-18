@@ -4,30 +4,123 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>REST API documentation — Schleswig MCP</title>
+    <meta
+      name="description"
+      content="Interactive reference for Schleswig MCP's six public REST endpoints, with parameters, response schemas and same-origin requests."
+    />
+    <script src="/docs.js"></script>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <header class="page docs-header">
-      <nav aria-label="Main navigation">
-        <a href="/">Home</a>
-        <a href="/docs" aria-current="page">REST API documentation</a>
-        <a href="/mcp-docs">MCP documentation</a>
-        <a href="/openapi.json">OpenAPI specification</a>
-        <a href="https://github.com/Neeklass/schleswig-mcp">GitHub</a>
+  <body class="site-body">
+    <a class="skip-link" href="#rest-reference">Skip to API reference</a>
+    <header class="site-header site-shell">
+      <a class="site-wordmark" href="/">Schleswig MCP</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a
+          href="/docs"
+          aria-label="REST API documentation"
+          title="REST API documentation"
+          aria-current="page"
+          ><span class="site-icon site-icon-rest-api" aria-hidden="true"></span
+        ></a>
+        <a
+          href="/mcp-docs"
+          aria-label="MCP documentation"
+          title="MCP documentation"
+          ><span class="site-icon site-icon-mcp" aria-hidden="true"></span
+        ></a>
+        <a
+          href="https://github.com/Neeklass/schleswig-mcp"
+          aria-label="GitHub repository"
+          title="GitHub repository"
+          ><span
+            class="site-icon site-icon-github"
+            aria-hidden="true"
+          ></span></a
+        ><button
+          class="theme-control"
+          type="button"
+          id="theme-control"
+          aria-label="Theme: System. Switch to Light."
+          title="Theme: System. Switch to Light."
+          hidden
+        >
+          <svg
+            data-theme-icon="system"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="4" width="18" height="13" rx="2" />
+            <path d="M8 21h8m-4-4v4" />
+          </svg>
+          <svg
+            data-theme-icon="light"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"
+            />
+          </svg>
+          <svg
+            data-theme-icon="dark"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z" />
+          </svg>
+        </button>
       </nav>
-      <p>
-        Interactive reference powered by Scalar. Requests use this site's API.
-        The <a href="/openapi.json">OpenAPI 3.1 document</a> is also available
-        directly.
-      </p>
-      <noscript
-        ><p>
-          Enable JavaScript to use Scalar, or download the OpenAPI document.
-        </p></noscript
-      >
-      <p id="docs-status" role="status">Loading the API reference…</p>
     </header>
-    <main id="api-reference" aria-label="REST API reference"></main>
-    <script type="module" src="/docs.js"></script>
+    <section
+      class="site-content site-shell docs-intro"
+      aria-labelledby="docs-title"
+    >
+      <h1 id="docs-title">REST API reference</h1>
+      <p>
+        Six read-only endpoints. Requests run against this site's API.
+        <a href="/openapi.json">OpenAPI 3.1 specification</a> ·
+        <a href="/mcp-docs">MCP documentation</a>
+      </p>
+      <p class="site-note">
+        Independent project. Not operated or endorsed by the City of Schleswig.
+      </p>
+      <div class="docs-status" id="docs-feedback">
+        <p id="docs-status" role="status" aria-live="polite" aria-atomic="true">
+          The interactive reference requires JavaScript and access to jsDelivr.
+        </p>
+        <p>
+          <a href="/docs">Reload the reference</a> or
+          <a href="/openapi.json">open the specification directly</a>.
+        </p>
+      </div>
+    </section>
+    <main
+      id="rest-reference"
+      aria-label="REST API reference"
+      tabindex="-1"
+    ></main>
+    <footer class="site-footer site-shell">
+      <p>
+        Independent open-data project. Not operated or endorsed by the City of
+        Schleswig.
+      </p>
+      <a href="/openapi.json">OpenAPI 3.1</a>
+    </footer>
   </body>
 </html>

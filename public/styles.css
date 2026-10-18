@@ -1,61 +1,358 @@
 :root {
-  font-family: system-ui, sans-serif;
-  line-height: 1.6;
-  color: #222;
-  background: #fff;
-  color-scheme: light;
+  color-scheme: light dark;
+  --site-navy: #013564;
+  --site-heading: light-dark(var(--site-navy), #a7d2f5);
+  --site-red: #e52323;
+  --site-text: light-dark(#26323c, #e4eaf0);
+  --site-muted: light-dark(#596570, #b0becb);
+  --site-border: light-dark(#dce1e5, #3b4e60);
+  --site-background: light-dark(#ffffff, #101c28);
+  --site-surface: light-dark(#f5f7f8, #172635);
+  --site-gutter: clamp(1.25rem, 4vw, 3rem);
 }
 
-body {
+body.site-body {
   margin: 0;
+  color-scheme: inherit;
+  background: var(--site-background);
 }
 
-.page {
-  max-width: 76ch;
-  margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+/* Site typography and element rules must never reach inside Scalar. */
+.site-header,
+.site-content,
+.site-footer,
+.skip-link {
+  font-family: system-ui, sans-serif;
+  line-height: 1.65;
+  color: var(--site-text);
 }
 
-nav {
+.site-shell {
+  width: min(calc(100% - 2 * var(--site-gutter)), 66rem);
+  margin-inline: auto;
+}
+
+.site-header {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--site-border);
 }
 
-a {
-  color: #174d8c;
+.site-header a,
+.site-content a,
+.site-footer a,
+.skip-link {
+  color: var(--site-heading);
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
 }
 
-code {
-  font-family: ui-monospace, monospace;
-  overflow-wrap: anywhere;
+.site-header a:hover,
+.site-content a:hover,
+.site-footer a:hover {
+  text-decoration-thickness: 2px;
 }
 
-pre {
-  background: #f5f5f5;
-  padding: 1rem;
-  overflow-x: auto;
-  line-height: 1.5;
+.site-header .site-wordmark {
+  font-size: 1.125rem;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  text-decoration: none;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
 }
 
-th,
-td {
-  text-align: left;
-  vertical-align: top;
-  padding: 0.6rem;
-  border-bottom: 1px solid #ccc;
-}
-
-summary {
+.site-nav a,
+.site-nav .theme-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 4px;
+  color: var(--site-heading);
+  background: transparent;
+  text-decoration: none;
   cursor: pointer;
 }
 
-.docs-header {
-  padding-bottom: 0;
+.site-nav a:hover,
+.site-nav .theme-control:hover {
+  background: var(--site-surface);
+}
+
+.site-nav a[aria-current='page'] {
+  box-shadow: inset 0 -2px var(--site-red);
+}
+
+.site-nav svg,
+.site-nav .site-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Local SVG alpha masks take the link color in both themes. */
+.site-icon {
+  background-color: currentColor;
+  mask: var(--site-icon) center / contain no-repeat;
+  mask-mode: alpha;
+}
+
+.site-icon-rest-api {
+  --site-icon: url('/icons/rest-api.svg');
+}
+
+.site-icon-mcp {
+  --site-icon: url('/icons/mcp.svg');
+}
+
+.site-icon-github {
+  --site-icon: url('/icons/github.svg');
+}
+
+.site-nav .site-icon-mcp {
+  width: 26px;
+  height: 26px;
+}
+
+.site-nav .theme-control[hidden],
+.theme-control [data-theme-icon] {
+  display: none;
+}
+
+:root[data-theme-mode='system'] [data-theme-icon='system'],
+:root[data-theme-mode='light'] [data-theme-icon='light'],
+:root[data-theme-mode='dark'] [data-theme-icon='dark'] {
+  display: block;
+}
+
+.site-header :focus-visible,
+.site-content :focus-visible,
+.site-footer :focus-visible,
+.skip-link:focus-visible {
+  outline: 2px solid var(--site-heading);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 1rem;
+  left: var(--site-gutter);
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--site-background);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-content {
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+  overflow-wrap: anywhere;
+}
+
+.site-content h1,
+.site-content h2,
+.site-content h3 {
+  color: var(--site-heading);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.site-content h1 {
+  max-width: 22ch;
+  margin: 0 0 1.5rem;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  letter-spacing: -0.045em;
+}
+
+.site-content h2 {
+  margin: 3rem 0 1rem;
+  font-size: 1.5rem;
+}
+
+.site-content h3 {
+  margin: 2rem 0 1rem;
+  font-size: 1.125rem;
+}
+
+.site-content p {
+  max-width: 72ch;
+  margin: 0 0 1rem;
+}
+
+.site-content .site-kicker {
+  margin-bottom: 1rem;
+  color: var(--site-muted);
+  font-size: 0.8125rem;
+}
+
+.site-content .site-lead {
+  max-width: 56ch;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  line-height: 1.55;
+}
+
+.site-content .site-note {
+  color: var(--site-muted);
+  font-size: 0.875rem;
+}
+
+.site-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-block: 1.75rem;
+}
+
+.dataset-list {
+  margin: 1.5rem 0 0;
+}
+
+.dataset-list > div {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) 2fr;
+  gap: 0.5rem 2rem;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--site-border);
+}
+
+.dataset-list dt {
+  color: var(--site-heading);
+  font-weight: 600;
+}
+
+.dataset-list dd {
+  margin: 0;
+  max-width: 60ch;
+}
+
+.dataset-kind {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--site-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.site-content code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+}
+
+.site-content pre {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  overflow-x: auto;
+  background: var(--site-surface);
+  border: 1px solid var(--site-border);
+  line-height: 1.6;
+}
+
+.site-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.site-content caption {
+  text-align: left;
+  color: var(--site-muted);
+  font-size: 0.875rem;
+}
+
+.site-content th,
+.site-content td {
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--site-border);
+}
+
+.site-content li + li {
+  margin-top: 0.5rem;
+}
+
+.site-content details {
+  margin-block: 1rem 2rem;
+  padding-block: 0.75rem;
+  border-block: 1px solid var(--site-border);
+}
+
+.site-content summary {
+  color: var(--site-heading);
+  cursor: pointer;
+}
+
+.site-reading {
+  max-width: 48rem;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--site-border);
+  color: var(--site-muted);
+  font-size: 0.8125rem;
+}
+
+.site-footer p {
+  margin: 0;
+  max-width: 68ch;
+}
+
+.site-content.docs-intro {
+  padding-block: 1.5rem;
+}
+
+.docs-intro h1 {
+  margin-bottom: 0.75rem;
+  font-size: 1.75rem;
+}
+
+.docs-intro p {
+  max-width: none;
+}
+
+.docs-status {
+  border-left: 2px solid var(--site-red);
+  padding-left: 1rem;
+}
+
+/* Only the mount container: Scalar owns its internal layout and breakpoints. */
+#rest-reference {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-block: 1rem;
+  }
+
+  .dataset-list > div {
+    grid-template-columns: 1fr;
+  }
 }

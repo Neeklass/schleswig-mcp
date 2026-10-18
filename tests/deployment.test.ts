@@ -62,7 +62,13 @@ describe('deployment configuration', () => {
       framework: null;
       outputDirectory: string;
       functions: Record<string, { includeFiles: string }>;
-      routes: { src: string; dest?: string; status?: number }[];
+      routes: {
+        src: string;
+        dest?: string;
+        status?: number;
+        methods?: string[];
+        headers?: Record<string, string>;
+      }[];
     };
     expect(configuration.framework).toBeNull();
     expect(configuration.outputDirectory).toBe('public');
@@ -84,6 +90,15 @@ describe('deployment configuration', () => {
       ['/openapi.json', '/openapi.json'],
       ['/styles.css', '/styles.css'],
       ['/docs.js', '/docs.js'],
+      ['/icons/rest-api.svg', '/icons/rest-api.svg'],
+      ['/icons/mcp.svg', '/icons/mcp.svg'],
+      ['/icons/github.svg', '/icons/github.svg'],
+      ['/icons', undefined],
+      ['/icons/other.svg', undefined],
+      ['/icons/mcpXsvg', undefined],
+      ['/icons/mcp.svg/extra', undefined],
+      ['/icons/../package.json', undefined],
+      ['/schleswig-logo.png', undefined],
       ['/api/_lib/openapi.ts', undefined],
       ['/mcp/documentation.html', undefined],
       ['/openapiXjson', undefined],
@@ -99,6 +114,21 @@ describe('deployment configuration', () => {
       );
       expect(route?.dest).toBe(destination);
       if (!destination) expect(route?.status).toBe(404);
+      if (destination?.startsWith('/icons/')) {
+        expect(route?.methods).toEqual(['GET', 'HEAD']);
+        expect(route?.headers).toEqual({
+          'X-Content-Type-Options': 'nosniff',
+          'Content-Type': 'image/svg+xml; charset=utf-8',
+        });
+        expect(
+          (
+            await readFile(
+              new URL(`../public${destination}`, import.meta.url),
+              'utf8',
+            )
+          ).startsWith('<svg'),
+        ).toBe(true);
+      }
     }
   });
 });

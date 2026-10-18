@@ -31,8 +31,11 @@ Preparation selected Schleswig and renamed fields while preserving object IDs,
 German descriptions, protection information and photo URLs. No deduplication is
 claimed. Source omissions remain optional fields. The provider maps `object_id`
 to string `id` for the public domain model without rewriting the Gold records.
+These records contain address text, not spatial coordinates; no coordinate
+reference system applies to the exposed records.
 
-The audit compared every retained field against the original and corrected two
+The [2026-10-17 audit](../implementation-report.md#historical-architecture-and-data-audit-2026-10-17)
+compared every retained field against the original and corrected two
 unintended text substitutions:
 
 | Object ID | Field         | Correction                                         |
@@ -40,14 +43,14 @@ unintended text substitutions:
 | 10545     | `description` | `Kirchenmunicipality` → original `Kirchengemeinde` |
 | 9381      | `name`        | `municipalityhaus` → original `Gemeindehaus`       |
 
-All other retained content remains unchanged. Metadata now includes the actual
+All other retained content was unchanged by that audit. Metadata includes the actual
 publisher as provider, separate catalog, exact download URL, format and processing.
 
 ## License
 
 The official release metadata identifies
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and the required credit
-**Landesamt für Denkmalpflege Schleswig-Holstein**, rechecked on 2026-10-17.
+**Landesamt für Denkmalpflege Schleswig-Holstein**, rechecked on 2026-10-18.
 Retain source/license links and processing notices. Photo URLs are retained
 references; the application does not fetch, embed or redistribute image files.
 Image-specific reuse conditions should be checked before separate image reuse.

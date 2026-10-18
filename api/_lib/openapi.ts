@@ -22,9 +22,6 @@ import {
 } from '../../src/modules/population-forecast.ts';
 import { listQuerySchema } from '../../src/shared/pagination.ts';
 
-const sourceDocs =
-  'https://github.com/Neeklass/schleswig-mcp/blob/main/docs/datasources/';
-
 // Illustrative values, never a current measurement. Building documentation is offline.
 export const waterLevelExample = waterLevelSchema.parse({
   station: {
@@ -162,7 +159,8 @@ export async function createOpenApi() {
         headers: {
           'Cache-Control': {
             schema: { type: 'string', const: 'no-store' },
-            description: 'Responses are not cached by HTTP clients.',
+            description:
+              'Instructs HTTP clients and intermediaries not to store the response.',
           },
           'X-Content-Type-Options': {
             schema: { type: 'string', const: 'nosniff' },
@@ -227,10 +225,6 @@ export async function createOpenApi() {
             : '\n\nExample request: `GET /api/v1/schleswig/' +
               endpoint.path +
               '?limit=1&offset=0`. Lists default to 20 records (maximum 100). Follow pagination.nextOffset until null. Source order is stable within a snapshot, but can change after an update. Unknown or repeated parameters are rejected; empty strings are invalid. Metadata describes the full snapshot, not this page.'),
-        externalDocs: {
-          description: 'Source, license, dates and limitations',
-          url: `${sourceDocs}${endpoint.provider}.md`,
-        },
         parameters: water
           ? []
           : Object.entries(listQuerySchema.shape).map(([name, schema]) => ({
@@ -259,7 +253,7 @@ export async function createOpenApi() {
       title: 'Schleswig MCP REST API',
       version: '1.0.0',
       description:
-        'Public data about Schleswig city, Germany (AGS 01059075). All endpoints use GET and return JSON. No API key is required. Browser requests must be same-origin; cross-origin access is not enabled. Host and Origin checks apply.\n\nWater level is live; all other datasets are prepared snapshots. Static responses include metadata (identifier, schemaVersion, municipality, dates, source, license, processing and recordCount), data, pagination and notices. metadata.license.attribution retains required credits; preserve the license URL and processing notices when reusing data. Dataset licenses differ and do not license this application. German original content is preserved.\n\nmetadata.dates separates dataAsOf, sourcePublishedAt, sourceUpdatedAt, retrievedAt and curatedAt. Null means unknown or unproven, not the build date. Coordinates, when present, use EPSG:4326 unless explicitly documented otherwise. Optional properties can be absent; nullable properties retain explicit nulls. Source relationships and cross-field checks also remain enforced by the server even where JSON Schema cannot express Zod refinements.\n\nExamples are small snapshots, not current live measurements. See [MCP documentation](/mcp-docs) for the separate Streamable HTTP service.',
+        'An independent open-data project for Schleswig city, Germany (AGS 01059075), not operated or endorsed by the City of Schleswig. All endpoints use GET and return JSON. No API key is required. Browser requests must be same-origin; cross-origin access is not enabled. Host and Origin checks apply.\n\nWater level is fetched live; all other datasets are prepared snapshots. Snapshot responses contain metadata, data, pagination and notices. metadata.license.attribution retains source credits; preserve required credits, license URLs and processing notices when reusing data. Dataset licenses differ and do not license this application. German original content is preserved.\n\nmetadata.dates separates dataAsOf, sourcePublishedAt, sourceUpdatedAt, retrievedAt and curatedAt. Null means unknown or unproven, not the build date. Coordinates, when present, use EPSG:4326 unless explicitly documented otherwise. Optional properties can be absent; nullable properties can contain explicit nulls. The server also validates cross-field relationships that are not fully represented in the generated schemas.\n\nList examples contain one packaged snapshot record. The water-level example is synthetic, not a current measurement. See [MCP documentation](/mcp-docs) for the Streamable HTTP service, which returns the same domain data.',
     },
     servers: [
       { url: '/', description: 'This origin (local, preview or production)' },

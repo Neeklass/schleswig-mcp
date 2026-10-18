@@ -12,6 +12,18 @@ export const websiteFiles: Record<string, { file: string; type: string }> = {
   },
   '/styles.css': { file: 'styles.css', type: 'text/css; charset=utf-8' },
   '/docs.js': { file: 'docs.js', type: 'text/javascript; charset=utf-8' },
+  '/icons/rest-api.svg': {
+    file: 'icons/rest-api.svg',
+    type: 'image/svg+xml; charset=utf-8',
+  },
+  '/icons/mcp.svg': {
+    file: 'icons/mcp.svg',
+    type: 'image/svg+xml; charset=utf-8',
+  },
+  '/icons/github.svg': {
+    file: 'icons/github.svg',
+    type: 'image/svg+xml; charset=utf-8',
+  },
 };
 
 // Local development and compiled Node server; Vercel serves public/ directly.

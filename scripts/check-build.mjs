@@ -24,9 +24,17 @@ try {
     '/openapi.json',
     '/styles.css',
     '/docs.js',
+    '/icons/rest-api.svg',
+    '/icons/mcp.svg',
+    '/icons/github.svg',
   ]) {
     const response = await fetch(`${base}${path}`);
     assert.equal(response.status, 200, path);
+    if (path.endsWith('.svg'))
+      assert.equal(
+        response.headers.get('content-type'),
+        'image/svg+xml; charset=utf-8',
+      );
     assert.ok((await response.text()).length > 100);
   }
   const specification = await (await fetch(`${base}/openapi.json`)).json();
@@ -36,6 +44,7 @@ try {
     '/src/index.ts',
     '/data/curated/geodata-sh/addresses.json',
     '/.env',
+    '/icons/other.svg',
   ]) {
     assert.equal((await fetch(`${base}${path}`)).status, 404, path);
   }
