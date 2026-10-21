@@ -109,8 +109,9 @@
         <h2 id="available-data">Available data</h2>
         <p>
           The service covers Schleswig city (municipality code
-          <code>01059075</code>). Water level is live; the other five categories
-          use prepared snapshots.
+          <code>01059075</code>). The current water level is live; its daily
+          history and official statistics are updated by a reviewed pipeline;
+          the other five categories use prepared snapshots.
         </p>
         <dl class="dataset-list">
           <div>
@@ -122,6 +123,28 @@
               freshness. A gauge reading is not water depth. Unvalidated
               measurements are not navigation advice, flood warnings or safety
               assessments.
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Water-level history
+              <span class="dataset-kind">Daily · PEGELONLINE</span>
+            </dt>
+            <dd>
+              Daily minimum, mean and maximum per calendar day, appended by a
+              scheduled pipeline after review. The history starts with the first
+              collection run.
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Official statistics
+              <span class="dataset-kind">Annual · Regionaldatenbank</span>
+            </dt>
+            <dd>
+              Population, births, deaths and migration, residential
+              construction, tourism and municipal taxes since 2008, as published
+              by the statistical offices.
             </dd>
           </div>
           <div>
@@ -191,8 +214,9 @@ GET /api/v1/schleswig/water-level</code></pre>
         <h2 id="sources">Sources and limitations</h2>
         <p>
           Data comes from public sources. Responses include source, license,
-          date, and limitation information. Most datasets are snapshots; only
-          water levels are retrieved live.
+          date, and limitation information. Most datasets are snapshots; the
+          current water level is retrieved live and its daily history is updated
+          through reviewed pull requests.
         </p>
       </section>
     </main>

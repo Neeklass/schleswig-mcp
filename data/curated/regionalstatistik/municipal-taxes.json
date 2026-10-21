@@ -1,0 +1,947 @@
+{
+  "metadata": {
+    "id": "schleswig-municipal-taxes",
+    "title": "Municipal Taxes of Schleswig",
+    "description": "Official annual local business and property tax rates (Hebesätze), tax revenue and municipal shares of income and turnover tax, from the Regionaldatenbank Deutschland.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": "2024-12-31",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": null,
+      "retrievedAt": "2026-10-21T14:38:53.960Z",
+      "curatedAt": "2026-10-21T14:38:53.960Z"
+    },
+    "source": {
+      "provider": "Regionaldatenbank Deutschland",
+      "publisher": "Statistische Ämter des Bundes und der Länder",
+      "catalog": null,
+      "url": "https://www.regionalstatistik.de/genesis/online",
+      "downloadUrl": null,
+      "format": "ffcsv via GENESIS REST API (https://www.regionalstatistik.de/genesisws/rest/2020/data/tablefile)"
+    },
+    "license": {
+      "id": "DL-DE-BY-2.0",
+      "url": "https://www.govdata.de/dl-de/by-2-0",
+      "attribution": "© Statistische Ämter des Bundes und der Länder, Deutschland, 2026. Datenlizenz Deutschland – Namensnennung – Version 2.0. Tabellen: 71231-01-03-5."
+    },
+    "temporalCoverage": {
+      "years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+    },
+    "processing": {
+      "steps": [
+        "Downloaded tables 71231-01-03-5 as flat-file CSV, filtered by the source to GEMEIN 01059075 from 2008.",
+        "Grouped rows into one series per table, measure and breakdown; sorted values by period.",
+        "Converted decimal commas to numbers; kept official signs for missing values in marker and mapped \"-\" (exactly zero) to 0.",
+        "Translated field names into English; German labels, units and codes are unchanged."
+      ]
+    },
+    "recordCount": 15
+  },
+  "data": [
+    {
+      "id": "71231-01-03-5.STNW01",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW01",
+        "label": "Grundsteuer A IST-Aufkommen"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 12700,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 11208,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 12648,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 11457,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 12075,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 10580,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 11044,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 10946,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 11137,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW02",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW02",
+        "label": "Grundsteuer B IST-Aufkommen"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 3561195,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 4140153,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 4064220,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 4309287,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 4035954,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 4415354,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 4295922,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 4382987,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 4365328,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW03",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW03",
+        "label": "Gewerbesteuer IST-Aufkommen"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 11047299,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 10037854,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 12487966,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 12020824,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 10486457,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 13836045,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 18693057,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 18664984,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 19186737,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW04",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW04",
+        "label": "Grundsteuer A Grundbetrag"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 3342,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 2949,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 3328,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 3015,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 3178,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 2784,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 2906,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 2881,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 2931,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW05",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW05",
+        "label": "Grundsteuer B Grundbetrag"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 890299,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 920034,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 903160,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 957619,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 896879,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 981190,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 954649,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 973997,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 970073,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW06",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW06",
+        "label": "Gewerbesteuer Grundbetrag"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 2985756,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 2712934,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 3375126,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 3248871,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 2834178,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 3739472,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 4919226,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 4911838,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 5049141,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW07",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW07",
+        "label": "Grundsteuer A Hebesatz"
+      },
+      "unit": "Prozent",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 380,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW08",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW08",
+        "label": "Grundsteuer B Hebesatz"
+      },
+      "unit": "Prozent",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 400,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 450,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW09",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW09",
+        "label": "Gewerbesteuer Hebesatz"
+      },
+      "unit": "Prozent",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 380,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 380,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW10",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW10",
+        "label": "Realsteueraufbringungskraft"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 16081935,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 15231502,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 17847146,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 17660401,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 15639659,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 19809026,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 24472745,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 24788035,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 25557135,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW11",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW11",
+        "label": "Gewerbesteuerumlage"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 2061111,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 1858355,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 2305208,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 2078717,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 992520,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 1498001,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 1532539,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 1719141,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 1767197,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW12",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW12",
+        "label": "Gewerbesteuer netto (IST-Aufkommen abzüglich Umlage)"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 8986188,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 8179499,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 10182758,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 9942107,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 9493937,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 12338044,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 17160518,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 16945843,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 17419540,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW13",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW13",
+        "label": "Gemeindeanteil an der Einkommensteuer"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 7659579,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 8409645,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 8457736,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 9191126,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 8822613,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 9144529,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 10021685,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 10210895,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 11359348,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW14",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW14",
+        "label": "Gemeindeanteil an der Umsatzsteuer"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 1341872,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 1681204,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 2370151,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 2629942,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 2851099,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 2912321,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 2464134,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 2600977,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 2541231,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "71231-01-03-5.STNW15",
+      "table": {
+        "code": "71231-01-03-5",
+        "statistic": "Realsteuervergleich"
+      },
+      "measure": {
+        "code": "STNW15",
+        "label": "Steuereinnahmekraft"
+      },
+      "unit": "EUR",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2016",
+          "value": 23022275,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 23463996,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 26369825,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 27402752,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 26320851,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 30367875,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 35426025,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 35880766,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 37690517,
+          "marker": null
+        }
+      ]
+    }
+  ]
+}

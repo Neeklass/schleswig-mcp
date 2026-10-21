@@ -1,0 +1,470 @@
+{
+  "metadata": {
+    "id": "schleswig-tourism",
+    "title": "Tourism in Schleswig",
+    "description": "Official annual accommodation statistics: open establishments, beds, guest arrivals and overnight stays, from the Regionaldatenbank Deutschland.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": "2025-12-31",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": null,
+      "retrievedAt": "2026-10-21T14:45:17.013Z",
+      "curatedAt": "2026-10-21T14:45:17.013Z"
+    },
+    "source": {
+      "provider": "Regionaldatenbank Deutschland",
+      "publisher": "Statistische Ämter des Bundes und der Länder",
+      "catalog": null,
+      "url": "https://www.regionalstatistik.de/genesis/online",
+      "downloadUrl": null,
+      "format": "ffcsv via GENESIS REST API (https://www.regionalstatistik.de/genesisws/rest/2020/data/tablefile)"
+    },
+    "license": {
+      "id": "DL-DE-BY-2.0",
+      "url": "https://www.govdata.de/dl-de/by-2-0",
+      "attribution": "© Statistische Ämter des Bundes und der Länder, Deutschland, 2026. Datenlizenz Deutschland – Namensnennung – Version 2.0. Tabellen: 45412-01-02-5."
+    },
+    "temporalCoverage": {
+      "years": [
+        2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019,
+        2020, 2021, 2022, 2023, 2024, 2025
+      ]
+    },
+    "processing": {
+      "steps": [
+        "Downloaded tables 45412-01-02-5 as flat-file CSV, filtered by the source to GEMEIN 01059075 from 2008.",
+        "Grouped rows into one series per table, measure and breakdown; sorted values by period.",
+        "Converted decimal commas to numbers; kept official signs (\"-\", \".\", \"...\", \"x\", \"/\") in marker with a null value.",
+        "Translated field names into English; German labels, units and codes are unchanged."
+      ]
+    },
+    "recordCount": 4
+  },
+  "data": [
+    {
+      "id": "45412-01-02-5.GAST01",
+      "table": {
+        "code": "45412-01-02-5",
+        "statistic": "Monatserhebung im Tourismus"
+      },
+      "measure": {
+        "code": "GAST01",
+        "label": "Gästeankünfte"
+      },
+      "unit": "Anzahl",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2008",
+          "value": 50739,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 45525,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 48106,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 49480,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 52008,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 53014,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 54309,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 57933,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 58833,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 59963,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 63092,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 64308,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 36320,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 41955,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 54895,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 56210,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 55874,
+          "marker": null
+        },
+        {
+          "period": "2025",
+          "value": 67112,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "45412-01-02-5.GAST02",
+      "table": {
+        "code": "45412-01-02-5",
+        "statistic": "Monatserhebung im Tourismus"
+      },
+      "measure": {
+        "code": "GAST02",
+        "label": "Gästeübernachtungen"
+      },
+      "unit": "Anzahl",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2008",
+          "value": 99894,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 91073,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 94853,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 96515,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 99168,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 105138,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 111660,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 113771,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 117962,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 122343,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 128300,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 132962,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 77125,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 102064,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 122951,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 125315,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 135473,
+          "marker": null
+        },
+        {
+          "period": "2025",
+          "value": 149829,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "45412-01-02-5.GAST03",
+      "table": {
+        "code": "45412-01-02-5",
+        "statistic": "Monatserhebung im Tourismus"
+      },
+      "measure": {
+        "code": "GAST03",
+        "label": "Angebotene Gästebetten"
+      },
+      "unit": "Anzahl",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2008",
+          "value": 733,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 733,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 733,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 743,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 766,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 770,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 765,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 750,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 811,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 814,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2019",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2020",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2021",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2022",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2023",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2024",
+          "value": null,
+          "marker": "-"
+        },
+        {
+          "period": "2025",
+          "value": null,
+          "marker": "-"
+        }
+      ]
+    },
+    {
+      "id": "45412-01-02-5.GAST04",
+      "table": {
+        "code": "45412-01-02-5",
+        "statistic": "Monatserhebung im Tourismus"
+      },
+      "measure": {
+        "code": "GAST04",
+        "label": "Geöffnete Beherbergungsbetriebe"
+      },
+      "unit": "Anzahl",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2008",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 14,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 14,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 14,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 14,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 14,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 16,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 15,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 13,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 14,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 15,
+          "marker": null
+        },
+        {
+          "period": "2025",
+          "value": 16,
+          "marker": null
+        }
+      ]
+    }
+  ]
+}

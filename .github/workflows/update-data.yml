@@ -1,0 +1,96 @@
+name: Update data
+
+# Proposes new data in one rolling pull request (branch data-update):
+# - appends new complete days of the PEGELONLINE water-level history;
+# - refreshes the Regionaldatenbank statistics when the published data changed.
+# Nothing reaches main without review. Pull requests created with GITHUB_TOKEN
+# do not trigger other workflows, so this job runs the full check before it
+# pushes.
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      WATER: data/curated/pegelonline/water-level-daily.json
+      STATISTICS: data/curated/regionalstatistik
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Keep days from the open update pull request
+        # A closed, unmerged update is a rejection and is not carried over.
+        run: |
+          open=$(gh pr list --head data-update --base main --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            git fetch --depth=1 origin data-update
+            git show "FETCH_HEAD:$WATER" > "$RUNNER_TEMP/pending.json" || rm -f "$RUNNER_TEMP/pending.json"
+          fi
+      - name: Collect complete water-level days
+        run: |
+          args=()
+          if [ -s "$RUNNER_TEMP/pending.json" ]; then args=(--merge "$RUNNER_TEMP/pending.json"); fi
+          node scripts/update-water-level-history.ts "${args[@]}" | tee -a "$RUNNER_TEMP/summary.txt"
+      - name: Refresh statistics
+        id: statistics
+        # A Regionaldatenbank outage must not block the water-level update;
+        # the last step still marks the run as failed.
+        continue-on-error: true
+        env:
+          REGIONALSTATISTIK_USERNAME: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
+          REGIONALSTATISTIK_PASSWORD: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
+        run: |
+          set -o pipefail
+          node scripts/update-statistics.ts | tee -a "$RUNNER_TEMP/summary.txt"
+      - name: Detect changes
+        id: changes
+        run: |
+          npx prettier --write data/curated
+          if [ -n "$(git status --porcelain -- data/curated)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Validate
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run check
+      - name: Open or update the review pull request
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -C data-update
+          git add -- data/curated
+          git commit -m 'data: update water-level history and statistics'
+          git push --force origin data-update
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          body=$(printf '%s\n\n%s\n\n%s\n' \
+            'Automated data update: PEGELONLINE water-level history (DL-DE-Zero-2.0) and Regionaldatenbank statistics (DL-DE-BY-2.0).' \
+            "$(cat "$RUNNER_TEMP/summary.txt")" \
+            "Validated with \`npm run check\` in $run_url. Stored water-level days are never rewritten; statistics are replaced as published. Merging deploys the update; closing without merging discards it.")
+          if [ "$(gh pr list --head data-update --base main --state open --json number --jq 'length')" = "0" ]; then
+            gh pr create --base main --head data-update --title 'Data update' --body "$body"
+          else
+            gh pr edit data-update --body "$body"
+          fi
+      - name: Report a failed statistics refresh
+        if: steps.statistics.outcome == 'failure'
+        run: |
+          echo '::error::The Regionaldatenbank refresh failed; see the "Refresh statistics" step.'
+          exit 1

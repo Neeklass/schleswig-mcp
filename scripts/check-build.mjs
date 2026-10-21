@@ -39,7 +39,7 @@ try {
   }
   const specification = await (await fetch(`${base}/openapi.json`)).json();
   assert.equal(specification.openapi, '3.1.0');
-  assert.equal(Object.keys(specification.paths).length, 6);
+  assert.equal(Object.keys(specification.paths).length, 12);
   for (const path of [
     '/src/index.ts',
     '/data/curated/geodata-sh/addresses.json',
@@ -69,8 +69,28 @@ try {
     assert.notEqual(result.isError, true);
     assert.deepEqual(result.structuredContent, data);
   }
+  // Datasets without a deprecated single tool; compare with their theme tool.
+  for (const [dataset, tool] of [
+    ['water-level-history', 'query_schleswig_water'],
+    ['population', 'query_schleswig_population'],
+    ['population-movement', 'query_schleswig_population'],
+    ['construction', 'query_schleswig_economy'],
+    ['tourism', 'query_schleswig_economy'],
+    ['municipal-taxes', 'query_schleswig_economy'],
+  ]) {
+    const response = await fetch(`${base}/api/v1/schleswig/${dataset}?limit=1`);
+    assert.equal(response.status, 200, dataset);
+    const data = await response.json();
+    assert.ok(data.pagination.total > 0, dataset);
+    const themed = await client.callTool({
+      name: tool,
+      arguments: { dataset, limit: 1 },
+    });
+    assert.notEqual(themed.isError, true, dataset);
+    assert.deepEqual(themed.structuredContent, { dataset, result: data });
+  }
   console.log(
-    'Compiled website, REST/MCP and all five packaged datasets passed from an unrelated working directory.',
+    'Compiled website, REST/MCP and all eleven packaged datasets passed from an unrelated working directory.',
   );
 } finally {
   await client.close();

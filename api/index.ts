@@ -2,6 +2,8 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { z } from 'zod';
 import { getSchleswigWaterLevel } from '../src/modules/water-level.ts';
 import type { GetWaterLevel } from '../src/modules/water-level.ts';
+import { listSchleswigWaterLevelHistory } from '../src/modules/water-level-history.ts';
+import { listSchleswigStatistics } from '../src/modules/statistics.ts';
 import { listSchleswigAddresses } from '../src/modules/addresses.ts';
 import { listSchleswigMonuments } from '../src/modules/monuments.ts';
 import { listSchleswigBathingWaters } from '../src/modules/bathing-waters.ts';
@@ -16,11 +18,19 @@ import { serveWebsite } from './_lib/website.ts';
 export const API_PREFIX = '/api/v1/schleswig/';
 export const API_PATH = `${API_PREFIX}water-level`;
 const routes: Record<string, (query: ListQuery) => Promise<unknown>> = {
+  'water-level-history': listSchleswigWaterLevelHistory,
   addresses: listSchleswigAddresses,
   monuments: listSchleswigMonuments,
   'bathing-waters': listSchleswigBathingWaters,
   'charging-stations': listSchleswigChargingStations,
   'population-forecast': listSchleswigPopulationForecast,
+  population: (query) => listSchleswigStatistics('population', query),
+  'population-movement': (query) =>
+    listSchleswigStatistics('population-movement', query),
+  construction: (query) => listSchleswigStatistics('construction', query),
+  tourism: (query) => listSchleswigStatistics('tourism', query),
+  'municipal-taxes': (query) =>
+    listSchleswigStatistics('municipal-taxes', query),
 };
 const errorStatuses = {
   UPSTREAM_UNAVAILABLE: 502,
