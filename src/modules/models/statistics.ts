@@ -29,7 +29,7 @@ export const statisticSeriesSchema = z.strictObject({
         period: z.string().regex(/^\d{4}(-\d{2}-\d{2})?$/),
         value: z.number().nullable(),
         // Official GENESIS sign when the source has no plain number, e.g.
-        // "-" (exactly zero) or "." (confidential).
+        // "-" (nothing / not collected) or "." (confidential); value is null.
         marker: z.string().min(1).nullable(),
       }),
     )

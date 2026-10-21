@@ -104,7 +104,7 @@ describe('Regionaldatenbank table parsing', () => {
       ],
     });
     expect(female.values).toEqual([
-      { period: '2024-12-31', value: 0, marker: '-' },
+      { period: '2024-12-31', value: null, marker: '-' },
       { period: '2025-12-31', value: null, marker: '.' },
     ]);
     expect(male.values).toEqual([

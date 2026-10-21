@@ -175,14 +175,15 @@ export async function fetchRegionalTable(
   }
 }
 
-// GENESIS signs for cells without a plain number. "-" means exactly zero.
+// GENESIS signs for cells without a plain number. Officially "-" means
+// "nothing", but tables also use it for measures no longer collected (e.g.
+// beds in 45412-01-02-5 since 2018), so no sign is converted into a number.
 const markers = new Set(['-', '.', '...', 'x', '/']);
 
 function parseValue(raw: string) {
   const text = raw.trim();
   if (/^-?\d+(,\d+)?$/.test(text))
     return { value: Number(text.replace(',', '.')), marker: null };
-  if (text === '-') return { value: 0, marker: '-' };
   if (markers.has(text)) return { value: null, marker: text };
   throw new Error(`Unknown value "${raw}".`);
 }

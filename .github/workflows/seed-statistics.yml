@@ -35,3 +35,4 @@ jobs:
           git add data/curated/regionalstatistik
           git commit -m 'data: seed Regionaldatenbank statistics for Schleswig'
           git push
+# Rerun after the marker fix.

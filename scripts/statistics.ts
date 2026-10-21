@@ -72,7 +72,7 @@ export function buildStatisticsGold(
         steps: [
           `Downloaded tables ${config.tables.join(', ')} as flat-file CSV, filtered by the source to ${REGIONAL_VARIABLE} ${SCHLESWIG_AGS} from ${START_YEAR}.`,
           'Grouped rows into one series per table, measure and breakdown; sorted values by period.',
-          'Converted decimal commas to numbers; kept official signs for missing values in marker and mapped "-" (exactly zero) to 0.',
+          'Converted decimal commas to numbers; kept official signs ("-", ".", "...", "x", "/") in marker with a null value.',
           'Translated field names into English; German labels, units and codes are unchanged.',
         ],
       },

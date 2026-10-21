@@ -141,7 +141,7 @@ export const restDocumentation = [
     schema: statisticsPageSchema,
     example: () => listSchleswigStatistics('population', { limit: 1 }),
     description:
-      'Official population on 31 December by sex (table 12411-01-01-5) and average age by sex (12411-07-01-5) since 2008. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker, and "-" means exactly zero. Gold files are refreshed by a reviewed pipeline.',
+      'Official population on 31 December by sex (table 12411-01-01-5) and average age by sex (12411-07-01-5) since 2008. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker ("-", ".", "...", "x" or "/"); signs are never converted to numbers. Gold files are refreshed by a reviewed pipeline.',
   },
   {
     path: 'population-movement',
@@ -151,7 +151,7 @@ export const restDocumentation = [
     schema: statisticsPageSchema,
     example: () => listSchleswigStatistics('population-movement', { limit: 1 }),
     description:
-      'Official annual live births (12612-01-01-5) and deaths (12613-01-01-5) by sex, and moves into and out of Schleswig across municipal borders (12711-91-01-5), since 2008. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker, and "-" means exactly zero. Gold files are refreshed by a reviewed pipeline.',
+      'Official annual live births (12612-01-01-5) and deaths (12613-01-01-5) by sex, and moves into and out of Schleswig across municipal borders (12711-91-01-5), since 2008. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker ("-", ".", "...", "x" or "/"); signs are never converted to numbers. Gold files are refreshed by a reviewed pipeline.',
   },
   {
     path: 'construction',
@@ -161,7 +161,7 @@ export const restDocumentation = [
     schema: statisticsPageSchema,
     example: () => listSchleswigStatistics('construction', { limit: 1 }),
     description:
-      'Official annual permits (31111-01-02-5) and completions (31121-01-02-5) of new residential buildings: buildings and dwellings by building size, and living space, since 2008. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker, and "-" means exactly zero. Gold files are refreshed by a reviewed pipeline.',
+      'Official annual permits (31111-01-02-5) and completions (31121-01-02-5) of new residential buildings: buildings and dwellings by building size, and living space, since 2008. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker ("-", ".", "...", "x" or "/"); signs are never converted to numbers. Gold files are refreshed by a reviewed pipeline.',
   },
   {
     path: 'tourism',
@@ -171,7 +171,7 @@ export const restDocumentation = [
     schema: statisticsPageSchema,
     example: () => listSchleswigStatistics('tourism', { limit: 1 }),
     description:
-      'Official annual accommodation statistics (45412-01-02-5): open establishments, beds, guest arrivals and overnight stays, since 2008. Covers establishments above the survey threshold only. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker, and "-" means exactly zero. Gold files are refreshed by a reviewed pipeline.',
+      'Official annual accommodation statistics (45412-01-02-5): open establishments, beds, guest arrivals and overnight stays, since 2008. Covers establishments above the survey threshold only. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker ("-", ".", "...", "x" or "/"); signs are never converted to numbers. Gold files are refreshed by a reviewed pipeline.',
   },
   {
     path: 'municipal-taxes',
@@ -181,7 +181,7 @@ export const restDocumentation = [
     schema: statisticsPageSchema,
     example: () => listSchleswigStatistics('municipal-taxes', { limit: 1 }),
     description:
-      'Official annual local tax rates (Hebesätze) for property tax A and B and business tax, tax revenue and municipal shares of income and turnover tax (71231-01-03-5), since 2016. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker, and "-" means exactly zero. Gold files are refreshed by a reviewed pipeline.',
+      'Official annual local tax rates (Hebesätze) for property tax A and B and business tax, tax revenue and municipal shares of income and turnover tax (71231-01-03-5), since 2016. Each record is one series: a measure from one table with an optional breakdown (e.g. sex) and its values per period. Search statistic, measure and breakdown labels. Values are published figures under DL-DE-BY-2.0; null values carry the official GENESIS sign in marker ("-", ".", "...", "x" or "/"); signs are never converted to numbers. Gold files are refreshed by a reviewed pipeline.',
   },
 ] as const;
 
