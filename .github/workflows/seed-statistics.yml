@@ -1,0 +1,37 @@
+name: Seed statistics (temporary)
+
+# One-off: collects the first Regionaldatenbank Gold files into the feature
+# branch, because the API is not reachable from the development environment.
+# Removed before merging (triggered by changes to this file only).
+on:
+  push:
+    branches: [etappe-2-statistik]
+    paths: [.github/workflows/seed-statistics.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - env:
+          REGIONALSTATISTIK_USERNAME: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
+          REGIONALSTATISTIK_PASSWORD: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
+        run: |
+          node scripts/update-statistics.ts 2> err.txt || {
+            echo "::error::$(tail -c 3000 err.txt | tr '\n' ' ')"; exit 1; }
+      - run: npx prettier --write data/curated/regionalstatistik
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/curated/regionalstatistik
+          git commit -m 'data: seed Regionaldatenbank statistics for Schleswig'
+          git push

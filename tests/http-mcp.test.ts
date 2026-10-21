@@ -232,7 +232,7 @@ describe('HTTP API and MCP', () => {
     await client.connect(
       new StreamableHTTPClientTransport(new URL(`${base}/api/mcp`)),
     );
-    expect((await client.listTools()).tools).toHaveLength(10);
+    expect((await client.listTools()).tools).toHaveLength(11);
     expect(
       (
         await client.callTool({

@@ -85,7 +85,7 @@ const equivalents = [
 ] as const;
 
 describe('theme tools', () => {
-  it('registers four theme tools after the deprecated tools', () => {
+  it('registers five theme tools after the deprecated tools', () => {
     expect(tools.map((tool) => tool.name).slice(6)).toEqual(
       Object.values(themeTools).map((theme) => theme.name),
     );
@@ -170,6 +170,36 @@ describe('theme tools', () => {
       result: await response.json(),
     });
     const tool = tools.find((item) => item.name === 'query_schleswig_water')!;
+    expect(
+      (await validator(tool.outputSchema).validate(themed.structuredContent))
+        .issues,
+    ).toBeUndefined();
+  });
+
+  it.each([
+    ['query_schleswig_population', 'population'],
+    ['query_schleswig_population', 'population-movement'],
+    ['query_schleswig_economy', 'construction'],
+    ['query_schleswig_economy', 'tourism'],
+    ['query_schleswig_economy', 'municipal-taxes'],
+  ])('%s serves official statistics %s like REST', async (name, dataset) => {
+    const address = app.server.address();
+    if (!address || typeof address === 'string')
+      throw new Error('Expected TCP address.');
+    const response = await fetch(
+      `http://127.0.0.1:${address.port}/api/v1/schleswig/${dataset}?limit=3&q=a`,
+    );
+    expect(response.status).toBe(200);
+    const themed = await client.callTool({
+      name,
+      arguments: { dataset, limit: 3, q: 'a' },
+    });
+    expect(themed.isError).not.toBe(true);
+    expect(themed.structuredContent).toEqual({
+      dataset,
+      result: await response.json(),
+    });
+    const tool = tools.find((item) => item.name === name)!;
     expect(
       (await validator(tool.outputSchema).validate(themed.structuredContent))
         .issues,
