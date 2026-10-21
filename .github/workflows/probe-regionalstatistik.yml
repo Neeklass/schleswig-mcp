@@ -20,32 +20,23 @@ jobs:
       REGIO_USER: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
       REGIO_PASS: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
     steps:
-      - name: Table catalogue
+      - name: Table structure
         run: |
-          for stat in 12411 12711 12612 12613 31111 31121 45412 71231 11111 33111 12211 82000; do
-            curl -sS -m 60 -X POST "$BASE/catalogue/tables" \
-              -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
-              --data-urlencode "selection=${stat}*" --data-urlencode 'area=all' \
-              --data-urlencode 'pagelength=100' --data-urlencode 'language=de' -o "cat-$stat.json"
-            python3 - "$stat" <<'PY'
-          import json, sys
-          stat = sys.argv[1]
-          d = json.load(open(f"cat-{stat}.json"))
-          rows = [f"{t['Code']}: {t['Content'][:90]}" for t in (d.get("List") or [])]
-          gem = [r for r in rows if r.split(":")[0].endswith("-5") or r.split(":")[0].endswith("-z")]
-          print(f"::notice title={stat}::{len(rows)} tables; status {d.get('Status',{}).get('Content','')[:80]} || " + " || ".join(gem or rows[:25]))
-          PY
-          done
-      - name: Sample table for Schleswig
-        run: |
-          curl -sS -m 120 -X POST "$BASE/data/tablefile" \
+          curl -sS -m 60 -X POST "$BASE/metadata/table" \
             -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
-            --data-urlencode 'name=12411-01-01-5' --data-urlencode 'area=all' \
-            --data-urlencode 'format=ffcsv' --data-urlencode 'compress=false' \
-            --data-urlencode 'regionalvariable=GEMEINDE' --data-urlencode 'regionalkey=01059075' \
-            --data-urlencode 'startyear=2020' --data-urlencode 'language=de' \
-            -D headers.txt -o sample.bin
-          echo "::notice title=sample headers::$(grep -i 'content-type\|content-disposition' headers.txt | tr '\r\n' '  ')"
-          file sample.bin
-          if unzip -l sample.bin >/dev/null 2>&1; then unzip -o -q sample.bin -d sample; f=$(ls sample/* | head -1); else f=sample.bin; fi
-          echo "::notice title=sample content::$(head -c 3000 "$f" | tr '\r\n' '  ')"
+            --data-urlencode 'name=12411-01-01-5' --data-urlencode 'area=all' --data-urlencode 'language=de' -o meta.json
+          echo "::notice title=structure::$(python3 -c 'import json;d=json.load(open("meta.json"));print(json.dumps(d.get("Object"),ensure_ascii=False)[:3500])')"
+      - name: Sample tables for Schleswig
+        run: |
+          for var in GEMEIN GEM GEMEINDE; do
+            curl -sS -m 120 -X POST "$BASE/data/tablefile" \
+              -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
+              --data-urlencode 'name=12411-01-01-5' --data-urlencode 'area=all' \
+              --data-urlencode 'format=ffcsv' --data-urlencode 'compress=false' \
+              --data-urlencode "regionalvariable=$var" --data-urlencode 'regionalkey=01059075' \
+              --data-urlencode 'startyear=2022' --data-urlencode 'language=de' \
+              -D headers.txt -o sample.bin
+            ct=$(grep -i '^content-type' headers.txt | tr -d '\r')
+            if unzip -l sample.bin >/dev/null 2>&1; then unzip -o -q sample.bin -d "s-$var"; f=$(ls s-$var/* | head -1); else f=sample.bin; fi
+            echo "::notice title=sample $var::$ct || $(head -c 2500 "$f" | tr '\r\n' '  ')"
+          done
