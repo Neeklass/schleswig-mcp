@@ -39,7 +39,7 @@ try {
   }
   const specification = await (await fetch(`${base}/openapi.json`)).json();
   assert.equal(specification.openapi, '3.1.0');
-  assert.equal(Object.keys(specification.paths).length, 6);
+  assert.equal(Object.keys(specification.paths).length, 7);
   for (const path of [
     '/src/index.ts',
     '/data/curated/geodata-sh/addresses.json',
@@ -69,8 +69,24 @@ try {
     assert.notEqual(result.isError, true);
     assert.deepEqual(result.structuredContent, data);
   }
+  // The daily history has no deprecated single tool; compare with the theme tool.
+  const response = await fetch(
+    `${base}/api/v1/schleswig/water-level-history?limit=1`,
+  );
+  assert.equal(response.status, 200);
+  const history = await response.json();
+  assert.ok(history.pagination.total > 0);
+  const themed = await client.callTool({
+    name: 'query_schleswig_water',
+    arguments: { dataset: 'water-level-history', limit: 1 },
+  });
+  assert.notEqual(themed.isError, true);
+  assert.deepEqual(themed.structuredContent, {
+    dataset: 'water-level-history',
+    result: history,
+  });
   console.log(
-    'Compiled website, REST/MCP and all five packaged datasets passed from an unrelated working directory.',
+    'Compiled website, REST/MCP and all six packaged datasets passed from an unrelated working directory.',
   );
 } finally {
   await client.close();

@@ -4,6 +4,10 @@ import { mcpOutputSchema } from './output-schema.ts';
 import { toolResult } from './tool-result.ts';
 import { waterLevelSchema } from '../src/modules/water-level.ts';
 import type { GetWaterLevel } from '../src/modules/water-level.ts';
+import {
+  waterLevelHistoryPageSchema,
+  listSchleswigWaterLevelHistory,
+} from '../src/modules/water-level-history.ts';
 import { listQuerySchema } from '../src/shared/pagination.ts';
 import type { ListQuery } from '../src/shared/pagination.ts';
 import {
@@ -51,7 +55,7 @@ function listQuery(input: ListQuery & { dataset: string }): ListQuery {
 export const themeTools = {
   water: {
     name: 'query_schleswig_water',
-    datasets: ['water-level', 'bathing-waters'],
+    datasets: ['water-level', 'water-level-history', 'bathing-waters'],
   },
   population: {
     name: 'query_schleswig_population',
@@ -83,13 +87,17 @@ export function registerThemeTools(
     {
       title: 'Schleswig water',
       description:
-        'Water in Schleswig, Germany. dataset "water-level": latest PEGELONLINE gauge reading with timestamp, age and stale status; the reading is not water depth, a flood warning or a safety assessment; id, q, limit and offset are ignored. dataset "bathing-waters": bathing-water reference locations; does not report current water quality or swimming safety.' +
+        'Water in Schleswig, Germany. dataset "water-level": latest PEGELONLINE gauge reading with timestamp, age and stale status; the reading is not water depth, a flood warning or a safety assessment; id, q, limit and offset are ignored. dataset "water-level-history": daily minimum, mean and maximum per calendar day (Europe/Berlin), newest first; id is the date and q matches date prefixes such as 2026-10; history starts with the first collection run. dataset "bathing-waters": bathing-water reference locations; does not report current water quality or swimming safety.' +
         pageDescription,
       inputSchema: themeInput(water.datasets),
       outputSchema: mcpOutputSchema(
         z.strictObject({
           dataset: z.enum(water.datasets),
-          result: z.union([waterLevelSchema, bathingWaterPageSchema]),
+          result: z.union([
+            waterLevelSchema,
+            waterLevelHistoryPageSchema,
+            bathingWaterPageSchema,
+          ]),
         }),
       ),
       annotations: { ...annotations, openWorldHint: true },
@@ -100,7 +108,9 @@ export function registerThemeTools(
         result:
           input.dataset === 'water-level'
             ? await getWaterLevel()
-            : await listSchleswigBathingWaters(listQuery(input)),
+            : input.dataset === 'water-level-history'
+              ? await listSchleswigWaterLevelHistory(listQuery(input))
+              : await listSchleswigBathingWaters(listQuery(input)),
       })),
   );
 

@@ -152,6 +152,30 @@ describe('theme tools', () => {
     },
   );
 
+  it('serves the daily water-level history like REST', async () => {
+    const address = app.server.address();
+    if (!address || typeof address === 'string')
+      throw new Error('Expected TCP address.');
+    const response = await fetch(
+      `http://127.0.0.1:${address.port}/api/v1/schleswig/water-level-history?limit=2`,
+    );
+    expect(response.status).toBe(200);
+    const themed = await client.callTool({
+      name: 'query_schleswig_water',
+      arguments: { dataset: 'water-level-history', limit: 2 },
+    });
+    expect(themed.isError).not.toBe(true);
+    expect(themed.structuredContent).toEqual({
+      dataset: 'water-level-history',
+      result: await response.json(),
+    });
+    const tool = tools.find((item) => item.name === 'query_schleswig_water')!;
+    expect(
+      (await validator(tool.outputSchema).validate(themed.structuredContent))
+        .issues,
+    ).toBeUndefined();
+  });
+
   it('rejects datasets that belong to another theme', async () => {
     const rejected = await client
       .callTool({

@@ -1,0 +1,77 @@
+name: Update data
+
+# Appends new complete days of the PEGELONLINE water-level history and proposes
+# them in one rolling pull request (branch data-update). Nothing reaches main
+# without review. Pull requests created with GITHUB_TOKEN do not trigger other
+# workflows, so this job runs the full check before it pushes.
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GOLD: data/curated/pegelonline/water-level-daily.json
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Keep days from the open update pull request
+        # A closed, unmerged update is a rejection and is not carried over.
+        run: |
+          open=$(gh pr list --head data-update --base main --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            git fetch --depth=1 origin data-update
+            git show "FETCH_HEAD:$GOLD" > "$RUNNER_TEMP/pending.json" || rm -f "$RUNNER_TEMP/pending.json"
+          fi
+      - name: Collect complete days
+        run: |
+          args=()
+          if [ -s "$RUNNER_TEMP/pending.json" ]; then args=(--merge "$RUNNER_TEMP/pending.json"); fi
+          node scripts/update-water-level-history.ts "${args[@]}" | tee "$RUNNER_TEMP/summary.txt"
+          npx prettier --write "$GOLD"
+      - name: Detect changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain -- "$GOLD")" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Validate
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run check
+      - name: Open or update the review pull request
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -C data-update
+          git add -- "$GOLD"
+          git commit -m 'data: update daily water-level history'
+          git push --force origin data-update
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          body=$(printf '%s\n\n%s\n\n%s\n' \
+            "Automated update of \`$GOLD\` from PEGELONLINE (DL-DE-Zero-2.0)." \
+            "$(cat "$RUNNER_TEMP/summary.txt")" \
+            "Validated with \`npm run check\` in $run_url. Stored days are never rewritten. Merging deploys the new days; closing without merging discards them.")
+          if [ "$(gh pr list --head data-update --base main --state open --json number --jq 'length')" = "0" ]; then
+            gh pr create --base main --head data-update --title 'Data update: daily water-level history' --body "$body"
+          else
+            gh pr edit data-update --body "$body"
+          fi

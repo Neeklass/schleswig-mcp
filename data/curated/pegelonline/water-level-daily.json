@@ -1,0 +1,347 @@
+{
+  "metadata": {
+    "id": "schleswig-water-level-daily",
+    "title": "Daily Water Levels at Gauge Schleswig",
+    "description": "Daily minimum, mean and maximum of raw PEGELONLINE water-level measurements at gauge SCHLESWIG (Schlei), aggregated per calendar day in Europe/Berlin. Values are centimetres relative to gauge zero, not water depth.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": "2026-10-20",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": null,
+      "retrievedAt": "2026-10-21T13:50:59.252Z",
+      "curatedAt": "2026-10-21T13:50:59.252Z"
+    },
+    "source": {
+      "provider": "PEGELONLINE",
+      "publisher": "Wasserstraßen- und Schifffahrtsverwaltung des Bundes (WSV)",
+      "catalog": null,
+      "url": "https://pegelonline.wsv.de/webservice/ueberblick",
+      "downloadUrl": "https://pegelonline.wsv.de/webservices/rest-api/v2/stations/09370c05-1041-4395-a5d4-b8db6e59c4c8/W/measurements.json?start=P31D",
+      "format": "JSON"
+    },
+    "license": {
+      "id": "DL-DE-Zero-2.0",
+      "url": "https://www.govdata.de/dl-de/zero-2-0",
+      "attribution": "Wasserstraßen- und Schifffahrtsverwaltung des Bundes (WSV), PEGELONLINE"
+    },
+    "temporalCoverage": {
+      "years": [2026]
+    },
+    "processing": {
+      "steps": [
+        "Fetched the raw W measurement series of the last 31 days from the PEGELONLINE REST API.",
+        "Grouped measurements by calendar day in Europe/Berlin; skipped the incomplete first day of the window and the current day.",
+        "Computed minimum, maximum, arithmetic mean (rounded to 0.1 cm) and the number of measurements per day.",
+        "Appended new days only; days already stored are never rewritten."
+      ]
+    },
+    "recordCount": 30
+  },
+  "data": [
+    {
+      "id": "2026-09-21",
+      "date": "2026-09-21",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 489,
+      "mean": 491.8,
+      "maximum": 498,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-22",
+      "date": "2026-09-22",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 498,
+      "mean": 516.2,
+      "maximum": 527,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-23",
+      "date": "2026-09-23",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 527,
+      "mean": 528.6,
+      "maximum": 530,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-24",
+      "date": "2026-09-24",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 518,
+      "mean": 523.1,
+      "maximum": 528,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-25",
+      "date": "2026-09-25",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 519,
+      "mean": 528.8,
+      "maximum": 533,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-26",
+      "date": "2026-09-26",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 523,
+      "mean": 525,
+      "maximum": 527,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-27",
+      "date": "2026-09-27",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 524,
+      "mean": 530.7,
+      "maximum": 540,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-28",
+      "date": "2026-09-28",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 533,
+      "mean": 537.2,
+      "maximum": 540,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-29",
+      "date": "2026-09-29",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 532,
+      "mean": 532.8,
+      "maximum": 534,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-09-30",
+      "date": "2026-09-30",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 534,
+      "mean": 537.4,
+      "maximum": 539,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-01",
+      "date": "2026-10-01",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 539,
+      "mean": 539.6,
+      "maximum": 540,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-02",
+      "date": "2026-10-02",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 529,
+      "mean": 534,
+      "maximum": 539,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-03",
+      "date": "2026-10-03",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 520,
+      "mean": 524.5,
+      "maximum": 529,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-04",
+      "date": "2026-10-04",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 515,
+      "mean": 517,
+      "maximum": 520,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-05",
+      "date": "2026-10-05",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 505,
+      "mean": 512.5,
+      "maximum": 515,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-06",
+      "date": "2026-10-06",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 502,
+      "mean": 503,
+      "maximum": 508,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-07",
+      "date": "2026-10-07",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 508,
+      "mean": 518.5,
+      "maximum": 524,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-08",
+      "date": "2026-10-08",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 523,
+      "mean": 525.6,
+      "maximum": 527,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-09",
+      "date": "2026-10-09",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 508,
+      "mean": 516.8,
+      "maximum": 523,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-10",
+      "date": "2026-10-10",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 504,
+      "mean": 504.5,
+      "maximum": 508,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-11",
+      "date": "2026-10-11",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 504,
+      "mean": 506,
+      "maximum": 511,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-12",
+      "date": "2026-10-12",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 511,
+      "mean": 521.5,
+      "maximum": 530,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-13",
+      "date": "2026-10-13",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 530,
+      "mean": 533.3,
+      "maximum": 536,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-14",
+      "date": "2026-10-14",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 516,
+      "mean": 524.8,
+      "maximum": 535,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-15",
+      "date": "2026-10-15",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 515,
+      "mean": 522.8,
+      "maximum": 528,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-16",
+      "date": "2026-10-16",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 519,
+      "mean": 520.9,
+      "maximum": 526,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-17",
+      "date": "2026-10-17",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 519,
+      "mean": 530.6,
+      "maximum": 541,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-18",
+      "date": "2026-10-18",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 541,
+      "mean": 570.8,
+      "maximum": 589,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-19",
+      "date": "2026-10-19",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 547,
+      "mean": 568.5,
+      "maximum": 588,
+      "measurementCount": 1440
+    },
+    {
+      "id": "2026-10-20",
+      "date": "2026-10-20",
+      "unit": "cm",
+      "reference": "gauge_zero",
+      "minimum": 535,
+      "mean": 545.8,
+      "maximum": 558,
+      "measurementCount": 1440
+    }
+  ]
+}
