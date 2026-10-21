@@ -30,8 +30,11 @@ jobs:
               --data-urlencode 'regionalvariable=GEMEIN' --data-urlencode 'regionalkey=01059075' \
               --data-urlencode 'startyear=2015' --data-urlencode 'language=de' -o "$t.json"
             python3 - "$t" <<'PY'
-          import json, sys, csv, io, collections
+          import json, sys, csv, io, collections, traceback
           t = sys.argv[1]
+          def fail(kind, value, tb):
+              print(f"::notice title={t} error::" + "".join(traceback.format_exception(kind, value, tb)).replace(chr(10), " | ")[:1500] + " || raw " + open(f"{t}.json").read()[:800].replace(chr(10)," "))
+          sys.excepthook = fail
           d = json.load(open(f"{t}.json"))
           status = d.get("Status", {})
           obj = d.get("Object") or {}
@@ -39,7 +42,7 @@ jobs:
           rows = list(csv.DictReader(io.StringIO(content.lstrip("\ufeff")), delimiter=";"))
           if not rows:
               print(f"::notice title={t}::status {status.get('Code')} {status.get('Content','')[:200]} || {content[:300]}")
-              sys.exit()
+              sys.exit(0)
           years = sorted({r["time"][:4] for r in rows})
           nonnum = collections.Counter(r["value"] for r in rows if not r["value"].replace(".","").replace(",","").replace("-","").isdigit())
           vars_ = collections.Counter(f'{r["value_variable_code"]}={r["value_variable_label"]}[{r["value_unit"]}]' for r in rows)
