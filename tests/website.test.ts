@@ -179,7 +179,7 @@ describe('public website', () => {
     )![1]!;
     expect(sources.match(/<p>/g)).toHaveLength(1);
     expect(sources.replace(/\s+/g, ' ')).toContain(
-      'Data comes from public sources. Responses include source, license, date, and limitation information. Most datasets are snapshots; only water levels are retrieved live.',
+      'Data comes from public sources. Responses include source, license, date, and limitation information. Most datasets are snapshots; the current water level is retrieved live and its daily history is updated through reviewed pull requests.',
     );
     expect(sources).not.toContain('<a');
     const request = html.match(
