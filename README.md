@@ -16,20 +16,28 @@ of Schleswig. German source text and official names are preserved.
 
 All REST routes below are relative to `/api/v1/schleswig/` and use `GET`.
 
-| Dataset             | REST route            | MCP tool                             | Coverage                             |
-| ------------------- | --------------------- | ------------------------------------ | ------------------------------------ |
-| Water level         | `water-level`         | `get_schleswig_water_level`          | Latest available PEGELONLINE reading |
-| Water-level history | `water-level-history` | `query_schleswig_water` only         | One record per day since collection  |
-| Addresses           | `addresses`           | `list_schleswig_addresses`           | 7,619 addresses                      |
-| Cultural monuments  | `monuments`           | `list_schleswig_monuments`           | 251 register entries                 |
-| Bathing waters      | `bathing-waters`      | `list_schleswig_bathing_waters`      | 2 reference locations                |
-| Charging stations   | `charging-stations`   | `list_schleswig_charging_stations`   | 61 installations                     |
-| Population forecast | `population-forecast` | `list_schleswig_population_forecast` | 39 indicators in one source document |
+| Dataset                  | REST route            | MCP tool                             | Coverage                                             |
+| ------------------------ | --------------------- | ------------------------------------ | ---------------------------------------------------- |
+| Water level              | `water-level`         | `get_schleswig_water_level`          | Latest available PEGELONLINE reading                 |
+| Water-level history      | `water-level-history` | `query_schleswig_water` only         | One record per day since collection                  |
+| Addresses                | `addresses`           | `list_schleswig_addresses`           | 7,619 addresses                                      |
+| Cultural monuments       | `monuments`           | `list_schleswig_monuments`           | 251 register entries                                 |
+| Bathing waters           | `bathing-waters`      | `list_schleswig_bathing_waters`      | 2 reference locations                                |
+| Charging stations        | `charging-stations`   | `list_schleswig_charging_stations`   | 61 installations                                     |
+| Population forecast      | `population-forecast` | `list_schleswig_population_forecast` | 39 indicators in one source document                 |
+| Population               | `population`          | `query_schleswig_population` only    | Population and average age by sex, 2008–2025         |
+| Population movement      | `population-movement` | `query_schleswig_population` only    | Births, deaths, moves in and out, since 2008         |
+| Residential construction | `construction`        | `query_schleswig_economy` only       | Permits and completions, 2008–2024                   |
+| Tourism                  | `tourism`             | `query_schleswig_economy` only       | Establishments, arrivals, overnight stays, 2008–2025 |
+| Municipal taxes          | `municipal-taxes`     | `query_schleswig_economy` only       | Tax rates, revenue and tax shares, 2016–2024         |
 
 Only the current water level is fetched live. The daily water-level history is
 appended by a scheduled, reviewed pipeline (see [Data updates](#data-updates)).
-The other five datasets are manually prepared snapshots, with source dates,
-licenses and processing notes in their metadata.
+The five official statistics from the Regionaldatenbank Deutschland are
+refreshed by the same pipeline; each record is one series (measure and
+breakdown) with values per period. The other five datasets are manually
+prepared snapshots. All Gold files carry source dates, licenses and processing
+notes in their metadata.
 
 ## REST API
 
@@ -43,7 +51,7 @@ curl "https://schleswig-mcp-data-seven.vercel.app/api/v1/schleswig/water-level"
 
 On Windows PowerShell, use `curl.exe` to avoid its `curl` alias.
 
-Water level takes no query parameters. All six list endpoints accept:
+Water level takes no query parameters. All eleven list endpoints accept:
 
 | Parameter | Meaning                                                            |
 | --------- | ------------------------------------------------------------------ |
@@ -76,12 +84,13 @@ includes VS Code configuration and MCP Inspector instructions.
 Datasets are grouped into theme tools; the required `dataset` argument selects
 one, using the REST route name:
 
-| Theme tool                   | Datasets                                               |
-| ---------------------------- | ------------------------------------------------------ |
-| `query_schleswig_water`      | `water-level`, `water-level-history`, `bathing-waters` |
-| `query_schleswig_population` | `population-forecast`                                  |
-| `query_schleswig_mobility`   | `charging-stations`                                    |
-| `query_schleswig_places`     | `addresses`, `monuments`                               |
+| Theme tool                   | Datasets                                                   |
+| ---------------------------- | ---------------------------------------------------------- |
+| `query_schleswig_water`      | `water-level`, `water-level-history`, `bathing-waters`     |
+| `query_schleswig_population` | `population-forecast`, `population`, `population-movement` |
+| `query_schleswig_economy`    | `construction`, `tourism`, `municipal-taxes`               |
+| `query_schleswig_mobility`   | `charging-stations`                                        |
+| `query_schleswig_places`     | `addresses`, `monuments`                                   |
 
 Results contain `dataset` and the same domain data as REST in `result`. The six
 single-dataset tools (`get_schleswig_water_level`, `list_schleswig_*`) remain
@@ -113,7 +122,7 @@ npm run check
 npm start
 ```
 
-The six tracked JSON files under `data/curated/` are required. No original
+The eleven tracked JSON files under `data/curated/` are required. No original
 downloads or Python environment are needed. Internet access is needed for npm
 installation, live water levels and Scalar's CDN module.
 
@@ -142,7 +151,7 @@ for Scalar initialization and theme behavior, and
 Curated snapshots are called **Gold** in the code and source documents. Providers
 load and validate them; REST and MCP share the same domain functions. Successful
 loads are cached read-only. Replace snapshots manually and restart or redeploy.
-The only automated Gold file is the daily water-level history (see below).
+The water-level history and the official statistics are updated by a reviewed pipeline (see below).
 
 - **Water level:** readings older than 15 minutes remain available with
   `freshness.isStale: true`. Missing, invalid and unavailable readings produce
@@ -177,7 +186,7 @@ official MCP TypeScript SDK and Vitest. Dependency versions are pinned in
 | `src/providers/`             | Source loading, validation and mapping; one document per provider      |
 | `src/shared/`                | Metadata, pagination, cached snapshot readers and technical helpers    |
 | `src/app.ts`, `src/index.ts` | Local server bootstrap and lifecycle                                   |
-| `data/curated/`              | Six Gold JSON files packaged with builds                               |
+| `data/curated/`              | Eleven Gold JSON files packaged with builds                            |
 | `data/imported/`             | Optional unchanged originals; excluded from Git, builds and deployment |
 
 ## Data updates
@@ -192,11 +201,21 @@ request. Nothing reaches `main` or the deployment without review; merging
 deploys, closing discards. Days from a still-open update pull request are
 carried into the next run, so a review can wait up to about four weeks.
 
+The same job downloads the configured Regionaldatenbank tables (GENESIS REST
+API, flat-file CSV, filtered to municipality `01059075`) and rewrites
+`data/curated/regionalstatistik/*.json` only when the published data changed,
+since official statistics can be revised. It needs the repository secrets
+`REGIONALSTATISTIK_USERNAME` and `REGIONALSTATISTIK_PASSWORD` of a free
+Regionaldatenbank account; the credentials are sent as request headers and never
+stored in files. A failed statistics refresh does not block the water-level
+update but marks the run as failed.
+
 The repository setting **Allow GitHub Actions to create and approve pull
 requests** must be enabled. Pull requests created with `GITHUB_TOKEN` do not
 start the CI workflow; the update job runs the same checks itself. Collector
-code lives in `scripts/update-water-level-history.ts`; request handling only
-reads the validated Gold file.
+code lives in `scripts/update-water-level-history.ts` and
+`scripts/update-statistics.ts`; request handling only reads the validated Gold
+files.
 
 `api/index.ts` is the REST Vercel entry point; `api/mcp.ts` only re-exports the
 MCP entry point. Public requests never read the original files.
@@ -242,13 +261,14 @@ on the production and preview origins.
 
 ## Attribution and licensing
 
-| Provider documentation                                     | Dataset license                                   |
-| ---------------------------------------------------------- | ------------------------------------------------- |
-| [PEGELONLINE / WSV](docs/datasources/pegelonline.md)       | DL-DE-Zero-2.0                                    |
-| [LVermGeo SH](docs/datasources/geodata.md)                 | CC BY 4.0                                         |
-| [Open Data SH monuments](docs/datasources/opendata-sh.md)  | CC BY 4.0                                         |
-| [GovData-discovered datasets](docs/datasources/govdata.md) | Bathing-water CSV: CC BY 4.0; population: CC0 1.0 |
-| [Bundesnetzagentur](docs/datasources/bundesnetzagentur.md) | CC BY 4.0                                         |
+| Provider documentation                                                 | Dataset license                                   |
+| ---------------------------------------------------------------------- | ------------------------------------------------- |
+| [PEGELONLINE / WSV](docs/datasources/pegelonline.md)                   | DL-DE-Zero-2.0                                    |
+| [LVermGeo SH](docs/datasources/geodata.md)                             | CC BY 4.0                                         |
+| [Open Data SH monuments](docs/datasources/opendata-sh.md)              | CC BY 4.0                                         |
+| [GovData-discovered datasets](docs/datasources/govdata.md)             | Bathing-water CSV: CC BY 4.0; population: CC0 1.0 |
+| [Bundesnetzagentur](docs/datasources/bundesnetzagentur.md)             | CC BY 4.0                                         |
+| [Regionaldatenbank Deutschland](docs/datasources/regionalstatistik.md) | DL-DE-BY-2.0                                      |
 
 Responses retain source credits, license links and modification notices. Preserve
 them when reusing data.

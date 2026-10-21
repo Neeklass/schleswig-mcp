@@ -35,7 +35,9 @@
 
 Assignments: `pegelonline` → `water-level` and `water-level-history`; `geodata` → `addresses`;
 `opendata-sh` → `monuments`; `bundesnetzagentur` → `car-charging-stations`;
-`govdata` → `bathing-waters` and `population-forecast`. Preserve them.
+`govdata` → `bathing-waters` and `population-forecast`; `regionalstatistik` →
+`statistics` (population, population-movement, construction, tourism,
+municipal-taxes). Preserve them.
 The `geodata-sh` data folders identify LVermGeo SH; its provider/document are
 named `geodata`.
 
@@ -48,8 +50,11 @@ named `geodata`.
   shared metadata and dataset-specific record schemas. Do not introduce automatic
   preparation, additional products or replacement snapshots implicitly. The
   approved exception is `.github/workflows/update-data.yml`: it appends days to
-  `data/curated/pegelonline/water-level-daily.json` and proposes them only in
-  the rolling `data-update` pull request. Keep stored days immutable.
+  `data/curated/pegelonline/water-level-daily.json`, refreshes
+  `data/curated/regionalstatistik/*.json` and proposes changes only in the
+  rolling `data-update` pull request. Keep stored water-level days immutable.
+  Regionaldatenbank credentials come only from repository secrets; never write,
+  log or request them in chat.
 - Change curated content only when the error and correction are evidenced;
   document corrections. Do not decide Git inclusion without owner authorization.
   Gold files must accompany static-feature builds and deployments.
