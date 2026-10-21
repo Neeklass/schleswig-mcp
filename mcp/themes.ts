@@ -8,6 +8,10 @@ import {
   waterLevelHistoryPageSchema,
   listSchleswigWaterLevelHistory,
 } from '../src/modules/water-level-history.ts';
+import {
+  statisticsPageSchema,
+  listSchleswigStatistics,
+} from '../src/modules/statistics.ts';
 import { listQuerySchema } from '../src/shared/pagination.ts';
 import type { ListQuery } from '../src/shared/pagination.ts';
 import {
@@ -59,7 +63,11 @@ export const themeTools = {
   },
   population: {
     name: 'query_schleswig_population',
-    datasets: ['population-forecast'],
+    datasets: ['population-forecast', 'population', 'population-movement'],
+  },
+  economy: {
+    name: 'query_schleswig_economy',
+    datasets: ['construction', 'tourism', 'municipal-taxes'],
   },
   mobility: {
     name: 'query_schleswig_mobility',
@@ -120,13 +128,13 @@ export function registerThemeTools(
     {
       title: 'Schleswig population',
       description:
-        'Population of Schleswig, Germany. dataset "population-forecast": projection indicators and their year values; historical inputs and projections must not all be treated as observations. Pagination counts indicators; result.metadata.recordCount counts source documents.' +
+        'Population of Schleswig, Germany. dataset "population-forecast": projection indicators and their year values; historical inputs and projections must not all be treated as observations; pagination counts indicators, result.metadata.recordCount counts source documents. dataset "population": official population on 31 December and average age, by sex, since 2008. dataset "population-movement": official annual births, deaths and moves across the municipal border. Official series have one record per measure and breakdown with values per period; null values keep the official sign in marker.' +
         pageDescription,
       inputSchema: themeInput(population.datasets),
       outputSchema: mcpOutputSchema(
         z.strictObject({
           dataset: z.enum(population.datasets),
-          result: populationPageSchema,
+          result: z.union([populationPageSchema, statisticsPageSchema]),
         }),
       ),
       annotations: { ...annotations, openWorldHint: false },
@@ -134,7 +142,34 @@ export function registerThemeTools(
     (input) =>
       toolResult(async () => ({
         dataset: input.dataset,
-        result: await listSchleswigPopulationForecast(listQuery(input)),
+        result:
+          input.dataset === 'population-forecast'
+            ? await listSchleswigPopulationForecast(listQuery(input))
+            : await listSchleswigStatistics(input.dataset, listQuery(input)),
+      })),
+  );
+
+  const economy = themeTools.economy;
+  server.registerTool(
+    economy.name,
+    {
+      title: 'Schleswig economy',
+      description:
+        'Economy of Schleswig, Germany, from official statistics (Regionaldatenbank Deutschland). dataset "construction": annual permits and completions of new residential buildings, dwellings and living space. dataset "tourism": annual open accommodation establishments, beds, guest arrivals and overnight stays. dataset "municipal-taxes": annual tax rates (Hebesätze), tax revenue and municipal tax shares. One record per measure and breakdown with values per period; null values keep the official sign in marker.' +
+        pageDescription,
+      inputSchema: themeInput(economy.datasets),
+      outputSchema: mcpOutputSchema(
+        z.strictObject({
+          dataset: z.enum(economy.datasets),
+          result: statisticsPageSchema,
+        }),
+      ),
+      annotations: { ...annotations, openWorldHint: false },
+    },
+    (input) =>
+      toolResult(async () => ({
+        dataset: input.dataset,
+        result: await listSchleswigStatistics(input.dataset, listQuery(input)),
       })),
   );
 
