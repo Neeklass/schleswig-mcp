@@ -13,8 +13,8 @@
       "dataAsOf": "2024-12-31",
       "sourcePublishedAt": null,
       "sourceUpdatedAt": null,
-      "retrievedAt": "2026-10-21T14:38:53.960Z",
-      "curatedAt": "2026-10-21T14:38:53.960Z"
+      "retrievedAt": "2026-10-21T14:45:17.013Z",
+      "curatedAt": "2026-10-21T14:45:17.013Z"
     },
     "source": {
       "provider": "Regionaldatenbank Deutschland",
@@ -39,7 +39,7 @@
       "steps": [
         "Downloaded tables 31111-01-02-5, 31121-01-02-5 as flat-file CSV, filtered by the source to GEMEIN 01059075 from 2008.",
         "Grouped rows into one series per table, measure and breakdown; sorted values by period.",
-        "Converted decimal commas to numbers; kept official signs for missing values in marker and mapped \"-\" (exactly zero) to 0.",
+        "Converted decimal commas to numbers; kept official signs (\"-\", \".\", \"...\", \"x\", \"/\") in marker with a null value.",
         "Translated field names into English; German labels, units and codes are unchanged."
       ]
     },
@@ -355,7 +355,7 @@
         },
         {
           "period": "2019",
-          "value": 0,
+          "value": null,
           "marker": "-"
         },
         {
@@ -914,7 +914,7 @@
         },
         {
           "period": "2019",
-          "value": 0,
+          "value": null,
           "marker": "-"
         },
         {
