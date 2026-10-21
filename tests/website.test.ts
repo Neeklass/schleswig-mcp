@@ -598,7 +598,7 @@ describe('OpenAPI contract', () => {
       /https:\/\/github\.com\/Neeklass\/schleswig-mcp\//,
     );
   });
-  it('uses OpenAPI 3.1 with a relative server and exactly six GET operations', () => {
+  it('uses OpenAPI 3.1 with a relative server and exactly seven GET operations', () => {
     expect(document.openapi).toBe('3.1.0');
     expect(document.jsonSchemaDialect).toBe(
       'https://json-schema.org/draft/2020-12/schema',
@@ -606,11 +606,11 @@ describe('OpenAPI contract', () => {
     expect(document.servers).toEqual([
       { url: '/', description: expect.any(String) },
     ]);
-    expect(Object.keys(document.paths)).toHaveLength(6);
+    expect(Object.keys(document.paths)).toHaveLength(7);
     const ids = Object.values(document.paths).map(
       (operation) => operationSchema.parse(operation).get.operationId,
     );
-    expect(new Set(ids).size).toBe(6);
+    expect(new Set(ids).size).toBe(7);
   });
   it.each(restDocumentation)(
     'matches live local REST output and schemas for $path',

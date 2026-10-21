@@ -1,0 +1,31 @@
+name: Seed water-level history (temporary)
+
+# One-off: collects the first days into the feature branch, because PEGELONLINE
+# is not reachable from the development environment. Removed before merging.
+on:
+  push:
+    branches: [etappe-3-pipeline]
+    paths: [.github/workflows/seed-water-level-history.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node scripts/update-water-level-history.ts
+      - run: npx prettier --write data/curated/pegelonline/water-level-daily.json
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/curated/pegelonline/water-level-daily.json
+          git commit -m 'data: seed daily water-level history from PEGELONLINE'
+          git push

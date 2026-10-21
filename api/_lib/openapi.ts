@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { waterLevelSchema } from '../../src/modules/water-level.ts';
 import {
+  waterLevelHistoryPageSchema,
+  listSchleswigWaterLevelHistory,
+} from '../../src/modules/water-level-history.ts';
+import {
   addressPageSchema,
   listSchleswigAddresses,
 } from '../../src/modules/addresses.ts';
@@ -64,6 +68,16 @@ export const restDocumentation = [
     example: async () => waterLevelExample,
     description:
       'Live PEGELONLINE measurement for station SCHLESWIG. No query parameters. Values are centimetres relative to gauge zero, not water depth. Unvalidated raw measurements are not navigation advice or flood warnings. Measurements older than 15 minutes still return 200 with freshness.isStale=true. Each request fetches upstream data with a five-second timeout; avoid unnecessary polling.',
+  },
+  {
+    path: 'water-level-history',
+    name: 'WaterLevelHistoryPage',
+    summary: 'List daily water levels',
+    provider: 'pegelonline',
+    schema: waterLevelHistoryPageSchema,
+    example: () => listSchleswigWaterLevelHistory({ limit: 1 }),
+    description:
+      'Daily minimum, mean and maximum of raw PEGELONLINE measurements at station SCHLESWIG, one record per calendar day in Europe/Berlin, newest first. The record ID is the date; q matches date prefixes such as 2026-10. A scheduled pipeline appends complete days after review; stored days are never rewritten. PEGELONLINE only serves the last 31 days, so the history starts with the first collection run. Values are centimetres relative to gauge zero, not water depth; measurementCount below 1440 indicates source gaps.',
   },
   {
     path: 'addresses',

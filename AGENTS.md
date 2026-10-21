@@ -33,7 +33,7 @@
 - Reused technical helpers belong in `src/shared/`. Keep metadata validation,
   domain models and pagination shared, without duplicate business logic.
 
-Assignments: `pegelonline` → `water-level`; `geodata` → `addresses`;
+Assignments: `pegelonline` → `water-level` and `water-level-history`; `geodata` → `addresses`;
 `opendata-sh` → `monuments`; `bundesnetzagentur` → `car-charging-stations`;
 `govdata` → `bathing-waters` and `population-forecast`. Preserve them.
 The `geodata-sh` data folders identify LVermGeo SH; its provider/document are
@@ -46,7 +46,10 @@ named `geodata`.
   deployment. They are optional and are never production request sources.
 - `data/curated/` holds manually prepared static API JSON. Use `{metadata, data}`,
   shared metadata and dataset-specific record schemas. Do not introduce automatic
-  preparation, additional products or replacement snapshots implicitly.
+  preparation, additional products or replacement snapshots implicitly. The
+  approved exception is `.github/workflows/update-data.yml`: it appends days to
+  `data/curated/pegelonline/water-level-daily.json` and proposes them only in
+  the rolling `data-update` pull request. Keep stored days immutable.
 - Change curated content only when the error and correction are evidenced;
   document corrections. Do not decide Git inclusion without owner authorization.
   Gold files must accompany static-feature builds and deployments.
@@ -62,7 +65,8 @@ named `geodata`.
 - Keep explicit original readers separate from cached Gold readers. Neither
   prepares data. Do not load originals per request. Cache validated snapshots
   read-only; restart/redeploy after replacement.
-- PEGELONLINE stays live. Missing, invalid, unavailable and stale measurements
+- The current PEGELONLINE reading stays live; only its daily history is a Gold
+  file. Missing, invalid, unavailable and stale measurements
   are distinct. A gauge reading is not water depth.
 
 ## Checks and documentation

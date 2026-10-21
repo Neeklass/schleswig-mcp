@@ -40,7 +40,13 @@ export default defineConfig(
     },
   },
   {
-    files: ['api/**/*.ts', 'mcp/**/*.ts', 'src/**/*.ts', 'tests/**/*.ts'],
+    files: [
+      'api/**/*.ts',
+      'mcp/**/*.ts',
+      'scripts/**/*.ts',
+      'src/**/*.ts',
+      'tests/**/*.ts',
+    ],
     languageOptions: { parserOptions: { projectService: true } },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
