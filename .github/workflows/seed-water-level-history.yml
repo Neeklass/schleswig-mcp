@@ -1,7 +1,8 @@
 name: Seed water-level history (temporary)
 
 # One-off: collects the first days into the feature branch, because PEGELONLINE
-# is not reachable from the development environment. Removed before merging.
+# is not reachable from the development environment. Removed before merging
+# (triggered by changes to this file only).
 on:
   push:
     branches: [etappe-3-pipeline]
