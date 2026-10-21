@@ -20,18 +20,23 @@ jobs:
       REGIO_USER: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
       REGIO_PASS: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
     steps:
-      - name: Catalogue with time ranges
+      - name: Detail probe
         run: |
-          for stat in 12711 71231 12411 45412 31111; do
-            curl -sS -m 60 -X POST "$BASE/catalogue/tables" \
+          for t in 12411-07-01-5 31121-01-02-5 71231-01-03-5 12711-91-01-5; do
+            curl -sS -m 120 -X POST "$BASE/data/tablefile" \
               -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
-              --data-urlencode "selection=${stat}*" --data-urlencode 'area=all' \
-              --data-urlencode 'pagelength=100' --data-urlencode 'language=de' -o "cat-$stat.json"
-            python3 - "$stat" <<'PY' || true
-          import json, sys
-          stat = sys.argv[1]
-          d = json.load(open(f"cat-{stat}.json"))
-          rows = [f"{t['Code']} [{t.get('Time','')}]: {t['Content'][:70]}".replace(chr(10)," ") for t in (d.get("List") or [])]
-          print(f"::notice title={stat}::" + " || ".join(rows)[:3800])
+              --data-urlencode "name=$t" --data-urlencode 'area=all' \
+              --data-urlencode 'format=ffcsv' --data-urlencode 'compress=false' \
+              --data-urlencode 'regionalvariable=GEMEIN' --data-urlencode 'regionalkey=01059075' \
+              --data-urlencode 'startyear=2022' --data-urlencode 'language=de' -o "$t.bin"
+            n=$(unzip -l "$t.bin" | tail -1)
+            unzip -p "$t.bin" > "$t.csv" || true
+            python3 - "$t" "$n" <<'PY' || true
+          import csv, sys
+          t, n = sys.argv[1], sys.argv[2]
+          rows = list(csv.DictReader(open(f"{t}.csv", encoding="utf-8-sig"), delimiter=";"))
+          cols = list(rows[0].keys()) if rows else []
+          pick = [f'{r["time"]}|' + "|".join(r[k] for k in cols if k[0].isdigit() and k.endswith("attribute_label") and not k.startswith("1_")) + f'|{r["value_variable_code"]}={r["value"]} {r["value_unit"]}' for r in rows]
+          print(f"::notice title={t}::zip {n} || cols {cols} || " + " ; ".join(pick)[:3300])
           PY
           done
