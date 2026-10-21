@@ -1,0 +1,677 @@
+{
+  "metadata": {
+    "id": "schleswig-population",
+    "title": "Population of Schleswig",
+    "description": "Official population on 31 December by sex and average age by sex, from the Regionaldatenbank Deutschland.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": "2025-12-31",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": null,
+      "retrievedAt": "2026-10-21T14:38:53.960Z",
+      "curatedAt": "2026-10-21T14:38:53.960Z"
+    },
+    "source": {
+      "provider": "Regionaldatenbank Deutschland",
+      "publisher": "Statistische Ämter des Bundes und der Länder",
+      "catalog": null,
+      "url": "https://www.regionalstatistik.de/genesis/online",
+      "downloadUrl": null,
+      "format": "ffcsv via GENESIS REST API (https://www.regionalstatistik.de/genesisws/rest/2020/data/tablefile)"
+    },
+    "license": {
+      "id": "DL-DE-BY-2.0",
+      "url": "https://www.govdata.de/dl-de/by-2-0",
+      "attribution": "© Statistische Ämter des Bundes und der Länder, Deutschland, 2026. Datenlizenz Deutschland – Namensnennung – Version 2.0. Tabellen: 12411-01-01-5, 12411-07-01-5."
+    },
+    "temporalCoverage": {
+      "years": [
+        2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019,
+        2020, 2021, 2022, 2023, 2024, 2025
+      ]
+    },
+    "processing": {
+      "steps": [
+        "Downloaded tables 12411-01-01-5, 12411-07-01-5 as flat-file CSV, filtered by the source to GEMEIN 01059075 from 2008.",
+        "Grouped rows into one series per table, measure and breakdown; sorted values by period.",
+        "Converted decimal commas to numbers; kept official signs for missing values in marker and mapped \"-\" (exactly zero) to 0.",
+        "Translated field names into English; German labels, units and codes are unchanged."
+      ]
+    },
+    "recordCount": 6
+  },
+  "data": [
+    {
+      "id": "12411-01-01-5.BEVSTD.GESM",
+      "table": {
+        "code": "12411-01-01-5",
+        "statistic": "Fortschreibung des Bevölkerungsstandes"
+      },
+      "measure": {
+        "code": "BEVSTD",
+        "label": "Bevölkerungsstand"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESM",
+          "label": "männlich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008-12-31",
+          "value": 11430,
+          "marker": null
+        },
+        {
+          "period": "2009-12-31",
+          "value": 11458,
+          "marker": null
+        },
+        {
+          "period": "2010-12-31",
+          "value": 11471,
+          "marker": null
+        },
+        {
+          "period": "2011-12-31",
+          "value": 11461,
+          "marker": null
+        },
+        {
+          "period": "2012-12-31",
+          "value": 11377,
+          "marker": null
+        },
+        {
+          "period": "2013-12-31",
+          "value": 11350,
+          "marker": null
+        },
+        {
+          "period": "2014-12-31",
+          "value": 11614,
+          "marker": null
+        },
+        {
+          "period": "2015-12-31",
+          "value": 11807,
+          "marker": null
+        },
+        {
+          "period": "2016-12-31",
+          "value": 12071,
+          "marker": null
+        },
+        {
+          "period": "2017-12-31",
+          "value": 12250,
+          "marker": null
+        },
+        {
+          "period": "2018-12-31",
+          "value": 12294,
+          "marker": null
+        },
+        {
+          "period": "2019-12-31",
+          "value": 12370,
+          "marker": null
+        },
+        {
+          "period": "2020-12-31",
+          "value": 12312,
+          "marker": null
+        },
+        {
+          "period": "2021-12-31",
+          "value": 12365,
+          "marker": null
+        },
+        {
+          "period": "2022-12-31",
+          "value": 12172,
+          "marker": null
+        },
+        {
+          "period": "2023-12-31",
+          "value": 12285,
+          "marker": null
+        },
+        {
+          "period": "2024-12-31",
+          "value": 12395,
+          "marker": null
+        },
+        {
+          "period": "2025-12-31",
+          "value": 12499,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12411-01-01-5.BEVSTD.GESW",
+      "table": {
+        "code": "12411-01-01-5",
+        "statistic": "Fortschreibung des Bevölkerungsstandes"
+      },
+      "measure": {
+        "code": "BEVSTD",
+        "label": "Bevölkerungsstand"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESW",
+          "label": "weiblich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008-12-31",
+          "value": 12599,
+          "marker": null
+        },
+        {
+          "period": "2009-12-31",
+          "value": 12603,
+          "marker": null
+        },
+        {
+          "period": "2010-12-31",
+          "value": 12587,
+          "marker": null
+        },
+        {
+          "period": "2011-12-31",
+          "value": 12351,
+          "marker": null
+        },
+        {
+          "period": "2012-12-31",
+          "value": 12288,
+          "marker": null
+        },
+        {
+          "period": "2013-12-31",
+          "value": 12285,
+          "marker": null
+        },
+        {
+          "period": "2014-12-31",
+          "value": 12421,
+          "marker": null
+        },
+        {
+          "period": "2015-12-31",
+          "value": 12459,
+          "marker": null
+        },
+        {
+          "period": "2016-12-31",
+          "value": 12702,
+          "marker": null
+        },
+        {
+          "period": "2017-12-31",
+          "value": 12868,
+          "marker": null
+        },
+        {
+          "period": "2018-12-31",
+          "value": 12982,
+          "marker": null
+        },
+        {
+          "period": "2019-12-31",
+          "value": 13046,
+          "marker": null
+        },
+        {
+          "period": "2020-12-31",
+          "value": 13010,
+          "marker": null
+        },
+        {
+          "period": "2021-12-31",
+          "value": 13145,
+          "marker": null
+        },
+        {
+          "period": "2022-12-31",
+          "value": 12976,
+          "marker": null
+        },
+        {
+          "period": "2023-12-31",
+          "value": 12951,
+          "marker": null
+        },
+        {
+          "period": "2024-12-31",
+          "value": 12957,
+          "marker": null
+        },
+        {
+          "period": "2025-12-31",
+          "value": 13068,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12411-01-01-5.BEVSTD.TOTAL",
+      "table": {
+        "code": "12411-01-01-5",
+        "statistic": "Fortschreibung des Bevölkerungsstandes"
+      },
+      "measure": {
+        "code": "BEVSTD",
+        "label": "Bevölkerungsstand"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": null,
+          "label": "Insgesamt"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008-12-31",
+          "value": 24029,
+          "marker": null
+        },
+        {
+          "period": "2009-12-31",
+          "value": 24061,
+          "marker": null
+        },
+        {
+          "period": "2010-12-31",
+          "value": 24058,
+          "marker": null
+        },
+        {
+          "period": "2011-12-31",
+          "value": 23812,
+          "marker": null
+        },
+        {
+          "period": "2012-12-31",
+          "value": 23665,
+          "marker": null
+        },
+        {
+          "period": "2013-12-31",
+          "value": 23635,
+          "marker": null
+        },
+        {
+          "period": "2014-12-31",
+          "value": 24035,
+          "marker": null
+        },
+        {
+          "period": "2015-12-31",
+          "value": 24266,
+          "marker": null
+        },
+        {
+          "period": "2016-12-31",
+          "value": 24773,
+          "marker": null
+        },
+        {
+          "period": "2017-12-31",
+          "value": 25118,
+          "marker": null
+        },
+        {
+          "period": "2018-12-31",
+          "value": 25276,
+          "marker": null
+        },
+        {
+          "period": "2019-12-31",
+          "value": 25416,
+          "marker": null
+        },
+        {
+          "period": "2020-12-31",
+          "value": 25322,
+          "marker": null
+        },
+        {
+          "period": "2021-12-31",
+          "value": 25510,
+          "marker": null
+        },
+        {
+          "period": "2022-12-31",
+          "value": 25148,
+          "marker": null
+        },
+        {
+          "period": "2023-12-31",
+          "value": 25236,
+          "marker": null
+        },
+        {
+          "period": "2024-12-31",
+          "value": 25352,
+          "marker": null
+        },
+        {
+          "period": "2025-12-31",
+          "value": 25567,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12411-07-01-5.BEV519.GESM",
+      "table": {
+        "code": "12411-07-01-5",
+        "statistic": "Fortschreibung des Bevölkerungsstandes"
+      },
+      "measure": {
+        "code": "BEV519",
+        "label": "Durchschnittsalter der Bevölkerung"
+      },
+      "unit": "Jahre",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESM",
+          "label": "männlich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2011-12-31",
+          "value": 43.9,
+          "marker": null
+        },
+        {
+          "period": "2012-12-31",
+          "value": 44.3,
+          "marker": null
+        },
+        {
+          "period": "2013-12-31",
+          "value": 44.7,
+          "marker": null
+        },
+        {
+          "period": "2014-12-31",
+          "value": 44.7,
+          "marker": null
+        },
+        {
+          "period": "2015-12-31",
+          "value": 44.6,
+          "marker": null
+        },
+        {
+          "period": "2016-12-31",
+          "value": 44.2,
+          "marker": null
+        },
+        {
+          "period": "2017-12-31",
+          "value": 44,
+          "marker": null
+        },
+        {
+          "period": "2018-12-31",
+          "value": 44.2,
+          "marker": null
+        },
+        {
+          "period": "2019-12-31",
+          "value": 44.3,
+          "marker": null
+        },
+        {
+          "period": "2020-12-31",
+          "value": 44.7,
+          "marker": null
+        },
+        {
+          "period": "2021-12-31",
+          "value": 44.7,
+          "marker": null
+        },
+        {
+          "period": "2022-12-31",
+          "value": 44.9,
+          "marker": null
+        },
+        {
+          "period": "2023-12-31",
+          "value": 44.7,
+          "marker": null
+        },
+        {
+          "period": "2024-12-31",
+          "value": 44.8,
+          "marker": null
+        },
+        {
+          "period": "2025-12-31",
+          "value": 44.7,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12411-07-01-5.BEV519.GESW",
+      "table": {
+        "code": "12411-07-01-5",
+        "statistic": "Fortschreibung des Bevölkerungsstandes"
+      },
+      "measure": {
+        "code": "BEV519",
+        "label": "Durchschnittsalter der Bevölkerung"
+      },
+      "unit": "Jahre",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESW",
+          "label": "weiblich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2011-12-31",
+          "value": 47.5,
+          "marker": null
+        },
+        {
+          "period": "2012-12-31",
+          "value": 47.7,
+          "marker": null
+        },
+        {
+          "period": "2013-12-31",
+          "value": 48,
+          "marker": null
+        },
+        {
+          "period": "2014-12-31",
+          "value": 47.9,
+          "marker": null
+        },
+        {
+          "period": "2015-12-31",
+          "value": 47.9,
+          "marker": null
+        },
+        {
+          "period": "2016-12-31",
+          "value": 47.4,
+          "marker": null
+        },
+        {
+          "period": "2017-12-31",
+          "value": 47.4,
+          "marker": null
+        },
+        {
+          "period": "2018-12-31",
+          "value": 47.5,
+          "marker": null
+        },
+        {
+          "period": "2019-12-31",
+          "value": 47.6,
+          "marker": null
+        },
+        {
+          "period": "2020-12-31",
+          "value": 47.9,
+          "marker": null
+        },
+        {
+          "period": "2021-12-31",
+          "value": 47.8,
+          "marker": null
+        },
+        {
+          "period": "2022-12-31",
+          "value": 47.9,
+          "marker": null
+        },
+        {
+          "period": "2023-12-31",
+          "value": 47.9,
+          "marker": null
+        },
+        {
+          "period": "2024-12-31",
+          "value": 48.2,
+          "marker": null
+        },
+        {
+          "period": "2025-12-31",
+          "value": 48.3,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12411-07-01-5.BEV519.TOTAL",
+      "table": {
+        "code": "12411-07-01-5",
+        "statistic": "Fortschreibung des Bevölkerungsstandes"
+      },
+      "measure": {
+        "code": "BEV519",
+        "label": "Durchschnittsalter der Bevölkerung"
+      },
+      "unit": "Jahre",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": null,
+          "label": "Insgesamt"
+        }
+      ],
+      "values": [
+        {
+          "period": "2011-12-31",
+          "value": 45.8,
+          "marker": null
+        },
+        {
+          "period": "2012-12-31",
+          "value": 46.1,
+          "marker": null
+        },
+        {
+          "period": "2013-12-31",
+          "value": 46.4,
+          "marker": null
+        },
+        {
+          "period": "2014-12-31",
+          "value": 46.4,
+          "marker": null
+        },
+        {
+          "period": "2015-12-31",
+          "value": 46.3,
+          "marker": null
+        },
+        {
+          "period": "2016-12-31",
+          "value": 45.9,
+          "marker": null
+        },
+        {
+          "period": "2017-12-31",
+          "value": 45.7,
+          "marker": null
+        },
+        {
+          "period": "2018-12-31",
+          "value": 45.9,
+          "marker": null
+        },
+        {
+          "period": "2019-12-31",
+          "value": 46,
+          "marker": null
+        },
+        {
+          "period": "2020-12-31",
+          "value": 46.3,
+          "marker": null
+        },
+        {
+          "period": "2021-12-31",
+          "value": 46.3,
+          "marker": null
+        },
+        {
+          "period": "2022-12-31",
+          "value": 46.4,
+          "marker": null
+        },
+        {
+          "period": "2023-12-31",
+          "value": 46.3,
+          "marker": null
+        },
+        {
+          "period": "2024-12-31",
+          "value": 46.5,
+          "marker": null
+        },
+        {
+          "period": "2025-12-31",
+          "value": 46.5,
+          "marker": null
+        }
+      ]
+    }
+  ]
+}

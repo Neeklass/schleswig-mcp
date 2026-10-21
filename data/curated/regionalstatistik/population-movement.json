@@ -1,0 +1,907 @@
+{
+  "metadata": {
+    "id": "schleswig-population-movement",
+    "title": "Births, Deaths and Migration in Schleswig",
+    "description": "Official annual live births and deaths by sex, and moves into and out of Schleswig across municipal borders, from the Regionaldatenbank Deutschland.",
+    "schemaVersion": "1.0.0",
+    "language": "de",
+    "municipality": {
+      "name": "Schleswig",
+      "ags": "01059075"
+    },
+    "dates": {
+      "dataAsOf": "2025-12-31",
+      "sourcePublishedAt": null,
+      "sourceUpdatedAt": null,
+      "retrievedAt": "2026-10-21T14:38:53.960Z",
+      "curatedAt": "2026-10-21T14:38:53.960Z"
+    },
+    "source": {
+      "provider": "Regionaldatenbank Deutschland",
+      "publisher": "Statistische Ämter des Bundes und der Länder",
+      "catalog": null,
+      "url": "https://www.regionalstatistik.de/genesis/online",
+      "downloadUrl": null,
+      "format": "ffcsv via GENESIS REST API (https://www.regionalstatistik.de/genesisws/rest/2020/data/tablefile)"
+    },
+    "license": {
+      "id": "DL-DE-BY-2.0",
+      "url": "https://www.govdata.de/dl-de/by-2-0",
+      "attribution": "© Statistische Ämter des Bundes und der Länder, Deutschland, 2026. Datenlizenz Deutschland – Namensnennung – Version 2.0. Tabellen: 12612-01-01-5, 12613-01-01-5, 12711-91-01-5."
+    },
+    "temporalCoverage": {
+      "years": [
+        2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019,
+        2020, 2021, 2022, 2023, 2024, 2025
+      ]
+    },
+    "processing": {
+      "steps": [
+        "Downloaded tables 12612-01-01-5, 12613-01-01-5, 12711-91-01-5 as flat-file CSV, filtered by the source to GEMEIN 01059075 from 2008.",
+        "Grouped rows into one series per table, measure and breakdown; sorted values by period.",
+        "Converted decimal commas to numbers; kept official signs for missing values in marker and mapped \"-\" (exactly zero) to 0.",
+        "Translated field names into English; German labels, units and codes are unchanged."
+      ]
+    },
+    "recordCount": 8
+  },
+  "data": [
+    {
+      "id": "12612-01-01-5.BEV001.GESM",
+      "table": {
+        "code": "12612-01-01-5",
+        "statistic": "Statistik der Geburten"
+      },
+      "measure": {
+        "code": "BEV001",
+        "label": "Lebendgeborene"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESM",
+          "label": "männlich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008",
+          "value": 98,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 111,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 99,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 94,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 79,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 92,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 94,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 112,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 116,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 130,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 120,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 108,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 92,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 107,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 95,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 88,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 95,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12612-01-01-5.BEV001.GESW",
+      "table": {
+        "code": "12612-01-01-5",
+        "statistic": "Statistik der Geburten"
+      },
+      "measure": {
+        "code": "BEV001",
+        "label": "Lebendgeborene"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESW",
+          "label": "weiblich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008",
+          "value": 81,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 92,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 103,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 82,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 101,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 84,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 91,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 107,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 119,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 117,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 100,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 108,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 97,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 113,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 93,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 104,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 99,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12612-01-01-5.BEV001.TOTAL",
+      "table": {
+        "code": "12612-01-01-5",
+        "statistic": "Statistik der Geburten"
+      },
+      "measure": {
+        "code": "BEV001",
+        "label": "Lebendgeborene"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": null,
+          "label": "Insgesamt"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008",
+          "value": 179,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 203,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 202,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 176,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 180,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 176,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 185,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 219,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 235,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 247,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 220,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 216,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 189,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 220,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 188,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 192,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 194,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12613-01-01-5.BEV002.GESM",
+      "table": {
+        "code": "12613-01-01-5",
+        "statistic": "Statistik der Sterbefälle"
+      },
+      "measure": {
+        "code": "BEV002",
+        "label": "Gestorbene"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESM",
+          "label": "männlich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008",
+          "value": 156,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 169,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 163,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 154,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 158,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 170,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 160,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 166,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 184,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 179,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 188,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 171,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 171,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 183,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 202,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 235,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 209,
+          "marker": null
+        },
+        {
+          "period": "2025",
+          "value": 204,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12613-01-01-5.BEV002.GESW",
+      "table": {
+        "code": "12613-01-01-5",
+        "statistic": "Statistik der Sterbefälle"
+      },
+      "measure": {
+        "code": "BEV002",
+        "label": "Gestorbene"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": "GESW",
+          "label": "weiblich"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008",
+          "value": 190,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 201,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 176,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 153,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 166,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 149,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 172,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 189,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 171,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 175,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 159,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 180,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 195,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 163,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 224,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 215,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 202,
+          "marker": null
+        },
+        {
+          "period": "2025",
+          "value": 193,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12613-01-01-5.BEV002.TOTAL",
+      "table": {
+        "code": "12613-01-01-5",
+        "statistic": "Statistik der Sterbefälle"
+      },
+      "measure": {
+        "code": "BEV002",
+        "label": "Gestorbene"
+      },
+      "unit": "Anzahl",
+      "breakdown": [
+        {
+          "variable": "GES",
+          "variableLabel": "Geschlecht",
+          "code": null,
+          "label": "Insgesamt"
+        }
+      ],
+      "values": [
+        {
+          "period": "2008",
+          "value": 346,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 370,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 339,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 307,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 324,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 319,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 332,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 355,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 355,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 354,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 347,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 351,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 366,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 346,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 426,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 450,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 411,
+          "marker": null
+        },
+        {
+          "period": "2025",
+          "value": 399,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12711-91-01-5.BEV981",
+      "table": {
+        "code": "12711-91-01-5",
+        "statistic": "Wanderungsstatistik"
+      },
+      "measure": {
+        "code": "BEV981",
+        "label": "Zuzüge über die Gemeindegrenzen"
+      },
+      "unit": "Anzahl",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2008",
+          "value": 1850,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 1916,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 1744,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 1971,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 1833,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 1951,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 2318,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 2283,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 2722,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 2378,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 2217,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 2094,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 1907,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 1995,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 2315,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 2188,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 2106,
+          "marker": null
+        }
+      ]
+    },
+    {
+      "id": "12711-91-01-5.BEV982",
+      "table": {
+        "code": "12711-91-01-5",
+        "statistic": "Wanderungsstatistik"
+      },
+      "measure": {
+        "code": "BEV982",
+        "label": "Fortzüge über die Gemeindegrenzen"
+      },
+      "unit": "Anzahl",
+      "breakdown": [],
+      "values": [
+        {
+          "period": "2008",
+          "value": 1693,
+          "marker": null
+        },
+        {
+          "period": "2009",
+          "value": 1720,
+          "marker": null
+        },
+        {
+          "period": "2010",
+          "value": 1608,
+          "marker": null
+        },
+        {
+          "period": "2011",
+          "value": 1763,
+          "marker": null
+        },
+        {
+          "period": "2012",
+          "value": 1834,
+          "marker": null
+        },
+        {
+          "period": "2013",
+          "value": 1833,
+          "marker": null
+        },
+        {
+          "period": "2014",
+          "value": 1785,
+          "marker": null
+        },
+        {
+          "period": "2015",
+          "value": 1930,
+          "marker": null
+        },
+        {
+          "period": "2016",
+          "value": 2103,
+          "marker": null
+        },
+        {
+          "period": "2017",
+          "value": 1919,
+          "marker": null
+        },
+        {
+          "period": "2018",
+          "value": 1933,
+          "marker": null
+        },
+        {
+          "period": "2019",
+          "value": 1796,
+          "marker": null
+        },
+        {
+          "period": "2020",
+          "value": 1791,
+          "marker": null
+        },
+        {
+          "period": "2021",
+          "value": 1699,
+          "marker": null
+        },
+        {
+          "period": "2022",
+          "value": 1785,
+          "marker": null
+        },
+        {
+          "period": "2023",
+          "value": 1846,
+          "marker": null
+        },
+        {
+          "period": "2024",
+          "value": 1773,
+          "marker": null
+        }
+      ]
+    }
+  ]
+}
