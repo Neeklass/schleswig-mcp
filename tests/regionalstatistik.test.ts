@@ -53,7 +53,7 @@ function row(
 }
 // Synthetic values in the verified ffcsv layout.
 const csv = [
-  `﻿${header}`,
+  `\uFEFF${header}`,
   row('2025-12-31', ['', 'Insgesamt'], '25567'),
   row('2024-12-31', ['', 'Insgesamt'], '25352'),
   row('2024-12-31', ['GESW', 'weiblich'], '-'),
