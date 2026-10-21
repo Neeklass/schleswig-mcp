@@ -21,7 +21,9 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: node scripts/update-water-level-history.ts
+      - run: |
+          node scripts/update-water-level-history.ts 2> err.txt || {
+            echo "::error::$(tail -c 2000 err.txt | tr '\n' ' ')"; exit 1; }
       - run: npx prettier --write data/curated/pegelonline/water-level-daily.json
       - run: |
           git config user.name 'github-actions[bot]'
