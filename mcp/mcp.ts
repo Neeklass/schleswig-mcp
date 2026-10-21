@@ -1,7 +1,8 @@
 import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { mcpOutputSchema } from './output-schema.ts';
-import { publicError } from '../src/shared/errors.ts';
+import { registerThemeTools } from './themes.ts';
+import { toolResult } from './tool-result.ts';
 import {
   getSchleswigWaterLevel,
   waterLevelSchema,
@@ -29,22 +30,6 @@ import {
   listSchleswigPopulationForecast,
 } from '../src/modules/population-forecast.ts';
 
-async function toolResult(action: () => Promise<object>) {
-  try {
-    const result = await action();
-    return {
-      content: [{ type: 'text' as const, text: JSON.stringify(result) }],
-      structuredContent: { ...result },
-    };
-  } catch (error) {
-    const body = publicError(error);
-    if (body.error.code === 'INTERNAL_ERROR') console.error(error);
-    return {
-      isError: true,
-      content: [{ type: 'text' as const, text: JSON.stringify(body) }],
-    };
-  }
-}
 const listDescription =
   ' Returns metadata, source credit, notices and a page of records. Optional id is exact; q is a case-insensitive substring search. limit defaults to 20 (maximum 100); offset defaults to 0. Use pagination.nextOffset for the next page.';
 
@@ -59,6 +44,7 @@ export function createSchleswigMcp(
         {
           title: 'Schleswig water level',
           description:
+            'Deprecated: use query_schleswig_water with dataset "water-level". ' +
             'Get the latest available PEGELONLINE water-level measurement for Schleswig, Germany. Includes timestamp, age, station, source and stale status. The gauge reading is not water depth. Measurements are unvalidated raw data.',
           inputSchema: z.strictObject({}),
           outputSchema: waterLevelSchema,
@@ -81,6 +67,7 @@ export function createSchleswigMcp(
         'list_schleswig_addresses',
         {
           description:
+            'Deprecated: use query_schleswig_places with dataset "addresses". ' +
             'Find official Schleswig addresses in a prepared ALKIS snapshot. Search street, house number and postal code. Coordinates use EPSG:4326.' +
             listDescription,
           inputSchema: listQuerySchema,
@@ -93,6 +80,7 @@ export function createSchleswigMcp(
         'list_schleswig_monuments',
         {
           description:
+            'Deprecated: use query_schleswig_places with dataset "monuments". ' +
             'Find listed Schleswig cultural monuments in a prepared register snapshot. Search name or address. This register is not exhaustive.' +
             listDescription,
           inputSchema: listQuerySchema,
@@ -105,6 +93,7 @@ export function createSchleswigMcp(
         'list_schleswig_bathing_waters',
         {
           description:
+            'Deprecated: use query_schleswig_water with dataset "bathing-waters". ' +
             'Find Schleswig bathing-water reference locations by name or keyword. Does not report current water quality or swimming safety.' +
             listDescription,
           inputSchema: listQuerySchema,
@@ -117,6 +106,7 @@ export function createSchleswigMcp(
         'list_schleswig_charging_stations',
         {
           description:
+            'Deprecated: use query_schleswig_mobility with dataset "charging-stations". ' +
             'Find registered Schleswig charging infrastructure by operator, display name or address. Register status is not live connector availability.' +
             listDescription,
           inputSchema: listQuerySchema,
@@ -129,6 +119,7 @@ export function createSchleswigMcp(
         'list_schleswig_population_forecast',
         {
           description:
+            'Deprecated: use query_schleswig_population with dataset "population-forecast". ' +
             'Read Schleswig population projection indicators and their year values. Search indicator name. Historical inputs and projections must not all be treated as observations. Pagination counts indicators; metadata.recordCount counts source documents.' +
             listDescription,
           inputSchema: listQuerySchema,
@@ -137,6 +128,7 @@ export function createSchleswigMcp(
         },
         (input) => toolResult(() => listSchleswigPopulationForecast(input)),
       );
+      registerThemeTools(server, getWaterLevel);
       return server;
     },
     { maxRequestBodySize: 64 * 1024, maxSubscriptions: 0 },

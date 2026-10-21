@@ -25,6 +25,7 @@ import {
 } from '../api/_lib/openapi.ts';
 import { websiteFiles } from '../api/_lib/website.ts';
 import { listQuerySchema } from '../src/shared/pagination.ts';
+import { themeExampleArguments } from '../mcp/documentation.ts';
 
 const app = createApp(async () => waterLevelExample);
 const client = new Client({ name: 'website-check', version: '1.0.0' });
@@ -277,7 +278,7 @@ describe('public website', () => {
       document,
     );
     const tools = (await client.listTools()).tools;
-    expect(tools).toHaveLength(6);
+    expect(tools).toHaveLength(10);
     const html = await (await fetch(`${base}/mcp-docs`)).text();
     expect(html).not.toContain('<!-- TOOL_REFERENCE -->');
     for (const tool of tools) {
@@ -298,7 +299,7 @@ describe('public website', () => {
       );
       const result = await client.callTool({
         name: tool.name,
-        arguments: tool.name.startsWith('get_') ? {} : { limit: 1 },
+        arguments: themeExampleArguments(tool.name),
       });
       expect(result.isError).not.toBe(true);
       expect(result.structuredContent).toEqual(example);

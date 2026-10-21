@@ -23,6 +23,16 @@ const app = createApp(() =>
 );
 const client = new Client({ name: 'schema-regression', version: '1.0.0' });
 let tools: Tool[];
+// Deprecated single-dataset tools; theme tools are covered in mcp-themes.test.ts.
+let legacy: Tool[];
+const legacyNames = [
+  'get_schleswig_water_level',
+  'list_schleswig_addresses',
+  'list_schleswig_monuments',
+  'list_schleswig_bathing_waters',
+  'list_schleswig_charging_stations',
+  'list_schleswig_population_forecast',
+];
 let base: string;
 const object = z.record(z.string(), z.unknown());
 function validator(schema: unknown) {
@@ -80,6 +90,7 @@ beforeAll(async () => {
     new StreamableHTTPClientTransport(new URL(`${base}/mcp`)),
   );
   tools = (await client.listTools()).tools;
+  legacy = tools.filter((tool) => legacyNames.includes(tool.name));
 });
 afterAll(async () => {
   await client.close();
@@ -146,15 +157,8 @@ describe('advertised MCP schemas', () => {
   });
 
   it('registers six closed object contracts and executes all tools with a validating client', async () => {
-    expect(tools.map((tool) => tool.name)).toEqual([
-      'get_schleswig_water_level',
-      'list_schleswig_addresses',
-      'list_schleswig_monuments',
-      'list_schleswig_bathing_waters',
-      'list_schleswig_charging_stations',
-      'list_schleswig_population_forecast',
-    ]);
-    for (const tool of tools) {
+    expect(legacy.map((tool) => tool.name)).toEqual(legacyNames);
+    for (const tool of legacy) {
       for (const schema of [tool.inputSchema, tool.outputSchema]) {
         expect(schema).toMatchObject({
           $schema: 'https://json-schema.org/draft/2020-12/schema',
@@ -183,7 +187,7 @@ describe('advertised MCP schemas', () => {
   });
 
   it('keeps defaulted list arguments optional while rejecting nulls, coercion and invalid bounds', async () => {
-    for (const tool of tools.slice(1)) {
+    for (const tool of legacy.slice(1)) {
       expect(tool.inputSchema.required ?? []).toEqual([]);
       expect(tool.inputSchema.properties).toMatchObject({
         limit: { type: 'integer', default: 20, minimum: 1, maximum: 100 },
@@ -222,7 +226,7 @@ describe('advertised MCP schemas', () => {
     ]);
     const revised =
       goldMetadataSchema.shape.projectedCoordinates.unwrap().shape.fields;
-    for (const tool of tools.slice(1)) {
+    for (const tool of legacy.slice(1)) {
       // Read the wire schema, not a separate hand-written tool definition.
       const tuple = z
         .object({

@@ -65,14 +65,28 @@ without an Origin header.
 **Endpoint: `https://schleswig-mcp-data-seven.vercel.app/mcp`**
 
 In an AI client that supports remote MCP servers, add this URL using
-**Streamable HTTP**, with no authentication. Connect, discover the six read-only
-tools, then try `list_schleswig_addresses` with `{"limit": 1}`. Client settings
-vary; the [MCP documentation](https://schleswig-mcp-data-seven.vercel.app/mcp-docs)
+**Streamable HTTP**, with no authentication. Connect, discover the read-only
+tools, then try `query_schleswig_places` with `{"dataset": "addresses", "limit": 1}`.
+Client settings vary; the [MCP documentation](https://schleswig-mcp-data-seven.vercel.app/mcp-docs)
 includes VS Code configuration and MCP Inspector instructions.
 
+Datasets are grouped into theme tools; the required `dataset` argument selects
+one, using the REST route name:
+
+| Theme tool                   | Datasets                        |
+| ---------------------------- | ------------------------------- |
+| `query_schleswig_water`      | `water-level`, `bathing-waters` |
+| `query_schleswig_population` | `population-forecast`           |
+| `query_schleswig_mobility`   | `charging-stations`             |
+| `query_schleswig_places`     | `addresses`, `monuments`        |
+
+Results contain `dataset` and the same domain data as REST in `result`. The six
+single-dataset tools (`get_schleswig_water_level`, `list_schleswig_*`) remain
+available during a transition period and are marked as deprecated.
+
 MCP returns the same domain data as REST, wrapped in `structuredContent` and a
-matching JSON text entry. List tools use the parameters above, with JSON numbers
-for `limit` and `offset`; water level takes `{}`. The service is stateless, with
+matching JSON text entry. List datasets use the parameters above, with JSON
+numbers for `limit` and `offset`; water level ignores them. The service is stateless, with
 a 64 KiB request limit and no standalone SSE notification stream. Opening `/mcp`
 in a browser returns HTTP 405; use an MCP client to test the connection.
 
@@ -213,6 +227,11 @@ on the production and preview origins.
 | [Bundesnetzagentur](docs/datasources/bundesnetzagentur.md) | CC BY 4.0                                         |
 
 Responses retain source credits, license links and modification notices. Preserve
-them when reusing data. Artwork credits are in [header icon sources](docs/header-icons.md).
+them when reusing data.
+
+Prepared snapshots may use CC BY 4.0, CC0 1.0, DL-DE-BY-2.0 or DL-DE-Zero-2.0;
+the metadata schema checks each license identifier against its canonical URL.
+New sources are added only when the license and permitted use are documented by
+the publisher itself; see the [provider documentation template](docs/provider-template.md). Artwork credits are in [header icon sources](docs/header-icons.md).
 **Source-code licensing remains undecided**; data, artwork and dependency licenses
 do not grant a license to this project's source code.
