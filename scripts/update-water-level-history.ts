@@ -1,7 +1,7 @@
 // Appends complete days from PEGELONLINE to the daily water-level Gold file.
 // Usage: node scripts/update-water-level-history.ts [--merge <pending.json>]
 // --merge adds days from an unmerged update branch so none are lost.
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
 import {
   aggregateDailyWaterLevels,
@@ -46,6 +46,7 @@ if (result.added.length === 0) {
   console.log('No new complete days.');
 } else {
   const gold = buildWaterLevelHistoryGold(result.days, now.toISOString());
+  await mkdir(new URL('.', target), { recursive: true });
   await writeFile(target, `${JSON.stringify(gold, null, 2)}\n`);
   console.log(
     `Added ${result.added.length} day(s): ${result.added.join(', ')}.`,
