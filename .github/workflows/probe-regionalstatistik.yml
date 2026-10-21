@@ -1,0 +1,37 @@
+name: Probe Regionaldatenbank login (temporary)
+
+# One-off: checks the repository secrets against the GENESIS REST API of the
+# Regionaldatenbank. Prints only HTTP status and the API status message.
+# Removed before merging.
+on:
+  push:
+    branches: [etappe-2-statistik]
+    paths: [.github/workflows/probe-regionalstatistik.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      BASE: https://www.regionalstatistik.de/genesisws/rest/2020
+      REGIO_USER: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
+      REGIO_PASS: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
+    steps:
+      - name: Check login
+        run: |
+          [ -n "$REGIO_USER" ] || echo "::error::REGIONALSTATISTIK_USERNAME is empty or missing"
+          [ -n "$REGIO_PASS" ] || echo "::error::REGIONALSTATISTIK_PASSWORD is empty or missing"
+          summarize() { python3 -c 'import sys,json
+          raw=sys.stdin.read()
+          try:
+              d=json.loads(raw); print(json.dumps(d.get("Status", d))[:600])
+          except Exception: print(raw[:300].replace("\n"," "))'; }
+          code=$(curl -sS -m 30 -o h.json -w '%{http_code}' -X POST "$BASE/helloworld/logincheck" \
+            -H "username: $REGIO_USER" -H "password: $REGIO_PASS" -H 'Content-Type: application/x-www-form-urlencoded')
+          echo "::notice::headers: HTTP $code $(summarize < h.json)"
+          code=$(curl -sS -m 30 -o f.json -w '%{http_code}' -X POST "$BASE/helloworld/logincheck" \
+            --data-urlencode "username=$REGIO_USER" --data-urlencode "password=$REGIO_PASS" --data-urlencode 'language=de')
+          echo "::notice::form: HTTP $code $(summarize < f.json)"
