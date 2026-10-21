@@ -1,8 +1,8 @@
-name: Probe Regionaldatenbank login (temporary)
+name: Probe Regionaldatenbank (temporary)
 
-# One-off: checks the repository secrets against the GENESIS REST API of the
-# Regionaldatenbank. Prints only HTTP status and the API status message.
-# Removed before merging.
+# One-off exploration of the GENESIS REST API of the Regionaldatenbank with the
+# repository secrets: table catalogue per statistic and one sample table for
+# Schleswig (AGS 01059075). Prints no credentials. Removed before merging.
 on:
   push:
     branches: [etappe-2-statistik]
@@ -14,24 +14,38 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     env:
       BASE: https://www.regionalstatistik.de/genesisws/rest/2020
       REGIO_USER: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
       REGIO_PASS: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
     steps:
-      - name: Check login
+      - name: Table catalogue
         run: |
-          [ -n "$REGIO_USER" ] || echo "::error::REGIONALSTATISTIK_USERNAME is empty or missing"
-          [ -n "$REGIO_PASS" ] || echo "::error::REGIONALSTATISTIK_PASSWORD is empty or missing"
-          summarize() { python3 -c 'import sys,json
-          raw=sys.stdin.read()
-          try:
-              d=json.loads(raw); print(json.dumps(d.get("Status", d))[:600])
-          except Exception: print(raw[:300].replace("\n"," "))'; }
-          code=$(curl -sS -m 30 -o h.json -w '%{http_code}' -X POST "$BASE/helloworld/logincheck" \
-            -H "username: $REGIO_USER" -H "password: $REGIO_PASS" -H 'Content-Type: application/x-www-form-urlencoded')
-          echo "::notice::headers: HTTP $code $(summarize < h.json)"
-          code=$(curl -sS -m 30 -o f.json -w '%{http_code}' -X POST "$BASE/helloworld/logincheck" \
-            --data-urlencode "username=$REGIO_USER" --data-urlencode "password=$REGIO_PASS" --data-urlencode 'language=de')
-          echo "::notice::form: HTTP $code $(summarize < f.json)"
+          for stat in 12411 12711 12612 12613 31111 31121 45412 71231 11111 33111 12211 82000; do
+            curl -sS -m 60 -X POST "$BASE/catalogue/tables" \
+              -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
+              --data-urlencode "selection=${stat}*" --data-urlencode 'area=all' \
+              --data-urlencode 'pagelength=100' --data-urlencode 'language=de' -o "cat-$stat.json"
+            python3 - "$stat" <<'PY'
+          import json, sys
+          stat = sys.argv[1]
+          d = json.load(open(f"cat-{stat}.json"))
+          rows = [f"{t['Code']}: {t['Content'][:90]}" for t in (d.get("List") or [])]
+          gem = [r for r in rows if r.split(":")[0].endswith("-5") or r.split(":")[0].endswith("-z")]
+          print(f"::notice title={stat}::{len(rows)} tables; status {d.get('Status',{}).get('Content','')[:80]} || " + " || ".join(gem or rows[:25]))
+          PY
+          done
+      - name: Sample table for Schleswig
+        run: |
+          curl -sS -m 120 -X POST "$BASE/data/tablefile" \
+            -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
+            --data-urlencode 'name=12411-01-01-5' --data-urlencode 'area=all' \
+            --data-urlencode 'format=ffcsv' --data-urlencode 'compress=false' \
+            --data-urlencode 'regionalvariable=GEMEINDE' --data-urlencode 'regionalkey=01059075' \
+            --data-urlencode 'startyear=2020' --data-urlencode 'language=de' \
+            -D headers.txt -o sample.bin
+          echo "::notice title=sample headers::$(grep -i 'content-type\|content-disposition' headers.txt | tr '\r\n' '  ')"
+          file sample.bin
+          if unzip -l sample.bin >/dev/null 2>&1; then unzip -o -q sample.bin -d sample; f=$(ls sample/* | head -1); else f=sample.bin; fi
+          echo "::notice title=sample content::$(head -c 3000 "$f" | tr '\r\n' '  ')"
