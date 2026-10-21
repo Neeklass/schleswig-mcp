@@ -47,7 +47,7 @@ jobs:
           years = sorted({r["time"][:4] for r in rows})
           nonnum = collections.Counter(r["value"] for r in rows if not r["value"].replace(".","").replace(",","").replace("-","").isdigit())
           vars_ = collections.Counter(f'{r["value_variable_code"]}={r["value_variable_label"]}[{r["value_unit"]}]' for r in rows)
-          dims = [k for k in rows[0] if k.endswith("_variable_code")]
+          dims = [k for k in rows[0] if k.endswith("_variable_code") and k[0].isdigit()]
           dimvals = {k: sorted({r[k]+":"+r[k.replace("_code","_label")] for r in rows}) for k in dims}
           extra = {k: sorted({r[k.replace("variable_code","variable_attribute_code")]+"="+r[k.replace("variable_code","variable_attribute_label")] for r in rows})[:12] for k in dims if not k.startswith("1_")}
           print(f"::notice title={t}::status {status.get('Code')} || rows {len(rows)} || years {years[0]}-{years[-1]} ({len(years)}) || time_code {rows[0]['time_code']} || nonnumeric {dict(nonnum)} || measures {dict(vars_)} || dims {dimvals} || attrs {extra} || sample {list(rows[0].values())}"[:4000])
