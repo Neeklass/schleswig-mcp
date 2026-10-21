@@ -23,13 +23,14 @@ jobs:
       - name: Target tables for Schleswig
         run: |
           for t in 12411-01-01-5 12711-01-03-5 12612-01-01-5 12613-01-01-5 31111-01-02-5 31121-01-02-5 45412-01-02-5 71231-01-02-5; do
-            curl -sS -m 120 -X POST "$BASE/data/table" \
+            curl -sS -m 120 -X POST "$BASE/data/tablefile" \
               -H "username: $REGIO_USER" -H "password: $REGIO_PASS" \
               --data-urlencode "name=$t" --data-urlencode 'area=all' \
               --data-urlencode 'format=ffcsv' --data-urlencode 'compress=false' \
               --data-urlencode 'regionalvariable=GEMEIN' --data-urlencode 'regionalkey=01059075' \
-              --data-urlencode 'startyear=2015' --data-urlencode 'language=de' -o "$t.json"
-            python3 - "$t" <<'PY'
+              --data-urlencode 'startyear=2015' --data-urlencode 'language=de' -o "$t.bin"
+            if unzip -l "$t.bin" >/dev/null 2>&1; then unzip -p "$t.bin" > "$t.csv"; echo '{"Status":{"Code":0},"Object":{}}' > "$t.json"; else cp "$t.bin" "$t.json"; : > "$t.csv"; fi
+            python3 - "$t" <<'PY' || true
           import json, sys, csv, io, collections, traceback
           t = sys.argv[1]
           def fail(kind, value, tb):
@@ -38,7 +39,7 @@ jobs:
           d = json.load(open(f"{t}.json"))
           status = d.get("Status", {})
           obj = d.get("Object") or {}
-          content = obj.get("Content") or ""
+          content = open(f"{t}.csv", encoding="utf-8-sig").read()
           rows = list(csv.DictReader(io.StringIO(content.lstrip("\ufeff")), delimiter=";"))
           if not rows:
               print(f"::notice title={t}::status {status.get('Code')} {status.get('Content','')[:200]} || {content[:300]}")
@@ -51,4 +52,5 @@ jobs:
           extra = {k: sorted({r[k.replace("variable_code","variable_attribute_code")]+"="+r[k.replace("variable_code","variable_attribute_label")] for r in rows})[:12] for k in dims if not k.startswith("1_")}
           print(f"::notice title={t}::status {status.get('Code')} || rows {len(rows)} || years {years[0]}-{years[-1]} ({len(years)}) || time_code {rows[0]['time_code']} || nonnumeric {dict(nonnum)} || measures {dict(vars_)} || dims {dimvals} || attrs {extra} || sample {list(rows[0].values())}"[:4000])
           PY
+            true
           done
