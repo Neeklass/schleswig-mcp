@@ -344,6 +344,7 @@ describe('HTTP API and MCP', () => {
       'list_schleswig_population_forecast',
       'query_schleswig_water',
       'query_schleswig_population',
+      'query_schleswig_economy',
       'query_schleswig_mobility',
       'query_schleswig_places',
     ]);
