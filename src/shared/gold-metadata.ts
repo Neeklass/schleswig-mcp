@@ -1,5 +1,22 @@
 import { z } from 'zod';
 
+// Licenses accepted for prepared snapshots. Each permits redistribution and
+// modification; attribution-based ones need the source credit and a notice of
+// modification in `license.attribution` and `processing.steps`.
+export const goldLicenseIds = [
+  'CC-BY-4.0',
+  'CC0-1.0',
+  'DL-DE-BY-2.0',
+  'DL-DE-Zero-2.0',
+] as const;
+export type GoldLicenseId = (typeof goldLicenseIds)[number];
+export const goldLicenseUrls: Record<GoldLicenseId, string> = {
+  'CC-BY-4.0': 'https://creativecommons.org/licenses/by/4.0/',
+  'CC0-1.0': 'https://creativecommons.org/publicdomain/zero/1.0/',
+  'DL-DE-BY-2.0': 'https://www.govdata.de/dl-de/by-2-0',
+  'DL-DE-Zero-2.0': 'https://www.govdata.de/dl-de/zero-2-0',
+};
+
 export const goldMetadataSchema = z
   .strictObject({
     id: z.string().regex(/^schleswig-[a-z-]+$/),
@@ -27,7 +44,7 @@ export const goldMetadataSchema = z
       format: z.string().min(1),
     }),
     license: z.strictObject({
-      id: z.enum(['CC-BY-4.0', 'CC0-1.0']),
+      id: z.enum(goldLicenseIds),
       url: z.url(),
       attribution: z.string().min(1),
     }),
@@ -53,11 +70,7 @@ export const goldMetadataSchema = z
     recordCount: z.number().int().nonnegative(),
   })
   .superRefine((metadata, context) => {
-    const expected =
-      metadata.license.id === 'CC-BY-4.0'
-        ? 'https://creativecommons.org/licenses/by/4.0/'
-        : 'https://creativecommons.org/publicdomain/zero/1.0/';
-    if (metadata.license.url !== expected)
+    if (metadata.license.url !== goldLicenseUrls[metadata.license.id])
       context.addIssue({
         code: 'custom',
         message: 'License identifier and URL do not match.',
@@ -70,7 +83,7 @@ export type GoldMetadata = z.infer<typeof goldMetadataSchema>;
 export function goldDatasetSchema<T extends z.ZodType>(
   record: T,
   id: string,
-  license: 'CC-BY-4.0' | 'CC0-1.0' = 'CC-BY-4.0',
+  license: GoldLicenseId = 'CC-BY-4.0',
 ) {
   return z
     .strictObject({

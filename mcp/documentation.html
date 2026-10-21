@@ -92,9 +92,9 @@
         <p class="site-kicker">Model Context Protocol · Streamable HTTP</p>
         <h1>MCP documentation</h1>
         <p>
-          Six read-only tools provide public data about Schleswig city, Germany
-          (AGS <code>01059075</code>). REST and MCP use the same domain
-          functions and return the same domain data.
+          Four read-only theme tools provide public data about Schleswig city,
+          Germany (AGS <code>01059075</code>), grouped by topic. REST and MCP
+          use the same domain functions and return the same domain data.
         </p>
       </header>
       <p class="site-note">
@@ -249,7 +249,21 @@
         available through MCP <code>tools/list</code>; the
         <a href="/docs">REST reference</a> documents the same domain responses.
       </p>
-      <h2 id="tools">Tool reference</h2>
+      <h2 id="theme-tools">Theme tools</h2>
+      <p>
+        Theme tools group related datasets: choose one with the required
+        <code>dataset</code> argument. Results contain the selected
+        <code>dataset</code> and the same domain data as REST in
+        <code>result</code>. List datasets accept the pagination arguments
+        below; the live water level ignores them.
+      </p>
+      <!-- THEME_TOOL_REFERENCE -->
+      <h2 id="tools">Deprecated single-dataset tools</h2>
+      <p>
+        These tools remain available during a transition period and return the
+        same data without the <code>dataset</code> wrapper. Use the theme tools
+        above for new integrations.
+      </p>
       <!-- TOOL_REFERENCE -->
       <h2 id="limitations">Errors and limitations</h2>
       <p>
